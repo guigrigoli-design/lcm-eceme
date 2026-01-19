@@ -6,249 +6,410 @@
     <title>LCM - Laboratório de Ciências Militares | ECEME</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
-    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
 
     <style>
-        :root { --eb-green: #1e3a2c; --eb-gold: #c5a059; }
+        :root { --eb-green: #1e3a2c; --eb-gold: #c5a059; --eb-gold-light: #d4b781; }
         .bg-eb-green { background-color: var(--eb-green); }
         .text-eb-green { color: var(--eb-green); }
         .text-eb-gold { color: var(--eb-gold); }
         .border-eb-green { border-color: var(--eb-green); }
         .border-eb-gold { border-color: var(--eb-gold); }
+        .hover-gold:hover { color: var(--eb-gold-light); }
         body { font-family: 'Georgia', serif; }
         [x-cloak] { display: none !important; }
+        
+        /* Estilo para a aba ativa */
+        .tab-active {
+            border-bottom: 4px solid var(--eb-gold);
+            color: var(--eb-green);
+            font-weight: bold;
+            background-color: #f9fafb;
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-900" x-data="{ modalAtivo: null }">
+<body class="bg-gray-50 text-gray-900" x-data="appData()">
 
-    <nav class="bg-eb-green text-white border-b-2 border-eb-gold sticky top-0 z-40 shadow-xl">
+    <nav class="bg-eb-green text-white border-b-2 border-eb-gold sticky top-0 z-50 shadow-xl">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <img src="brasao-lcm.png" alt="Brasão LCM" class="h-12 w-auto object-contain bg-white rounded-full p-1">
+            <div class="flex items-center space-x-3 cursor-pointer" @click="view = 'home'">
+                <img src="brasao-lcm.png" alt="LCM" class="h-10 w-auto bg-white rounded-full p-0.5 object-contain">
                 <div>
-                    <h1 class="font-bold text-lg leading-tight uppercase">Laboratório de Ciências Militares</h1>
-                    <p class="text-[10px] tracking-widest text-eb-gold uppercase">Escola de Comando e Estado-Maior do Exército / Programa de Pós Graduação em Ciências Militares</p>
+                    <h1 class="font-bold text-lg leading-tight uppercase">LCM</h1>
+                    <p class="text-[10px] tracking-widest text-eb-gold uppercase">ECEME / PPGCM</p>
                 </div>
             </div>
             <div class="hidden md:flex space-x-6 text-xs font-bold uppercase">
-                <a href="#inicio" class="hover:text-eb-gold py-2">Início</a>
-                <a href="#institucional" class="hover:text-eb-gold py-2">Sobre</a>
-                <a href="#subareas" class="hover:text-eb-gold py-2">Pesquisa</a>
+                <button @click="view = 'home'" class="hover:text-eb-gold py-2">Início</button>
+                <button @click="view = 'home'; document.getElementById('subareas').scrollIntoView()" class="hover:text-eb-gold py-2">Linhas de Pesquisa</button>
             </div>
         </div>
     </nav>
 
-    <header id="inicio" class="bg-eb-green py-20 text-white text-center border-b-4 border-eb-gold relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[url('https://www.eceme.eb.mil.br/images/ECEME_fachada.jpg')] bg-cover bg-center"></div>
+    <div x-show="view === 'home'" x-transition.opacity.duration.500ms>
         
-        <div class="container mx-auto px-6 relative z-10 flex flex-col items-center">
-            <img src="brasao-lcm.png" alt="Brasão Oficial" class="h-32 w-auto mb-6 drop-shadow-2xl filter brightness-110">
-            
-            <h2 class="text-4xl md:text-5xl font-extrabold uppercase mb-4">Laboratório de<br>Ciências Militares</h2>
-            <div class="w-24 h-1 bg-eb-gold mb-6"></div>
-            <p class="text-xl font-light italic text-gray-200">Produção de conhecimento estratégico e inovação em Defesa.</p>
-        </div>
-    </header>
-
-    <section id="institucional" class="py-12 bg-white">
-        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-6 text-center">
-            <div class="p-4 border-t-4 border-eb-gold bg-gray-50">
-                <h3 class="font-bold text-eb-green uppercase">Objetivos</h3>
-                <p class="text-sm mt-2">Pesquisa alinhada aos Projetos Estratégicos do Exército.</p>
+        <header class="bg-eb-green py-20 text-white text-center border-b-4 border-eb-gold relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10 bg-[url('https://www.eceme.eb.mil.br/images/ECEME_fachada.jpg')] bg-cover bg-center"></div>
+            <div class="container mx-auto px-6 relative z-10 flex flex-col items-center">
+                <img src="brasao-lcm.png" alt="Brasão Oficial" class="h-32 w-auto mb-6 drop-shadow-2xl filter brightness-110">
+                <h2 class="text-4xl md:text-5xl font-extrabold uppercase mb-4">Laboratório de<br>Ciências Militares</h2>
+                <div class="w-24 h-1 bg-eb-gold mb-6"></div>
+                <p class="text-xl font-light italic text-gray-200">Produção de conhecimento estratégico e inovação em Defesa.</p>
             </div>
-            <div class="p-4 border-t-4 border-eb-gold bg-gray-50">
-                <h3 class="font-bold text-eb-green uppercase">Metas</h3>
-                <p class="text-sm mt-2">Referência nacional em Defesa e produção científica qualificada.</p>
+        </header>
+
+        <section class="py-12 bg-white">
+            <div class="container mx-auto px-6 grid md:grid-cols-3 gap-6 text-center">
+                <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
+                    <h3 class="font-bold text-eb-green uppercase text-lg">Objetivos</h3>
+                    <p class="text-sm mt-2 text-gray-600">Pesquisa alinhada aos Projetos Estratégicos do Exército e integração doutrinária.</p>
+                </div>
+                <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
+                    <h3 class="font-bold text-eb-green uppercase text-lg">Metas</h3>
+                    <p class="text-sm mt-2 text-gray-600">Referência nacional em Defesa, ampliando a produção científica qualificada.</p>
+                </div>
+                <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
+                    <h3 class="font-bold text-eb-green uppercase text-lg">Visão</h3>
+                    <p class="text-sm mt-2 text-gray-600">Polo de inovação para o suporte à decisão de alto nível da Força.</p>
+                </div>
             </div>
-            <div class="p-4 border-t-4 border-eb-gold bg-gray-50">
-                <h3 class="font-bold text-eb-green uppercase">Visão</h3>
-                <p class="text-sm mt-2">Polo de inovação para o suporte à decisão de alto nível.</p>
+        </section>
+
+        <section id="subareas" class="py-16 bg-gray-100">
+            <div class="container mx-auto px-6 text-center mb-10">
+                <h2 class="text-3xl font-bold text-eb-green uppercase">Subáreas de Pesquisa</h2>
+                <p class="text-gray-500 mt-2">Selecione uma área para acessar os pesquisadores e publicações</p>
             </div>
-        </div>
-    </section>
 
-    <section id="subareas" class="py-16 bg-gray-100">
-        <div class="container mx-auto px-6 text-center mb-10">
-            <h2 class="text-3xl font-bold text-eb-green uppercase">Subáreas de Pesquisa</h2>
-            <p class="text-gray-500 mt-2">Clique para ver os detalhes</p>
-        </div>
+            <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <template x-for="area in subareas" :key="area.id">
+                    <button @click="openSubarea(area)" class="bg-white p-6 border-l-4 border-eb-green shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left h-full flex flex-col group">
+                        <div class="flex justify-between mb-4">
+                            <i :class="area.icon" class="text-eb-gold text-3xl group-hover:scale-110 transition-transform"></i>
+                            <span class="text-gray-300 font-bold" x-text="'0' + area.id"></span>
+                        </div>
+                        <h4 class="text-lg font-bold text-eb-green uppercase leading-tight" x-text="area.title"></h4>
+                        <p class="text-xs text-gray-500 mt-2 italic" x-text="area.subtitle"></p>
+                        <div class="mt-auto pt-4 text-xs font-bold text-eb-gold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                            Acessar Área <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </div>
+                    </button>
+                </template>
+            </div>
+        </section>
+    </div>
 
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <button @click="modalAtivo = 1" class="bg-white p-6 border-l-4 border-eb-green shadow hover:shadow-lg transition text-left h-full">
-                <div class="flex justify-between mb-4">
-                    <i class="fa-solid fa-person-military-pointing text-eb-gold text-3xl"></i>
-                    <span class="text-gray-300 font-bold">01</span>
-                </div>
-                <h4 class="text-lg font-bold text-eb-green uppercase">Operações e Doutrina</h4>
-                <p class="text-xs text-gray-500 mt-2">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></p>
-            </button>
-
-            <button @click="modalAtivo = 2" class="bg-white p-6 border-l-4 border-eb-green shadow hover:shadow-lg transition text-left h-full">
-                <div class="flex justify-between mb-4">
-                    <i class="fa-solid fa-truck-fast text-eb-gold text-3xl"></i>
-                    <span class="text-gray-300 font-bold">02</span>
-                </div>
-                <h4 class="text-lg font-bold text-eb-green uppercase">Logística e Sustentação</h4>
-                <p class="text-xs text-gray-500 mt-2">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></p>
-            </button>
-
-            <button @click="modalAtivo = 3" class="bg-white p-6 border-l-4 border-eb-green shadow hover:shadow-lg transition text-left h-full">
-                <div class="flex justify-between mb-4">
-                    <i class="fa-solid fa-industry text-eb-gold text-3xl"></i>
-                    <span class="text-gray-300 font-bold">03</span>
-                </div>
-                <h4 class="text-lg font-bold text-eb-green uppercase">Mobilização e BID</h4>
-                <p class="text-xs text-gray-500 mt-2">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></p>
-            </button>
-
-            <button @click="modalAtivo = 4" class="bg-white p-6 border-l-4 border-eb-green shadow hover:shadow-lg transition text-left h-full">
-                <div class="flex justify-between mb-4">
-                    <i class="fa-solid fa-satellite-dish text-eb-gold text-3xl"></i>
-                    <span class="text-gray-300 font-bold">04</span>
-                </div>
-                <h4 class="text-lg font-bold text-eb-green uppercase">Superioridade Informacional</h4>
-                <p class="text-xs text-gray-500 mt-2">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></p>
-            </button>
-
-            <button @click="modalAtivo = 5" class="bg-white p-6 border-l-4 border-eb-green shadow hover:shadow-lg transition text-left h-full">
-                <div class="flex justify-between mb-4">
-                    <i class="fa-solid fa-shield-virus text-eb-gold text-3xl"></i>
-                    <span class="text-gray-300 font-bold">05</span>
-                </div>
-                <h4 class="text-lg font-bold text-eb-green uppercase">Ciberdefesa</h4>
-                <p class="text-xs text-gray-500 mt-2">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></p>
-            </button>
-
-            <button @click="modalAtivo = 6" class="bg-white p-6 border-l-4 border-eb-green shadow hover:shadow-lg transition text-left h-full">
-                <div class="flex justify-between mb-4">
-                    <i class="fa-solid fa-earth-americas text-eb-gold text-3xl"></i>
-                    <span class="text-gray-300 font-bold">06</span>
-                </div>
-                <h4 class="text-lg font-bold text-eb-green uppercase">Estratégia e Poder Nacional</h4>
-                <p class="text-xs text-gray-500 mt-2">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></p>
-            </button>
-
-            <button @click="modalAtivo = 7" class="bg-white p-6 border-l-4 border-eb-green shadow hover:shadow-lg transition text-left h-full md:col-span-2 lg:col-span-3">
-                <div class="flex justify-between mb-4">
-                    <i class="fa-solid fa-gavel text-eb-gold text-3xl"></i>
-                    <span class="text-gray-300 font-bold">07</span>
-                </div>
-                <h4 class="text-lg font-bold text-eb-green uppercase">Governança de Defesa</h4>
-                <p class="text-xs text-gray-500 mt-2">Ver detalhes <i class="fa-solid fa-arrow-right ml-1"></i></p>
-            </button>
-
-        </div>
-    </section>
-
-    <div x-show="modalAtivo" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4" x-cloak>
+    <div x-show="view === 'subarea'" x-cloak x-transition.opacity.duration.300ms class="min-h-screen bg-gray-50">
         
-        <div class="bg-white w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded shadow-2xl relative p-8 border-t-8 border-eb-green" @click.away="modalAtivo = null">
+        <div class="bg-eb-green text-white py-12 border-b-4 border-eb-gold">
+            <div class="container mx-auto px-6">
+                <button @click="view = 'home'" class="text-xs font-bold uppercase tracking-widest text-eb-gold hover:text-white mb-4 flex items-center transition-colors">
+                    <i class="fa-solid fa-arrow-left mr-2"></i> Voltar para Início
+                </button>
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
+                    <div>
+                        <span class="bg-eb-gold text-eb-green text-xs font-bold px-2 py-1 uppercase rounded-sm mb-2 inline-block">Linha de Pesquisa</span>
+                        <h2 class="text-3xl md:text-4xl font-extrabold uppercase leading-tight" x-text="activeArea.title"></h2>
+                    </div>
+                    <i :class="activeArea.icon" class="text-eb-gold text-6xl opacity-20 mt-4 md:mt-0"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white shadow sticky top-[66px] z-30">
+            <div class="container mx-auto px-6">
+                <div class="flex space-x-6 overflow-x-auto">
+                    <button @click="tab = 'sobre'" :class="{ 'tab-active': tab === 'sobre' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">
+                        Sobre a Área
+                    </button>
+                    <button @click="tab = 'pesquisadores'" :class="{ 'tab-active': tab === 'pesquisadores' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">
+                        Pesquisadores
+                    </button>
+                    <button @click="tab = 'andamento'" :class="{ 'tab-active': tab === 'andamento' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">
+                        Trabalhos em Andamento
+                    </button>
+                    <button @click="tab = 'publicacoes'" :class="{ 'tab-active': tab === 'publicacoes' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">
+                        Publicações Finalizadas
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 py-10">
             
-            <button @click="modalAtivo = null" class="absolute top-4 right-4 text-gray-400 hover:text-red-600 text-3xl">
-                <i class="fa-solid fa-circle-xmark"></i>
-            </button>
-
-            <div x-show="modalAtivo === 1">
-                <h2 class="text-2xl font-bold text-eb-green uppercase mb-2">Operações, Doutrina e Arte Operacional</h2>
-                <p class="text-eb-gold font-bold text-sm mb-6 border-b pb-2">Foco: Emprego da força e desenho de campanhas.</p>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm">
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Arte Operacional e Desenho de Campanha</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Operações Conjuntas e Interagências</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Operações em Ambientes Complexos</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Comando e Controle (C2)</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Doutrina Baseada em Evidências</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Integração de Tecnologias Emergentes</li>
-                </ul>
+            <div x-show="tab === 'sobre'" x-transition.opacity>
+                <div class="bg-white p-8 rounded shadow-sm border-t-4 border-eb-green">
+                    <h3 class="text-xl font-bold text-eb-green mb-4 uppercase flex items-center">
+                        <i class="fa-solid fa-crosshairs text-eb-gold mr-3"></i> Foco Estratégico
+                    </h3>
+                    <p class="text-lg text-gray-700 italic border-l-4 border-eb-gold pl-4 mb-8" x-text="activeArea.focus"></p>
+                    
+                    <h3 class="text-xl font-bold text-eb-green mb-6 uppercase flex items-center">
+                        <i class="fa-solid fa-list-check text-eb-gold mr-3"></i> Tópicos Prioritários de Pesquisa
+                    </h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <template x-for="topic in activeArea.topics">
+                            <div class="flex items-start p-3 bg-gray-50 rounded hover:bg-gray-100 transition">
+                                <i class="fa-solid fa-check text-eb-green mt-1 mr-3"></i>
+                                <span class="text-gray-800 text-sm font-medium" x-text="topic"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
             </div>
 
-            <div x-show="modalAtivo === 2">
-                <h2 class="text-2xl font-bold text-eb-green uppercase mb-2">Logística e Sustentação</h2>
-                <p class="text-eb-gold font-bold text-sm mb-6 border-b pb-2">Foco: Prontidão e desempenho logístico.</p>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm">
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Cadeias Logísticas em Campanha</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Manutenção e Confiabilidade (RAM)</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Saúde Operacional</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Pesquisa Operacional Aplicada</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Tecnologias Emergentes (IA, IoT)</li>
-                </ul>
+            <div x-show="tab === 'pesquisadores'" x-transition.opacity>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <template x-for="researcher in activeArea.researchers">
+                        <div class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md transition text-center">
+                            <div class="w-20 h-20 bg-eb-green rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
+                                <span x-text="getInitials(researcher.name)"></span>
+                            </div>
+                            <h4 class="font-bold text-eb-green text-lg" x-text="researcher.name"></h4>
+                            <p class="text-xs text-eb-gold uppercase font-bold tracking-widest mb-4" x-text="researcher.role"></p>
+                            <p class="text-sm text-gray-500 mb-4" x-text="researcher.bio"></p>
+                            <a href="#" class="text-xs text-blue-600 hover:underline">Ver Currículo Lattes <i class="fa-solid fa-external-link-alt ml-1"></i></a>
+                        </div>
+                    </template>
+                    
+                    <div class="bg-gray-100 border-2 border-dashed border-gray-300 rounded p-6 flex flex-col items-center justify-center text-gray-400">
+                        <i class="fa-solid fa-user-plus text-3xl mb-2"></i>
+                        <span class="text-sm">Área para novos pesquisadores</span>
+                    </div>
+                </div>
             </div>
 
-            <div x-show="modalAtivo === 3">
-                <h2 class="text-2xl font-bold text-eb-green uppercase mb-2">Mobilização e BID</h2>
-                <p class="text-eb-gold font-bold text-sm mb-6 border-b pb-2">Foco: Autonomia estratégica e economia.</p>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm">
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Economia de Defesa</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Política Industrial e Inovação</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Cadeias Críticas e Semicondutores</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Mobilização Nacional</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Offsets e Compensações</li>
-                </ul>
+            <div x-show="tab === 'andamento'" x-transition.opacity>
+                <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-eb-green text-white text-xs uppercase">
+                            <tr>
+                                <th class="p-4">Título do Projeto</th>
+                                <th class="p-4 hidden md:table-cell">Responsável</th>
+                                <th class="p-4 hidden md:table-cell">Status</th>
+                                <th class="p-4">Previsão</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <template x-for="project in activeArea.ongoing">
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="p-4">
+                                        <p class="font-bold text-gray-800 text-sm" x-text="project.title"></p>
+                                        <p class="text-xs text-gray-500 md:hidden" x-text="project.responsible"></p>
+                                    </td>
+                                    <td class="p-4 text-sm text-gray-600 hidden md:table-cell" x-text="project.responsible"></td>
+                                    <td class="p-4 hidden md:table-cell">
+                                        <span class="px-2 py-1 text-[10px] font-bold uppercase rounded-full bg-yellow-100 text-yellow-800">Em Pesquisa</span>
+                                    </td>
+                                    <td class="p-4 text-sm font-mono text-gray-500" x-text="project.deadline"></td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    <div x-show="activeArea.ongoing.length === 0" class="p-8 text-center text-gray-500 italic">
+                        Nenhum projeto cadastrado no momento.
+                    </div>
+                </div>
             </div>
 
-            <div x-show="modalAtivo === 4">
-                <h2 class="text-2xl font-bold text-eb-green uppercase mb-2">Superioridade Informacional</h2>
-                <p class="text-eb-gold font-bold text-sm mb-6 border-b pb-2">Foco: Sensoriamento e Guerra Eletrônica.</p>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm">
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Arquiteturas ISR/IVR</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Fusão de Dados e Analytics</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Guerra Eletrônica e Espectro</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Sensores e Plataformas</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Ambientes Degradados</li>
-                </ul>
-            </div>
-
-            <div x-show="modalAtivo === 5">
-                <h2 class="text-2xl font-bold text-eb-green uppercase mb-2">Ciberdefesa e Proteção</h2>
-                <p class="text-eb-gold font-bold text-sm mb-6 border-b pb-2">Foco: Segurança da informação e influência.</p>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm">
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Ciberdefesa e Resiliência</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Criptografia Pós-Quântica</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Operações de Influência</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Detecção de Deepfakes</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Guerra Cognitiva</li>
-                </ul>
-            </div>
-
-            <div x-show="modalAtivo === 6">
-                <h2 class="text-2xl font-bold text-eb-green uppercase mb-2">Estratégia e Poder Nacional</h2>
-                <p class="text-eb-gold font-bold text-sm mb-6 border-b pb-2">Foco: Competição estratégica e geopolítica.</p>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm">
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Dissuasão e Credibilidade</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Geopolítica Aplicada</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Estudos de Cenários</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>História Militar Aplicada</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Soberania Digital</li>
-                </ul>
-            </div>
-
-            <div x-show="modalAtivo === 7">
-                <h2 class="text-2xl font-bold text-eb-green uppercase mb-2">Governança de Defesa</h2>
-                <p class="text-eb-gold font-bold text-sm mb-6 border-b pb-2">Foco: Gestão estratégica e inovação.</p>
-                <ul class="grid md:grid-cols-2 gap-3 text-sm">
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Planejamento Baseado em Capacidades (PBC)</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Gestão de Ciclo de Vida</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Gestão de Portfólio</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Simulação e Wargaming</li>
-                    <li><i class="fa-solid fa-check text-eb-green mr-2"></i>Gestão de Riscos</li>
-                </ul>
+            <div x-show="tab === 'publicacoes'" x-transition.opacity>
+                <div class="bg-white p-8 rounded shadow-sm border border-gray-200">
+                    <ul class="space-y-6">
+                        <template x-for="pub in activeArea.publications">
+                            <li class="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                                <div class="flex items-start">
+                                    <i class="fa-solid fa-file-pdf text-red-600 text-xl mt-1 mr-4"></i>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-base hover:text-eb-green cursor-pointer transition" x-text="pub.title"></h4>
+                                        <p class="text-sm text-gray-600 mt-1">
+                                            <span class="font-semibold" x-text="pub.authors"></span> • 
+                                            <span class="italic" x-text="pub.journal"></span>, <span x-text="pub.year"></span>.
+                                        </p>
+                                        <div class="mt-2 flex space-x-3">
+                                            <span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded uppercase font-bold">Artigo</span>
+                                            <a href="#" class="text-xs text-eb-green font-bold hover:underline">Download PDF</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </template>
+                    </ul>
+                    <div x-show="activeArea.publications.length === 0" class="p-8 text-center text-gray-500 italic">
+                        Ainda não há publicações cadastradas nesta área.
+                    </div>
+                </div>
             </div>
 
         </div>
     </div>
 
-    <footer id="contato" class="bg-eb-green text-white py-12 border-t-8 border-eb-gold mt-12">
+    <footer class="bg-eb-green text-white py-12 border-t-8 border-eb-gold mt-auto">
         <div class="container mx-auto px-6 text-center">
             <h5 class="text-eb-gold font-bold uppercase mb-2">LCM - Laboratório de Ciências Militares</h5>
             <p class="text-sm">Praia Vermelha, Urca - Rio de Janeiro / RJ</p>
-            <p class="text-xs text-gray-400 mt-4">© 2026 Todos os direitos reservados.</p>
+            <p class="text-sm mt-1">lcm.dppg@eceme.eb.mil.br</p>
+            <p class="text-xs text-gray-400 mt-6">© 2026 Todos os direitos reservados.</p>
         </div>
     </footer>
 
+    <script>
+        function appData() {
+            return {
+                view: 'home', // 'home' ou 'subarea'
+                tab: 'sobre', // 'sobre', 'pesquisadores', 'andamento', 'publicacoes'
+                activeArea: {}, // Guarda os dados da área clicada
+                
+                // Função auxiliar para pegar iniciais do nome
+                getInitials(name) {
+                    return name.match(/(\b\S)?/g).join("").match(/(^\S|\S$)?/g).join("").toUpperCase();
+                },
+
+                // Função para abrir uma área
+                openSubarea(area) {
+                    this.activeArea = area;
+                    this.view = 'subarea';
+                    this.tab = 'sobre';
+                    window.scrollTo(0, 0);
+                },
+
+                // =================================================================
+                // BANCO DE DADOS DAS SUBÁREAS (EDITE AQUI)
+                // =================================================================
+                subareas: [
+                    {
+                        id: 1,
+                        title: "Operações, Doutrina e Arte Operacional",
+                        subtitle: "Conjunta e Multidomínio",
+                        icon: "fa-solid fa-person-military-pointing",
+                        focus: "Estudar e aprimorar o emprego da força, a doutrina e o desenho de campanhas, incluindo operações conjuntas e integração de tecnologias emergentes.",
+                        topics: [
+                            "Arte Operacional e Desenho de Campanha",
+                            "Operações Conjuntas e Integração Interagências",
+                            "Operações em Ambientes Complexos",
+                            "Comando e Controle (C2) e Ciclos Decisórios",
+                            "Doutrina Baseada em Evidências",
+                            "Integração de Tecnologias Emergentes"
+                        ],
+                        researchers: [
+                            { name: "Ten Cel Pesquisador A", role: "Coordenador", bio: "Doutor em Ciências Militares, especialista em Arte Operacional." },
+                            { name: "Maj Pesquisador B", role: "Pesquisador Associado", bio: "Mestre em Operações Militares." }
+                        ],
+                        ongoing: [
+                            { title: "Adaptação da Doutrina para Guerra Multidomínio", responsible: "Ten Cel A", deadline: "Dez/2026" }
+                        ],
+                        publications: [
+                            { title: "A Evolução do C2 no Exército Brasileiro", authors: "Silva, A.; Souza, B.", journal: "Revista da ECEME", year: "2025" }
+                        ]
+                    },
+                    {
+                        id: 2,
+                        title: "Logística e Sustentação Operacional",
+                        subtitle: "Prontidão e Desempenho",
+                        icon: "fa-solid fa-truck-fast",
+                        focus: "Produzir conhecimento sobre prontidão, sustentação e desempenho logístico em operações, com métodos quantitativos.",
+                        topics: [
+                            "Cadeias Logísticas em Campanha",
+                            "Manutenção e Confiabilidade (RAM)",
+                            "Saúde Operacional",
+                            "Pesquisa Operacional Aplicada",
+                            "Tecnologias Emergentes (IA, IoT)"
+                        ],
+                        researchers: [
+                            { name: "Dr. Pesquisador C", role: "Líder de Grupo", bio: "Especialista em Logística de Defesa." }
+                        ],
+                        ongoing: [],
+                        publications: []
+                    },
+                    {
+                        id: 3,
+                        title: "Mobilização e BID",
+                        subtitle: "Base Industrial de Defesa",
+                        icon: "fa-solid fa-industry",
+                        focus: "Analisar a mobilização nacional, a economia de defesa e o ecossistema da BID como fundamentos de autonomia estratégica.",
+                        topics: [
+                            "Economia de Defesa",
+                            "Política Industrial e Inovação",
+                            "Cadeias Críticas e Semicondutores",
+                            "Mobilização Nacional",
+                            "Offsets e Compensações"
+                        ],
+                        researchers: [],
+                        ongoing: [],
+                        publications: []
+                    },
+                    {
+                        id: 4,
+                        title: "Superioridade Informacional",
+                        subtitle: "ISR/IVR e Guerra Eletrônica",
+                        icon: "fa-solid fa-satellite-dish",
+                        focus: "Estudar a superioridade informacional por meio de sensoriamento, fusão de dados e guerra eletrônica em ambientes contestados.",
+                        topics: [
+                            "Arquiteturas ISR/IVR",
+                            "Fusão de Dados e Analytics",
+                            "Guerra Eletrônica e Espectro",
+                            "Sensores e Plataformas",
+                            "Ambientes Degradados"
+                        ],
+                        researchers: [],
+                        ongoing: [],
+                        publications: []
+                    },
+                    {
+                        id: 5,
+                        title: "Ciberdefesa e Proteção",
+                        subtitle: "Segurança da Informação",
+                        icon: "fa-solid fa-shield-virus",
+                        focus: "Garantir a segurança, integridade e disponibilidade da informação, bem como a dimensão de influência em disputas contemporâneas.",
+                        topics: [
+                            "Ciberdefesa e Resiliência",
+                            "Criptografia Pós-Quântica",
+                            "Operações de Influência",
+                            "Detecção de Deepfakes",
+                            "Guerra Cognitiva"
+                        ],
+                        researchers: [],
+                        ongoing: [],
+                        publications: []
+                    },
+                    {
+                        id: 6,
+                        title: "Estratégia e Poder Nacional",
+                        subtitle: "Cenários e História",
+                        icon: "fa-solid fa-earth-americas",
+                        focus: "Produzir conhecimento sobre competição estratégica, geopolítica, dissuasão e poder nacional.",
+                        topics: [
+                            "Dissuasão e Credibilidade",
+                            "Geopolítica Aplicada",
+                            "Estudos de Cenários",
+                            "História Militar Aplicada",
+                            "Soberania Digital"
+                        ],
+                        researchers: [],
+                        ongoing: [],
+                        publications: []
+                    },
+                    {
+                        id: 7,
+                        title: "Governança de Defesa",
+                        subtitle: "PBC e Gestão",
+                        icon: "fa-solid fa-gavel",
+                        focus: "Aprimorar a gestão estratégica do setor defesa, com ênfase em PBC, aquisições e riscos.",
+                        topics: [
+                            "Planejamento Baseado em Capacidades (PBC)",
+                            "Gestão de Ciclo de Vida",
+                            "Gestão de Portfólio",
+                            "Simulação e Wargaming",
+                            "Gestão de Riscos"
+                        ],
+                        researchers: [],
+                        ongoing: [],
+                        publications: []
+                    }
+                ]
+            }
+        }
+    </script>
 </body>
 </html>
-
