@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LCM - Laboratório de Ciências Militares | ECEME</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root { --eb-green: #1e3a2c; --eb-gold: #c5a059; --eb-gold-light: #d4b781; }
+        .bg-eb-green { background-color: var(--eb-green); }
+        .text-eb-gold { color: var(--eb-gold); }
+        .border-eb-gold { border-color: var(--eb-gold); }
+        .hover-gold:hover { color: var(--eb-gold-light); }
+        body { font-family: 'Georgia', serif; }
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--eb-gold); border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900" x-data="{ openModal: null }">
+
+    <nav class="bg-eb-green text-white border-b-2 border-eb-gold sticky top-0 z-40 shadow-lg">
+        <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <i class="fa-solid fa-shield-halved text-eb-gold text-2xl"></i>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight uppercase">LCM</h1>
+                    <p class="text-[10px] tracking-widest text-eb-gold uppercase">Laboratório de Ciências Militares - ECEME</p>
+                </div>
+            </div>
+            <div class="hidden lg:flex space-x-6 text-xs font-semibold uppercase">
+                <a href="#inicio" class="hover-gold transition">Início</a>
+                <a href="#institucional" class="hover-gold transition">Institucional</a>
+                <a href="#subareas" class="hover-gold transition">Subáreas</a>
+                <a href="#contato" class="hover-gold transition">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <header id="inicio" class="relative bg-eb-green py-24 text-white text-center border-b border-eb-gold overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.eceme.eb.mil.br/images/ECEME_fachada.jpg')] bg-cover bg-center"></div>
+        <div class="container mx-auto px-6 relative z-10">
+            <h2 class="text-4xl md:text-6xl font-bold mb-4 uppercase tracking-tighter">Laboratório de Ciências Militares</h2>
+            <p class="text-xl text-gray-300 max-w-3xl mx-auto italic font-light">
+                Núcleo de excelência em pesquisa estratégica e inovação doutrinária da Escola de Marechal Castello Branco.
+            </p>
+        </div>
+    </header>
+
+    <section id="institucional" class="py-16 bg-white border-b border-gray-200">
+        <div class="container mx-auto px-6 grid md:grid-cols-3 gap-8">
+            <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
+                <h3 class="font-bold text-eb-green uppercase mb-3 text-center">Objetivos</h3>
+                <p class="text-sm text-gray-600 leading-relaxed text-justify">Fomentar o desenvolvimento de pesquisas acadêmicas de alto nível alinhadas aos Projetos Estratégicos do Exército, integrando doutrina e tecnologia.</p>
+            </div>
+            <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
+                <h3 class="font-bold text-eb-green uppercase mb-3 text-center">Metas</h3>
+                <p class="text-sm text-gray-600 leading-relaxed text-justify">Consolidar o LCM como referência nacional em Defesa, ampliando a produção científica qualificada e as parcerias interinstitucionais.</p>
+            </div>
+            <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
+                <h3 class="font-bold text-eb-green uppercase mb-3 text-center">Visão</h3>
+                <p class="text-sm text-gray-600 leading-relaxed text-justify">Ser o principal polo de inovação para o emprego do Poder Militar e suporte científico ao processo decisório de alto nível do Exército Brasileiro.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="subareas" class="py-20 bg-gray-100">
+        <div class="container mx-auto px-6 text-center mb-16">
+            <h2 class="text-3xl font-bold text-eb-green uppercase tracking-tight">Linhas de Pesquisa e Subáreas</h2>
+            <div class="w-24 h-1 bg-eb-gold mx-auto mt-4"></div>
+        </div>
+
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <button @click="openModal = 1" class="bg-white p-8 border-b-4 border-eb-green shadow-md hover:shadow-xl transition-all text-left group">
+                <div class="flex justify-between items-start mb-4">
+                    <i class="fa-solid fa-person-military-pointing text-eb-gold text-2xl"></i>
+                    <span class="text-[10px] font-bold text-gray-400">01</span>
+                </div>
+                <h4 class="font-bold text-eb-green uppercase mb-2 group-hover:text-eb-gold transition">Operações, Doutrina e Arte Operacional</h4>
+                <p class="text-xs text-gray-500 italic">Conjunta e Multidomínio</p>
+            </button>
+
+            <button @click="openModal = 2" class="bg-white p-8 border-b-4 border-eb-green shadow-md hover:shadow-xl transition-all text-left group">
+                <div class="flex justify-between items-start mb-4">
+                    <i class="fa-solid fa-truck-fast text-eb-gold text-2xl"></i>
+                    <span class="text-[10px] font-bold text-gray-400">02</span>
+                </div>
+                <h4 class="font-bold text-eb-green uppercase mb-2 group-hover:text-eb-gold transition">Logística e Sustentação Operacional</h4>
+                <p class="text-xs text-gray-500 italic">Prontidão e Desempenho Logístico</p>
+            </button>
+
+            <button @click="openModal = 3" class="bg-white p-8 border-b-4 border-eb-green shadow-md hover:shadow-xl transition-all text-left group">
+                <div class="flex justify-between items-start mb-4">
+                    <i class="fa-solid fa-industry text-eb-gold text-2xl"></i>
+                    <span class="text-[10px] font-bold text-gray-400">03</span>
+                </div>
+                <h4 class="font-bold text-eb-green uppercase mb-2 group-hover:text-eb-gold transition">Mobilização e Economia de Defesa</h4>
+                <p class="text-xs text-gray-500 italic">Base Industrial de Defesa (BID)</p>
+            </button>
+
+            <button @click="openModal = 4" class="bg-white p-8 border-b-4 border-eb-green shadow-md hover:shadow-xl transition-all text-left group">
+                <div class="flex justify-between items-start mb-4">
+                    <i class="fa-solid fa-satellite-dish text-eb-gold text-2xl"></i>
+                    <span class="text-[10px] font-bold text-gray-400">04</span>
+                </div>
+                <h4 class="font-bold text-eb-green uppercase mb-2 group-hover:text-eb-gold transition">Superioridade Informacional</h4>
+                <p class="text-xs text-gray-500 italic">ISR/IVR e Guerra Eletrônica</p>
+            </button>
+
+            <button @click="openModal = 5" class="bg-white p-8 border-b-4 border-eb-green shadow-md hover:shadow-xl transition-all text-left group">
+                <div class="flex justify-between items-start mb-4">
+                    <i class="fa-solid fa-shield-virus text-eb-gold text-2xl"></i>
+                    <span class="text-[10px] font-bold text-gray-400">05</span>
+                </div>
+                <h4 class="font-bold text-eb-green uppercase mb-2 group-hover:text-eb-gold transition">Ciberdefesa e Proteção da Informação</h4>
+                <p class="text-xs text-gray-500 italic">Operações de Informação e Influência</p>
+            </button>
+
+            <button @click="openModal = 6" class="bg-white p-8 border-b-4 border-eb-green shadow-md hover:shadow-xl transition-all text-left group">
+                <div class="flex justify-between items-start mb-4">
+                    <i class="fa-solid fa-earth-americas text-eb-gold text-2xl"></i>
+                    <span class="text-[10px] font-bold text-gray-400">06</span>
+                </div>
+                <h4 class="font-bold text-eb-green uppercase mb-2 group-hover:text-eb-gold transition">Estratégia e Poder Nacional</h4>
+                <p class="text-xs text-gray-500 italic">Cenários e História Militar Aplicada</p>
+            </button>
+
+            <button @click="openModal = 7" class="bg-white p-8 border-b-4 border-eb-green shadow-md hover:shadow-xl transition-all text-left group lg:col-span-3">
+                <div class="flex justify-between items-start mb-4">
+                    <i class="fa-solid fa-diagram-project text-eb-gold text-2xl"></i>
+                    <span class="text-[10px] font-bold text-gray-400">07</span>
+                </div>
+                <h4 class="font-bold text-eb-green uppercase mb-2 group-hover:text-eb-gold transition">Governança de Defesa</h4>
+                <p class="text-xs text-gray-500 italic">PBC, Portfólio, Riscos e Simulação para Decisão</p>
+            </button>
+
+        </div>
+    </section>
+
+    <template x-if="openModal">
+        <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-80 backdrop-blur-sm" @click.self="openModal = null">
+            <div class="bg-white rounded shadow-2xl max-w-3xl w-full p-8 relative max-h-[85vh] overflow-y-auto modal-content">
+                <button @click="openModal = null" class="absolute top-4 right-4 text-gray-400 hover:text-eb-green text-3xl">&times;</button>
+                
+                <div x-show="openModal === 1">
+                    <span class="text-[10px] font-bold bg-eb-green text-white px-2 py-1 uppercase">Subárea 01</span>
+                    <h3 class="text-2xl font-bold text-eb-green uppercase mt-4 mb-2">Operações, Doutrina e Arte Operacional</h3>
+                    <p class="text-xs font-bold text-eb-gold uppercase mb-6 border-b border-gray-200 pb-2">Foco: Aprimorar o emprego da força e integração de tecnologias emergentes.</p>
+                    <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Arte Operacional e Desenho de Campanha</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Operações Conjuntas e Interagências</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Operações em Ambientes Complexos</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Comando e Controle (C2) e Ciclos Decisórios</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Doutrina Baseada em Evidências</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Integração de Tecnologias Emergentes (Robótica/IA)</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Capacitação de Lideranças para o Combate</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Avaliação de Prontidão Doutrinária</li>
+                    </ul>
+                </div>
+
+                <div x-show="openModal === 2">
+                    <span class="text-[10px] font-bold bg-eb-green text-white px-2 py-1 uppercase">Subárea 02</span>
+                    <h3 class="text-2xl font-bold text-eb-green uppercase mt-4 mb-2">Logística e Sustentação Operacional</h3>
+                    <p class="text-xs font-bold text-eb-gold uppercase mb-6 border-b border-gray-200 pb-2">Foco: Produção de conhecimento sobre prontidão e desempenho logístico.</p>
+                    <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Cadeias Logísticas em Campanha</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Manutenção e Confiabilidade (RAM)</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Saúde Operacional e Apoio Médico</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Otimização e Pesquisa Operacional</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Tecnologias Emergentes na Logística (IoT/IA)</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Veículos Autônomos na Sustentação</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Mobilidade e Distribuição Estratégica</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Gestão de Estoques em Ambientes Voláteis</li>
+                    </ul>
+                </div>
+
+                <div x-show="openModal === 3">
+                    <span class="text-[10px] font-bold bg-eb-green text-white px-2 py-1 uppercase">Subárea 03</span>
+                    <h3 class="text-2xl font-bold text-eb-green uppercase mt-4 mb-2">Mobilização, Economia e BID</h3>
+                    <p class="text-xs font-bold text-eb-gold uppercase mb-6 border-b border-gray-200 pb-2">Foco: Autonomia estratégica e resiliência da Base Industrial de Defesa.</p>
+                    <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Economia de Defesa e Orçamento</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Política Industrial e Inovação</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Cadeias Críticas e Semicondutores</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Vulnerabilidades a Choques Externos</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Mobilização Industrial e Logística</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Offset e Acordos de Compensação</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Avaliação de Políticas Públicas de Defesa</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Modelos de Negócio no Setor de Defesa</li>
+                    </ul>
+                </div>
+
+                <div x-show="openModal === 4">
+                    <span class="text-[10px] font-bold bg-eb-green text-white px-2 py-1 uppercase">Subárea 04</span>
+                    <h3 class="text-2xl font-bold text-eb-green uppercase mt-4 mb-2">Superioridade Informacional</h3>
+                    <p class="text-xs font-bold text-eb-gold uppercase mb-6 border-b border-gray-200 pb-2">Foco: Fusão de dados e consciência situacional em ambientes contestados.</p>
+                    <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Arquiteturas ISR/IVR</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Fusão de Dados e Analytics</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Guerra Eletrônica e Espectro</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Sensoriamento Remoto e Inteligência</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Processamento em Nuvem no Tático</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Sistemas de Apoio à Decisão</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Ambientes Degradados e Contestados</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Gestão da Informação Estratégica</li>
+                    </ul>
+                </div>
+
+                <div x-show="openModal === 5">
+                    <span class="text-[10px] font-bold bg-eb-green text-white px-2 py-1 uppercase">Subárea 05</span>
+                    <h3 class="text-2xl font-bold text-eb-green uppercase mt-4 mb-2">Ciberdefesa e Proteção da Informação</h3>
+                    <p class="text-xs font-bold text-eb-gold uppercase mb-6 border-b border-gray-200 pb-2">Foco: Segurança de ativos e dimensão de influência em disputas contemporâneas.</p>
+                    <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Criptografia Pós-Quântica</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Governança e Proteção de Dados</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Detecção de Manipulação (Deepfakes)</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Operações de Informação e Influência</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Defesa de Infraestruturas Críticas</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Resiliência Ciber de Sistemas de Armas</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Guerra Cognitiva e Narrativas</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Segurança de Redes e Sistemas Centrais</li>
+                    </ul>
+                </div>
+
+                <div x-show="openModal === 6">
+                    <span class="text-[10px] font-bold bg-eb-green text-white px-2 py-1 uppercase">Subárea 06</span>
+                    <h3 class="text-2xl font-bold text-eb-green uppercase mt-4 mb-2">Estratégia e Geopolítica</h3>
+                    <p class="text-xs font-bold text-eb-gold uppercase mb-6 border-b border-gray-200 pb-2">Foco: Competição estratégica e dissuasão com análise estruturada.</p>
+                    <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Poder Nacional e Dissuasão</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Geopolítica da Tecnologia e Recursos</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Estudos de Cenários e Prospectiva</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>História Militar Aplicada</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Ambiente Informacional Estratégico</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Análise de Atores e Conflitos Regionais</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Poder de Coalizão e Alianças</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Evolução do Pensamento Estratégico</li>
+                    </ul>
+                </div>
+
+                <div x-show="openModal === 7">
+                    <span class="text-[10px] font-bold bg-eb-green text-white px-2 py-1 uppercase">Subárea 07</span>
+                    <h3 class="text-2xl font-bold text-eb-green uppercase mt-4 mb-2">Governança de Defesa</h3>
+                    <p class="text-xs font-bold text-eb-gold uppercase mb-6 border-b border-gray-200 pb-2">Foco: Garantir que inovação e planejamento virem capacidade real.</p>
+                    <ul class="grid md:grid-cols-2 gap-4 text-sm text-gray-700">
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Planejamento Baseado em Capacidades (PBC)</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Gestão de Portfólio, Programas e Projetos</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Simulação, Modelagem e Wargaming</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Análise de Riscos Estratégicos</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Gestão do Ciclo de Vida de Sistemas</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Governança de Aquisições de Defesa</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Relações Civis-Militares e Sociedade</li>
+                        <li><i class="fa-solid fa-check text-eb-gold mr-2"></i>Metodologias de Suporte à Decisão</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </template>
+
+    <footer id="contato" class="bg-eb-green text-white py-12 border-t-4 border-eb-gold">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12">
+            <div>
+                <h5 class="text-eb-gold font-bold uppercase mb-4 tracking-widest">Contato Institucional</h5>
+                <p class="text-sm text-gray-400 mb-2 font-serif italic italic">"A Escola de Marechal Castello Branco"</p>
+                <p class="text-sm text-gray-300"><i class="fa-solid fa-location-dot text-eb-gold mr-2"></i> Praia Vermelha, Urca - Rio de Janeiro / RJ</p>
+                <p class="text-sm text-gray-300 mt-2"><i class="fa-solid fa-envelope text-eb-gold mr-2"></i> lcm.dppg@eceme.eb.mil.br</p>
+            </div>
+            <div class="md:text-right">
+                <h5 class="text-white font-bold uppercase mb-4 tracking-widest">Laboratório de Ciências Militares</h5>
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    Pesquisa vinculada ao PPGCM/ECEME e ao Diretório de Grupos de Pesquisa do CNPq.<br>
+                    © 2026 Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
