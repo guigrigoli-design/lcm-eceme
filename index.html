@@ -20,7 +20,6 @@
         body { font-family: 'Georgia', serif; }
         [x-cloak] { display: none !important; }
         
-        /* Estilo para a aba ativa */
         .tab-active {
             border-bottom: 4px solid var(--eb-gold);
             color: var(--eb-green);
@@ -43,7 +42,7 @@
             </div>
             <div class="hidden md:flex space-x-6 text-xs font-bold uppercase">
                 <button @click="view = 'home'" class="hover:text-eb-gold py-2">Início</button>
-                <button @click="view = 'home'; document.getElementById('subareas').scrollIntoView()" class="hover:text-eb-gold py-2">Linhas de Pesquisa</button>
+                <button @click="view = 'home'; setTimeout(() => document.getElementById('linhas').scrollIntoView({behavior: 'smooth'}), 100)" class="hover:text-eb-gold py-2">Linhas de Pesquisa</button>
             </div>
         </div>
     </nav>
@@ -61,42 +60,70 @@
         </header>
 
         <section class="py-12 bg-white">
-            <div class="container mx-auto px-6 grid md:grid-cols-3 gap-6 text-center">
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-8 text-center max-w-4xl">
                 <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
-                    <h3 class="font-bold text-eb-green uppercase text-lg">Objetivos</h3>
-                    <p class="text-sm mt-2 text-gray-600">Pesquisa alinhada aos Projetos Estratégicos do Exército e integração doutrinária.</p>
+                    <h3 class="font-bold text-eb-green uppercase text-lg mb-2">Linha A: Gestão de Defesa</h3>
+                    <p class="text-sm text-gray-600">Foco em gerar, sustentar e governar capacidades (recursos, portfólio, aquisições, logística, BID).</p>
                 </div>
                 <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
-                    <h3 class="font-bold text-eb-green uppercase text-lg">Metas</h3>
-                    <p class="text-sm mt-2 text-gray-600">Referência nacional em Defesa, ampliando a produção científica qualificada.</p>
-                </div>
-                <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
-                    <h3 class="font-bold text-eb-green uppercase text-lg">Visão</h3>
-                    <p class="text-sm mt-2 text-gray-600">Polo de inovação para o suporte à decisão de alto nível da Força.</p>
+                    <h3 class="font-bold text-eb-green uppercase text-lg mb-2">Linha B: Estudo da Paz e Guerra</h3>
+                    <p class="text-sm text-gray-600">Foco em emprego, legitimidade e compreensão estratégica do conflito (operações, geopolítica, ética).</p>
                 </div>
             </div>
         </section>
 
-        <section id="subareas" class="py-16 bg-gray-100">
-            <div class="container mx-auto px-6 text-center mb-10">
-                <h2 class="text-3xl font-bold text-eb-green uppercase">Subáreas de Pesquisa</h2>
-                <p class="text-gray-500 mt-2">Selecione uma área para acessar os pesquisadores e publicações</p>
+        <section id="linhas" class="py-16 bg-gray-100">
+            <div class="container mx-auto px-6 mb-10 text-center">
+                <h2 class="text-3xl font-bold text-eb-green uppercase">Estrutura de Pesquisa</h2>
+                <p class="text-gray-500 mt-2">Selecione uma subárea para detalhes</p>
             </div>
 
-            <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <template x-for="area in subareas" :key="area.id">
-                    <button @click="openSubarea(area)" class="bg-white p-6 border-l-4 border-eb-green shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left h-full flex flex-col group">
-                        <div class="flex justify-between mb-4">
-                            <i :class="area.icon" class="text-eb-gold text-3xl group-hover:scale-110 transition-transform"></i>
-                            <span class="text-gray-300 font-bold" x-text="'0' + area.id"></span>
-                        </div>
-                        <h4 class="text-lg font-bold text-eb-green uppercase leading-tight" x-text="area.title"></h4>
-                        <p class="text-xs text-gray-500 mt-2 italic" x-text="area.subtitle"></p>
-                        <div class="mt-auto pt-4 text-xs font-bold text-eb-gold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                            Acessar Área <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </div>
-                    </button>
-                </template>
+            <div class="container mx-auto px-6 max-w-6xl">
+                
+                <div class="mb-12">
+                    <div class="flex items-center mb-6">
+                        <div class="h-8 w-1 bg-eb-gold mr-4"></div>
+                        <h3 class="text-2xl font-bold text-eb-green uppercase">Linha A — Gestão de Defesa</h3>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <template x-for="area in subareas.filter(a => a.line === 'A')" :key="area.id">
+                            <button @click="openSubarea(area)" class="bg-white p-8 border-l-4 border-eb-green shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col group h-full">
+                                <div class="flex justify-between mb-4">
+                                    <i :class="area.icon" class="text-eb-gold text-4xl group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-gray-300 font-bold text-xl" x-text="'0' + area.id"></span>
+                                </div>
+                                <h4 class="text-lg font-bold text-eb-green uppercase leading-tight mb-2" x-text="area.title"></h4>
+                                <p class="text-sm text-gray-500 italic mb-4" x-text="area.subtitle"></p>
+                                <div class="mt-auto text-xs font-bold text-eb-gold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                                    Acessar Área <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </div>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="h-8 w-1 bg-eb-gold mr-4"></div>
+                        <h3 class="text-2xl font-bold text-eb-green uppercase">Linha B — Estudo da Paz e Guerra</h3>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <template x-for="area in subareas.filter(a => a.line === 'B')" :key="area.id">
+                            <button @click="openSubarea(area)" class="bg-white p-8 border-l-4 border-eb-green shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col group h-full">
+                                <div class="flex justify-between mb-4">
+                                    <i :class="area.icon" class="text-eb-gold text-4xl group-hover:scale-110 transition-transform"></i>
+                                    <span class="text-gray-300 font-bold text-xl" x-text="'0' + area.id"></span>
+                                </div>
+                                <h4 class="text-lg font-bold text-eb-green uppercase leading-tight mb-2" x-text="area.title"></h4>
+                                <p class="text-sm text-gray-500 italic mb-4" x-text="area.subtitle"></p>
+                                <div class="mt-auto text-xs font-bold text-eb-gold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                                    Acessar Área <i class="fa-solid fa-arrow-right ml-1"></i>
+                                </div>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
             </div>
         </section>
     </div>
@@ -105,112 +132,98 @@
         
         <div class="bg-eb-green text-white py-12 border-b-4 border-eb-gold">
             <div class="container mx-auto px-6">
-                <button @click="view = 'home'" class="text-xs font-bold uppercase tracking-widest text-eb-gold hover:text-white mb-4 flex items-center transition-colors">
+                <button @click="view = 'home'" class="text-xs font-bold uppercase tracking-widest text-eb-gold hover:text-white mb-6 flex items-center transition-colors">
                     <i class="fa-solid fa-arrow-left mr-2"></i> Voltar para Início
                 </button>
-                <div class="flex flex-col md:flex-row items-start md:items-center justify-between">
+                <div class="flex flex-col md:flex-row items-start justify-between">
                     <div>
-                        <span class="bg-eb-gold text-eb-green text-xs font-bold px-2 py-1 uppercase rounded-sm mb-2 inline-block">Linha de Pesquisa</span>
-                        <h2 class="text-3xl md:text-4xl font-extrabold uppercase leading-tight" x-text="activeArea.title"></h2>
+                        <span class="bg-eb-gold text-eb-green text-xs font-bold px-2 py-1 uppercase rounded-sm mb-3 inline-block" x-text="'Linha ' + activeArea.line"></span>
+                        <h2 class="text-3xl md:text-4xl font-extrabold uppercase leading-tight mb-2" x-text="activeArea.title"></h2>
+                        <p class="text-lg text-gray-300 italic" x-text="activeArea.subtitle"></p>
                     </div>
-                    <i :class="activeArea.icon" class="text-eb-gold text-6xl opacity-20 mt-4 md:mt-0"></i>
+                    <i :class="activeArea.icon" class="text-eb-gold text-6xl opacity-20 mt-6 md:mt-0"></i>
                 </div>
             </div>
         </div>
 
         <div class="bg-white shadow sticky top-[66px] z-30">
             <div class="container mx-auto px-6">
-                <div class="flex space-x-6 overflow-x-auto">
-                    <button @click="tab = 'sobre'" :class="{ 'tab-active': tab === 'sobre' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">
-                        Sobre a Área
-                    </button>
-                    <button @click="tab = 'pesquisadores'" :class="{ 'tab-active': tab === 'pesquisadores' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">
-                        Pesquisadores
-                    </button>
-                    <button @click="tab = 'andamento'" :class="{ 'tab-active': tab === 'andamento' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">
-                        Trabalhos em Andamento
-                    </button>
-                    <button @click="tab = 'publicacoes'" :class="{ 'tab-active': tab === 'publicacoes' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">
-                        Publicações Finalizadas
-                    </button>
+                <div class="flex space-x-8 overflow-x-auto">
+                    <button @click="tab = 'sobre'" :class="{ 'tab-active': tab === 'sobre' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Sobre a Área</button>
+                    <button @click="tab = 'pesquisadores'" :class="{ 'tab-active': tab === 'pesquisadores' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Pesquisadores</button>
+                    <button @click="tab = 'andamento'" :class="{ 'tab-active': tab === 'andamento' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Projetos</button>
+                    <button @click="tab = 'publicacoes'" :class="{ 'tab-active': tab === 'publicacoes' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Publicações</button>
                 </div>
             </div>
         </div>
 
-        <div class="container mx-auto px-6 py-10">
+        <div class="container mx-auto px-6 py-10 max-w-5xl">
             
             <div x-show="tab === 'sobre'" x-transition.opacity>
-                <div class="bg-white p-8 rounded shadow-sm border-t-4 border-eb-green">
-                    <h3 class="text-xl font-bold text-eb-green mb-4 uppercase flex items-center">
-                        <i class="fa-solid fa-crosshairs text-eb-gold mr-3"></i> Foco Estratégico
-                    </h3>
-                    <p class="text-lg text-gray-700 italic border-l-4 border-eb-gold pl-4 mb-8" x-text="activeArea.focus"></p>
+                <div class="bg-white p-8 rounded shadow-sm border-t-4 border-eb-green mb-8">
+                    <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-crosshairs text-eb-gold mr-3"></i> Foco Estratégico</h3>
+                    <p class="text-gray-700 italic border-l-4 border-eb-gold pl-4 mb-8 leading-relaxed" x-text="activeArea.focus"></p>
                     
-                    <h3 class="text-xl font-bold text-eb-green mb-6 uppercase flex items-center">
-                        <i class="fa-solid fa-list-check text-eb-gold mr-3"></i> Tópicos Prioritários de Pesquisa
-                    </h3>
-                    <div class="grid md:grid-cols-2 gap-4">
+                    <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-list-check text-eb-gold mr-3"></i> Temas Abrangentes</h3>
+                    <ul class="grid md:grid-cols-1 gap-3 mb-8">
                         <template x-for="topic in activeArea.topics">
-                            <div class="flex items-start p-3 bg-gray-50 rounded hover:bg-gray-100 transition">
+                            <li class="flex items-start p-2 hover:bg-gray-50 rounded">
                                 <i class="fa-solid fa-check text-eb-green mt-1 mr-3"></i>
-                                <span class="text-gray-800 text-sm font-medium" x-text="topic"></span>
-                            </div>
+                                <span class="text-gray-800" x-text="topic"></span>
+                            </li>
                         </template>
+                    </ul>
+
+                    <div class="bg-gray-50 p-6 rounded border border-gray-200">
+                        <h3 class="text-lg font-bold text-eb-green mb-3 uppercase flex items-center"><i class="fa-solid fa-microchip text-eb-gold mr-3"></i> Tecnologias Transversais</h3>
+                        <p class="text-sm text-gray-700 leading-relaxed" x-text="activeArea.tech"></p>
                     </div>
                 </div>
             </div>
 
             <div x-show="tab === 'pesquisadores'" x-transition.opacity>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid md:grid-cols-2 gap-6">
                     <template x-for="researcher in activeArea.researchers">
-                        <div class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md transition text-center">
-                            <div class="w-20 h-20 bg-eb-green rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">
+                        <div class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md transition flex items-start">
+                            <div class="w-16 h-16 bg-eb-green rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold text-lg mr-4">
                                 <span x-text="getInitials(researcher.name)"></span>
                             </div>
-                            <h4 class="font-bold text-eb-green text-lg" x-text="researcher.name"></h4>
-                            <p class="text-xs text-eb-gold uppercase font-bold tracking-widest mb-4" x-text="researcher.role"></p>
-                            <p class="text-sm text-gray-500 mb-4" x-text="researcher.bio"></p>
-                            <a href="#" class="text-xs text-blue-600 hover:underline">Ver Currículo Lattes <i class="fa-solid fa-external-link-alt ml-1"></i></a>
+                            <div>
+                                <h4 class="font-bold text-eb-green" x-text="researcher.name"></h4>
+                                <p class="text-xs text-eb-gold uppercase font-bold tracking-widest mb-2" x-text="researcher.role"></p>
+                                <p class="text-sm text-gray-600 mb-3" x-text="researcher.bio"></p>
+                                <a href="#" class="text-xs text-blue-800 hover:underline font-bold">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
+                            </div>
                         </div>
                     </template>
                     
-                    <div class="bg-gray-100 border-2 border-dashed border-gray-300 rounded p-6 flex flex-col items-center justify-center text-gray-400">
-                        <i class="fa-solid fa-user-plus text-3xl mb-2"></i>
-                        <span class="text-sm">Área para novos pesquisadores</span>
+                    <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded p-6 flex flex-col items-center justify-center text-gray-400">
+                        <span class="text-sm">Coordenação da Linha de Pesquisa</span>
                     </div>
                 </div>
             </div>
 
             <div x-show="tab === 'andamento'" x-transition.opacity>
                 <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
-                    <table class="w-full text-left border-collapse">
+                    <table class="w-full text-left">
                         <thead class="bg-eb-green text-white text-xs uppercase">
                             <tr>
-                                <th class="p-4">Título do Projeto</th>
+                                <th class="p-4">Projeto</th>
                                 <th class="p-4 hidden md:table-cell">Responsável</th>
-                                <th class="p-4 hidden md:table-cell">Status</th>
-                                <th class="p-4">Previsão</th>
+                                <th class="p-4">Status</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             <template x-for="project in activeArea.ongoing">
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="p-4">
-                                        <p class="font-bold text-gray-800 text-sm" x-text="project.title"></p>
-                                        <p class="text-xs text-gray-500 md:hidden" x-text="project.responsible"></p>
-                                    </td>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="p-4 font-bold text-gray-800 text-sm" x-text="project.title"></td>
                                     <td class="p-4 text-sm text-gray-600 hidden md:table-cell" x-text="project.responsible"></td>
-                                    <td class="p-4 hidden md:table-cell">
-                                        <span class="px-2 py-1 text-[10px] font-bold uppercase rounded-full bg-yellow-100 text-yellow-800">Em Pesquisa</span>
-                                    </td>
-                                    <td class="p-4 text-sm font-mono text-gray-500" x-text="project.deadline"></td>
+                                    <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Em Andamento</span></td>
                                 </tr>
                             </template>
                         </tbody>
                     </table>
-                    <div x-show="activeArea.ongoing.length === 0" class="p-8 text-center text-gray-500 italic">
-                        Nenhum projeto cadastrado no momento.
-                    </div>
+                    <div x-show="activeArea.ongoing.length === 0" class="p-8 text-center text-gray-500 italic">Nenhum projeto cadastrado.</div>
                 </div>
             </div>
 
@@ -218,27 +231,18 @@
                 <div class="bg-white p-8 rounded shadow-sm border border-gray-200">
                     <ul class="space-y-6">
                         <template x-for="pub in activeArea.publications">
-                            <li class="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
+                            <li class="border-b border-gray-100 pb-4 last:border-0">
                                 <div class="flex items-start">
                                     <i class="fa-solid fa-file-pdf text-red-600 text-xl mt-1 mr-4"></i>
                                     <div>
-                                        <h4 class="font-bold text-gray-900 text-base hover:text-eb-green cursor-pointer transition" x-text="pub.title"></h4>
-                                        <p class="text-sm text-gray-600 mt-1">
-                                            <span class="font-semibold" x-text="pub.authors"></span> • 
-                                            <span class="italic" x-text="pub.journal"></span>, <span x-text="pub.year"></span>.
-                                        </p>
-                                        <div class="mt-2 flex space-x-3">
-                                            <span class="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded uppercase font-bold">Artigo</span>
-                                            <a href="#" class="text-xs text-eb-green font-bold hover:underline">Download PDF</a>
-                                        </div>
+                                        <h4 class="font-bold text-gray-900 hover:text-eb-green cursor-pointer" x-text="pub.title"></h4>
+                                        <p class="text-sm text-gray-600 mt-1"><span x-text="pub.authors"></span> • <span class="italic" x-text="pub.journal"></span>, <span x-text="pub.year"></span>.</p>
                                     </div>
                                 </div>
                             </li>
                         </template>
                     </ul>
-                    <div x-show="activeArea.publications.length === 0" class="p-8 text-center text-gray-500 italic">
-                        Ainda não há publicações cadastradas nesta área.
-                    </div>
+                    <div x-show="activeArea.publications.length === 0" class="p-8 text-center text-gray-500 italic">Nenhuma publicação cadastrada.</div>
                 </div>
             </div>
 
@@ -249,24 +253,19 @@
         <div class="container mx-auto px-6 text-center">
             <h5 class="text-eb-gold font-bold uppercase mb-2">LCM - Laboratório de Ciências Militares</h5>
             <p class="text-sm">Praia Vermelha, Urca - Rio de Janeiro / RJ</p>
-            <p class="text-sm mt-1">lcm.dppg@eceme.eb.mil.br</p>
-            <p class="text-xs text-gray-400 mt-6">© 2026 Todos os direitos reservados.</p>
+            <p class="text-xs text-gray-400 mt-6">© 2026 PPGCM / ECEME</p>
         </div>
     </footer>
 
     <script>
         function appData() {
             return {
-                view: 'home', // 'home' ou 'subarea'
-                tab: 'sobre', // 'sobre', 'pesquisadores', 'andamento', 'publicacoes'
-                activeArea: {}, // Guarda os dados da área clicada
+                view: 'home',
+                tab: 'sobre',
+                activeArea: {},
                 
-                // Função auxiliar para pegar iniciais do nome
-                getInitials(name) {
-                    return name.match(/(\b\S)?/g).join("").match(/(^\S|\S$)?/g).join("").toUpperCase();
-                },
-
-                // Função para abrir uma área
+                getInitials(name) { return name.match(/(\b\S)?/g).join("").match(/(^\S|\S$)?/g).join("").toUpperCase(); },
+                
                 openSubarea(area) {
                     this.activeArea = area;
                     this.view = 'subarea';
@@ -275,136 +274,93 @@
                 },
 
                 // =================================================================
-                // BANCO DE DADOS DAS SUBÁREAS (EDITE AQUI)
+                // NOVA ESTRUTURA: 4 SUBÁREAS EM 2 LINHAS
                 // =================================================================
                 subareas: [
+                    // LINHA A - Gestão de Defesa
                     {
                         id: 1,
-                        title: "Operações, Doutrina e Arte Operacional",
-                        subtitle: "Conjunta e Multidomínio",
-                        icon: "fa-solid fa-person-military-pointing",
-                        focus: "Estudar e aprimorar o emprego da força, a doutrina e o desenho de campanhas, incluindo operações conjuntas e integração de tecnologias emergentes.",
+                        line: "A",
+                        title: "Governança, Planejamento e Gestão de Capacidades",
+                        subtitle: "PBC, Portfólio, Riscos e Simulação",
+                        icon: "fa-solid fa-diagram-project",
+                        focus: "PBC, portfólio, aquisições, ciclo de vida sob governança, riscos e simulação para decisão (ponte estratégia–orçamento–capacidade).",
+                        tech: "Governança de IA (risco/vieses/auditoria), engenharia de decisões assistidas por software, gestão de maturidade tecnológica (TRL), critérios de adoção/escala.",
                         topics: [
-                            "Arte Operacional e Desenho de Campanha",
-                            "Operações Conjuntas e Integração Interagências",
-                            "Operações em Ambientes Complexos",
-                            "Operações em Ambiente Humanitário",
-                            "Comando e Controle (C2) e Ciclos Decisórios",
-                            "Doutrina Baseada em Evidências",
-                            "Integração de Tecnologias Emergentes"
+                            "Planejamento Baseado em Capacidades (PBC) e priorização multicritério",
+                            "Aquisições, contratações e gestão do ciclo de vida",
+                            "Gestão de portfólio, métricas e avaliação ex ante/ex post",
+                            "Gestão de riscos institucionais e tecnológicos (compliance)",
+                            "Wargaming, simulação e modelagem para suporte decisório"
                         ],
                         researchers: [
-                            { name: "Ten Cel Grigoli A", role: "Coordenador", bio: "Doutor em Ciências Militares, especialista em Arte Operacional." },
-                            { name: "Maj Pesquisador B", role: "Pesquisador Associado", bio: "Mestre em Operações Militares." }
-                        ],
-                        ongoing: [
-                            { title: "Adaptação da Doutrina para Guerra Multidomínio", responsible: "Ten Cel A", deadline: "Dez/2026" }
-                        ],
-                        publications: [
-                            { title: "A Evolução do C2 no Exército Brasileiro", authors: "Silva, A.; Souza, B.", journal: "Revista da ECEME", year: "2025" }
-                        ]
-                    },
-                    {
-                        id: 2,
-                        title: "Logística e Sustentação Operacional",
-                        subtitle: "Prontidão e Desempenho",
-                        icon: "fa-solid fa-truck-fast",
-                        focus: "Produzir conhecimento sobre prontidão, sustentação e desempenho logístico em operações, com métodos quantitativos.",
-                        topics: [
-                            "Cadeias Logísticas em Campanha",
-                            "Manutenção e Confiabilidade (RAM)",
-                            "Saúde Operacional",
-                            "Pesquisa Operacional Aplicada",
-                            "Tecnologias Emergentes (IA, IoT)"
-                        ],
-                        researchers: [
-                            { name: "Dr. Pesquisador C", role: "Líder de Grupo", bio: "Especialista em Logística de Defesa." }
+                            { name: "Ten Cel Pesquisador 1", role: "Pesquisador", bio: "Especialista em PBC e Gestão de Projetos." }
                         ],
                         ongoing: [],
                         publications: []
                     },
                     {
-                        id: 3,
-                        title: "Mobilização e BID",
-                        subtitle: "Base Industrial de Defesa",
+                        id: 2,
+                        line: "A",
+                        title: "Capacidades, Logística, Mobilização e BID",
+                        subtitle: "Economia de Defesa e Prontidão",
                         icon: "fa-solid fa-industry",
-                        focus: "Analisar a mobilização nacional, a economia de defesa e o ecossistema da BID como fundamentos de autonomia estratégica.",
+                        focus: "Prontidão e sustentação; mobilização e resiliência nacional; economia de defesa e BID como base de autonomia.",
+                        tech: "IA para manutenção preditiva, IoT/rastreabilidade, automação logística, manufatura aditiva, otimização avançada.",
                         topics: [
-                            "Economia de Defesa",
-                            "Política Industrial e Inovação",
-                            "Cadeias Críticas e Semicondutores",
-                            "Mobilização Nacional",
-                            "Offsets e Compensações"
+                            "Logística operacional, sustentação e prontidão (readiness)",
+                            "Manutenção, confiabilidade (RAM) e custo de prontidão",
+                            "Mobilização nacional e resiliência de cadeias críticas",
+                            "Economia de defesa, política industrial e inovação na BID",
+                            "Avaliação de políticas industriais e dependências externas"
                         ],
-                        researchers: [],
+                        researchers: [
+                            { name: "Maj Pesquisador 2", role: "Pesquisador", bio: "Doutor em Logística Militar." }
+                        ],
+                        ongoing: [],
+                        publications: []
+                    },
+
+                    // LINHA B - Estudo da Paz e Guerra
+                    {
+                        id: 3,
+                        line: "B",
+                        title: "Operações, Doutrina e Superioridade Operacional",
+                        subtitle: "Multidomínio e Informacional",
+                        icon: "fa-solid fa-person-military-pointing",
+                        focus: "Emprego da força, arte operacional, doutrina, C2 e superioridade operacional, incluindo componentes informacionais (ISR/GE/ciber) no nível operacional.",
+                        tech: "Sistemas autônomos e robótica, IA no apoio ao planejamento/consciência situacional, sensores avançados, edge computing, gêmeos digitais.",
+                        topics: [
+                            "Arte operacional, desenho de campanha e TTPs",
+                            "Operações conjuntas, interagências e multidomínio",
+                            "C2, ciclos decisórios e missão-comando",
+                            "Superioridade informacional: ISR/IVR, fusão de dados e GE",
+                            "Preparação, treinamento e lições aprendidas"
+                        ],
+                        researchers: [
+                            { name: "Cel Pesquisador 3", role: "Pesquisador", bio: "Especialista em Doutrina e Operações." }
+                        ],
                         ongoing: [],
                         publications: []
                     },
                     {
                         id: 4,
-                        title: "Superioridade Informacional",
-                        subtitle: "ISR/IVR e Guerra Eletrônica",
-                        icon: "fa-solid fa-satellite-dish",
-                        focus: "Estudar a superioridade informacional por meio de sensoriamento, fusão de dados e guerra eletrônica em ambientes contestados.",
-                        topics: [
-                            "Arquiteturas ISR/IVR",
-                            "Fusão de Dados e Analytics",
-                            "Guerra Eletrônica e Espectro",
-                            "Sensores e Plataformas",
-                            "Ambientes Degradados"
-                        ],
-                        researchers: [],
-                        ongoing: [],
-                        publications: []
-                    },
-                    {
-                        id: 5,
-                        title: "Ciberdefesa e Proteção",
-                        subtitle: "Segurança da Informação",
-                        icon: "fa-solid fa-shield-virus",
-                        focus: "Garantir a segurança, integridade e disponibilidade da informação, bem como a dimensão de influência em disputas contemporâneas.",
-                        topics: [
-                            "Ciberdefesa e Resiliência",
-                            "Criptografia Pós-Quântica",
-                            "Operações de Influência",
-                            "Detecção de Deepfakes",
-                            "Guerra Cognitiva"
-                        ],
-                        researchers: [],
-                        ongoing: [],
-                        publications: []
-                    },
-                    {
-                        id: 6,
-                        title: "Estratégia e Poder Nacional",
-                        subtitle: "Cenários e História",
+                        line: "B",
+                        title: "Estratégia, Geopolítica, Paz e Guerra",
+                        subtitle: "Dimensão Humana e Direito",
                         icon: "fa-solid fa-earth-americas",
-                        focus: "Produzir conhecimento sobre competição estratégica, geopolítica, dissuasão e poder nacional.",
+                        focus: "Compreender e formular estratégia; analisar poder nacional e cenários; estudar paz e conflito; legitimidade e dimensão humana.",
+                        tech: "Impactos estratégicos de tecnologias críticas (IA/ciber/espaço), governança ética de tecnologia em conflito, operações de informação.",
                         topics: [
-                            "Dissuasão e Credibilidade",
-                            "Geopolítica Aplicada",
-                            "Estudos de Cenários",
-                            "História Militar Aplicada",
-                            "Soberania Digital"
+                            "Estratégia, dissuasão e competição entre Estados",
+                            "Geopolítica aplicada, estudos regionais e cenários",
+                            "Estudos de paz e conflito (peace operations, estabilização)",
+                            "Dimensão humana: liderança e decisão sob estresse",
+                            "Ética militar e direito operacional (DICA/DIH)"
                         ],
-                        researchers: [],
-                        ongoing: [],
-                        publications: []
-                    },
-                    {
-                        id: 7,
-                        title: "Governança de Defesa",
-                        subtitle: "PBC e Gestão",
-                        icon: "fa-solid fa-gavel",
-                        focus: "Aprimorar a gestão estratégica do setor defesa, com ênfase em PBC, aquisições e riscos.",
-                        topics: [
-                            "Planejamento Baseado em Capacidades (PBC)",
-                            "Gestão de Ciclo de Vida",
-                            "Gestão de Portfólio",
-                            "Simulação e Wargaming",
-                            "Gestão de Riscos"
+                        researchers: [
+                            { name: "Ten Cel Pesquisador 4", role: "Pesquisador", bio: "Doutor em Ciência Política e Relações Internacionais." }
                         ],
-                        researchers: [],
                         ongoing: [],
                         publications: []
                     }
@@ -414,5 +370,3 @@
     </script>
 </body>
 </html>
-
-
