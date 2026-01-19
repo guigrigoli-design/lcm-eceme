@@ -26,76 +26,138 @@
             font-weight: bold;
             background-color: #f9fafb;
         }
+        /* Animação suave para busca */
+        .fade-enter-active, .fade-leave-active { transition: opacity 0.3s; }
+        .fade-enter, .fade-leave-to { opacity: 0; }
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-900" x-data="appData()">
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen" x-data="appData()">
 
     <nav class="bg-eb-green text-white border-b-2 border-eb-gold sticky top-0 z-50 shadow-xl">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3 cursor-pointer" @click="view = 'home'">
-                <img src="brasao-lcm.png" alt="LCM" class="h-10 w-auto bg-white rounded-full p-0.5 object-contain">
-                <div>
-                    <h1 class="font-bold text-lg leading-tight uppercase">Laboratório de Ciências Militares</h1>
-                    <p class="text-[10px] tracking-widest text-eb-gold uppercase">Escola de Comando e Estado-Maior do Exército / Programa de Pós-Graduação em Ciências Militares do Instituto Meira Mattos (PPGCM-IMM)</p>
+        <div class="container mx-auto px-4 py-2">
+            
+            <div class="flex justify-between items-center">
+                
+                <div class="flex items-center space-x-3 cursor-pointer" @click="view = 'home'">
+                    <img src="brasao-lcm.png" alt="LCM" class="h-10 w-auto bg-white rounded-full p-0.5 object-contain">
+                    <div class="hidden md:block">
+                        <h1 class="font-bold text-lg leading-none uppercase">LCM</h1>
+                        <p class="text-[10px] tracking-widest text-eb-gold uppercase">ECEME / PPGCM</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    
+                    <div class="relative hidden md:block">
+                        <input type="text" 
+                               x-model="searchQuery" 
+                               :placeholder="t[lang].search_placeholder" 
+                               class="bg-green-900 text-white text-sm rounded-full px-4 py-1.5 focus:outline-none focus:ring-1 focus:ring-eb-gold w-48 placeholder-gray-400 transition-all focus:w-64 border border-green-800">
+                        <i class="fa-solid fa-magnifying-glass absolute right-3 top-2 text-gray-400 text-xs"></i>
+                        
+                        <div x-show="searchQuery.length > 0" @click.away="searchQuery = ''" class="absolute top-10 right-0 w-80 bg-white text-gray-800 shadow-2xl rounded border border-gray-200 z-50 overflow-hidden" x-cloak>
+                            <template x-for="result in searchResults" :key="result.id">
+                                <div @click="openSubarea(result); searchQuery = ''" class="p-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-0">
+                                    <p class="text-xs font-bold text-eb-green uppercase" x-text="'Subárea 0' + result.id"></p>
+                                    <p class="text-sm font-semibold truncate" x-text="result.title[lang]"></p>
+                                </div>
+                            </template>
+                            <div x-show="searchResults.length === 0" class="p-3 text-sm text-gray-500 italic">
+                                <span x-text="t[lang].no_results"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <button @click="lang = 'pt'" class="opacity-70 hover:opacity-100 transition hover:scale-110" title="Português">
+                            <img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 object-cover rounded shadow-sm">
+                        </button>
+                        <button @click="lang = 'en'" class="opacity-70 hover:opacity-100 transition hover:scale-110" title="English">
+                            <img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 object-cover rounded shadow-sm">
+                        </button>
+                        <button @click="lang = 'es'" class="opacity-70 hover:opacity-100 transition hover:scale-110" title="Español">
+                            <img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 object-cover rounded shadow-sm">
+                        </button>
+                    </div>
+
+                    <button class="md:hidden text-2xl" @click="mobileMenuOpen = !mobileMenuOpen">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
             </div>
-            <div class="hidden md:flex space-x-6 text-xs font-bold uppercase">
-                <button @click="view = 'home'" class="hover:text-eb-gold py-2">Início</button>
-                <button @click="view = 'home'; setTimeout(() => document.getElementById('linhas').scrollIntoView({behavior: 'smooth'}), 100)" class="hover:text-eb-gold py-2">Linhas de Pesquisa</button>
+
+            <div class="hidden md:flex justify-center mt-2 space-x-8 text-xs font-bold uppercase tracking-widest border-t border-green-800 pt-2">
+                <button @click="view = 'home'" class="hover:text-eb-gold transition" :class="{'text-eb-gold': view === 'home'}" x-text="t[lang].nav_home"></button>
+                <button @click="view = 'home'; setTimeout(() => document.getElementById('linhas').scrollIntoView({behavior: 'smooth'}), 100)" class="hover:text-eb-gold transition" x-text="t[lang].nav_research"></button>
+                <button @click="view = 'contact'" class="hover:text-eb-gold transition" :class="{'text-eb-gold': view === 'contact'}" x-text="t[lang].nav_contact"></button>
+            </div>
+            
+            <div x-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-green-800">
+                <input type="text" x-model="searchQuery" class="w-full bg-green-900 p-2 rounded mt-2 text-white mb-4" placeholder="Buscar...">
+                <div x-show="searchQuery.length > 0" class="bg-white text-black mb-4 rounded">
+                     <template x-for="result in searchResults" :key="result.id">
+                        <div @click="openSubarea(result); searchQuery = ''; mobileMenuOpen = false" class="p-2 border-b">
+                            <span x-text="result.title[lang]"></span>
+                        </div>
+                    </template>
+                </div>
+                <button @click="view = 'home'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_home"></button>
+                <button @click="view = 'contact'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_contact"></button>
             </div>
         </div>
     </nav>
 
-    <div x-show="view === 'home'" x-transition.opacity.duration.500ms>
+    <main x-show="view === 'home'" x-transition.opacity.duration.500ms class="flex-grow">
         
         <header class="bg-eb-green py-20 text-white text-center border-b-4 border-eb-gold relative overflow-hidden">
             <div class="absolute inset-0 opacity-10 bg-[url('https://www.eceme.eb.mil.br/images/ECEME_fachada.jpg')] bg-cover bg-center"></div>
             <div class="container mx-auto px-6 relative z-10 flex flex-col items-center">
                 <img src="brasao-lcm.png" alt="Brasão Oficial" class="h-32 w-auto mb-6 drop-shadow-2xl filter brightness-110">
-                <h2 class="text-4xl md:text-5xl font-extrabold uppercase mb-4">Laboratório de<br>Ciências Militares</h2>
+                <h2 class="text-3xl md:text-5xl font-extrabold uppercase mb-4" x-html="t[lang].home_title"></h2>
                 <div class="w-24 h-1 bg-eb-gold mb-6"></div>
-                <p class="text-xl font-light italic text-gray-200">Produção de conhecimento estratégico e inovação em Defesa.</p>
+                <p class="text-lg md:text-xl font-light italic text-gray-200 max-w-2xl" x-text="t[lang].home_subtitle"></p>
             </div>
         </header>
 
         <section class="py-12 bg-white">
-            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-8 text-center max-w-4xl">
-                <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
-                    <h3 class="font-bold text-eb-green uppercase text-lg mb-2">Linha A: Gestão de Defesa</h3>
-                    <p class="text-sm text-gray-600">Foco em gerar, sustentar e governar capacidades (recursos, portfólio, aquisições, logística, BID).</p>
+            <div class="container mx-auto px-6 grid md:grid-cols-2 gap-8 text-center max-w-5xl">
+                <div class="p-8 border-t-4 border-eb-gold bg-gray-50 shadow-sm hover:shadow-md transition">
+                    <h3 class="font-bold text-eb-green uppercase text-lg mb-2" x-text="t[lang].line_a_title"></h3>
+                    <p class="text-sm text-gray-600 leading-relaxed" x-text="t[lang].line_a_desc"></p>
                 </div>
-                <div class="p-6 border-t-4 border-eb-gold bg-gray-50 shadow-sm">
-                    <h3 class="font-bold text-eb-green uppercase text-lg mb-2">Linha B: Estudo da Paz e Guerra</h3>
-                    <p class="text-sm text-gray-600">Foco em emprego, legitimidade e compreensão estratégica do conflito (operações, geopolítica, ética).</p>
+                <div class="p-8 border-t-4 border-eb-gold bg-gray-50 shadow-sm hover:shadow-md transition">
+                    <h3 class="font-bold text-eb-green uppercase text-lg mb-2" x-text="t[lang].line_b_title"></h3>
+                    <p class="text-sm text-gray-600 leading-relaxed" x-text="t[lang].line_b_desc"></p>
                 </div>
             </div>
         </section>
 
         <section id="linhas" class="py-16 bg-gray-100">
-            <div class="container mx-auto px-6 mb-10 text-center">
-                <h2 class="text-3xl font-bold text-eb-green uppercase">Estrutura de Pesquisa</h2>
-                <p class="text-gray-500 mt-2">Selecione uma subárea para detalhes</p>
+            <div class="container mx-auto px-6 mb-12 text-center">
+                <h2 class="text-3xl font-bold text-eb-green uppercase" x-text="t[lang].structure_title"></h2>
+                <p class="text-gray-500 mt-2 italic" x-text="t[lang].structure_subtitle"></p>
             </div>
 
             <div class="container mx-auto px-6 max-w-6xl">
                 
-                <div class="mb-12">
-                    <div class="flex items-center mb-6">
+                <div class="mb-16">
+                    <div class="flex items-center mb-6 border-b border-gray-300 pb-2">
                         <div class="h-8 w-1 bg-eb-gold mr-4"></div>
-                        <h3 class="text-2xl font-bold text-eb-green uppercase">Linha A — Gestão de Defesa</h3>
+                        <h3 class="text-2xl font-bold text-eb-green uppercase" x-text="t[lang].line_a_label"></h3>
                     </div>
-                    <div class="grid md:grid-cols-2 gap-6">
+                    <div class="grid md:grid-cols-2 gap-8">
                         <template x-for="area in subareas.filter(a => a.line === 'A')" :key="area.id">
-                            <button @click="openSubarea(area)" class="bg-white p-8 border-l-4 border-eb-green shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col group h-full">
-                                <div class="flex justify-between mb-4">
+                            <button @click="openSubarea(area)" class="bg-white p-8 border-l-4 border-eb-green shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col group h-full relative overflow-hidden">
+                                <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition"><i :class="area.icon" class="text-9xl text-eb-green"></i></div>
+                                <div class="flex justify-between mb-4 relative z-10">
                                     <i :class="area.icon" class="text-eb-gold text-4xl group-hover:scale-110 transition-transform"></i>
-                                    <span class="text-gray-300 font-bold text-xl" x-text="'0' + area.id"></span>
+                                    <span class="text-gray-200 font-bold text-2xl" x-text="'0' + area.id"></span>
                                 </div>
-                                <h4 class="text-lg font-bold text-eb-green uppercase leading-tight mb-2" x-text="area.title"></h4>
-                                <p class="text-sm text-gray-500 italic mb-4" x-text="area.subtitle"></p>
-                                <div class="mt-auto text-xs font-bold text-eb-gold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                                    Acessar Área <i class="fa-solid fa-arrow-right ml-1"></i>
+                                <h4 class="text-lg font-bold text-eb-green uppercase leading-tight mb-2 relative z-10" x-text="area.title[lang]"></h4>
+                                <p class="text-sm text-gray-500 italic mb-6 relative z-10" x-text="area.subtitle[lang]"></p>
+                                <div class="mt-auto text-xs font-bold text-eb-gold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity relative z-10 flex items-center">
+                                    <span x-text="t[lang].access_area"></span> <i class="fa-solid fa-arrow-right ml-2"></i>
                                 </div>
                             </button>
                         </template>
@@ -103,21 +165,22 @@
                 </div>
 
                 <div>
-                    <div class="flex items-center mb-6">
+                    <div class="flex items-center mb-6 border-b border-gray-300 pb-2">
                         <div class="h-8 w-1 bg-eb-gold mr-4"></div>
-                        <h3 class="text-2xl font-bold text-eb-green uppercase">Linha B — Estudo da Paz e Guerra</h3>
+                        <h3 class="text-2xl font-bold text-eb-green uppercase" x-text="t[lang].line_b_label"></h3>
                     </div>
-                    <div class="grid md:grid-cols-2 gap-6">
+                    <div class="grid md:grid-cols-2 gap-8">
                         <template x-for="area in subareas.filter(a => a.line === 'B')" :key="area.id">
-                            <button @click="openSubarea(area)" class="bg-white p-8 border-l-4 border-eb-green shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col group h-full">
-                                <div class="flex justify-between mb-4">
+                            <button @click="openSubarea(area)" class="bg-white p-8 border-l-4 border-eb-green shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left flex flex-col group h-full relative overflow-hidden">
+                                <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition"><i :class="area.icon" class="text-9xl text-eb-green"></i></div>
+                                <div class="flex justify-between mb-4 relative z-10">
                                     <i :class="area.icon" class="text-eb-gold text-4xl group-hover:scale-110 transition-transform"></i>
-                                    <span class="text-gray-300 font-bold text-xl" x-text="'0' + area.id"></span>
+                                    <span class="text-gray-200 font-bold text-2xl" x-text="'0' + area.id"></span>
                                 </div>
-                                <h4 class="text-lg font-bold text-eb-green uppercase leading-tight mb-2" x-text="area.title"></h4>
-                                <p class="text-sm text-gray-500 italic mb-4" x-text="area.subtitle"></p>
-                                <div class="mt-auto text-xs font-bold text-eb-gold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                                    Acessar Área <i class="fa-solid fa-arrow-right ml-1"></i>
+                                <h4 class="text-lg font-bold text-eb-green uppercase leading-tight mb-2 relative z-10" x-text="area.title[lang]"></h4>
+                                <p class="text-sm text-gray-500 italic mb-6 relative z-10" x-text="area.subtitle[lang]"></p>
+                                <div class="mt-auto text-xs font-bold text-eb-gold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity relative z-10 flex items-center">
+                                    <span x-text="t[lang].access_area"></span> <i class="fa-solid fa-arrow-right ml-2"></i>
                                 </div>
                             </button>
                         </template>
@@ -126,33 +189,33 @@
 
             </div>
         </section>
-    </div>
+    </main>
 
-    <div x-show="view === 'subarea'" x-cloak x-transition.opacity.duration.300ms class="min-h-screen bg-gray-50">
+    <div x-show="view === 'subarea'" x-cloak x-transition.opacity.duration.300ms class="flex-grow bg-gray-50">
         
         <div class="bg-eb-green text-white py-12 border-b-4 border-eb-gold">
             <div class="container mx-auto px-6">
                 <button @click="view = 'home'" class="text-xs font-bold uppercase tracking-widest text-eb-gold hover:text-white mb-6 flex items-center transition-colors">
-                    <i class="fa-solid fa-arrow-left mr-2"></i> Voltar para Início
+                    <i class="fa-solid fa-arrow-left mr-2"></i> <span x-text="t[lang].back_home"></span>
                 </button>
                 <div class="flex flex-col md:flex-row items-start justify-between">
-                    <div>
-                        <span class="bg-eb-gold text-eb-green text-xs font-bold px-2 py-1 uppercase rounded-sm mb-3 inline-block" x-text="'Linha ' + activeArea.line"></span>
-                        <h2 class="text-3xl md:text-4xl font-extrabold uppercase leading-tight mb-2" x-text="activeArea.title"></h2>
-                        <p class="text-lg text-gray-300 italic" x-text="activeArea.subtitle"></p>
+                    <div class="max-w-3xl">
+                        <span class="bg-eb-gold text-eb-green text-xs font-bold px-2 py-1 uppercase rounded-sm mb-3 inline-block" x-text="activeArea.line === 'A' ? t[lang].line_a_label : t[lang].line_b_label"></span>
+                        <h2 class="text-3xl md:text-4xl font-extrabold uppercase leading-tight mb-2" x-text="activeArea.title[lang]"></h2>
+                        <p class="text-lg text-gray-300 italic" x-text="activeArea.subtitle[lang]"></p>
                     </div>
                     <i :class="activeArea.icon" class="text-eb-gold text-6xl opacity-20 mt-6 md:mt-0"></i>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white shadow sticky top-[66px] z-30">
+        <div class="bg-white shadow sticky top-[62px] md:top-[66px] z-30">
             <div class="container mx-auto px-6">
-                <div class="flex space-x-8 overflow-x-auto">
-                    <button @click="tab = 'sobre'" :class="{ 'tab-active': tab === 'sobre' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Sobre a Área</button>
-                    <button @click="tab = 'pesquisadores'" :class="{ 'tab-active': tab === 'pesquisadores' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Pesquisadores</button>
-                    <button @click="tab = 'andamento'" :class="{ 'tab-active': tab === 'andamento' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Projetos</button>
-                    <button @click="tab = 'publicacoes'" :class="{ 'tab-active': tab === 'publicacoes' }" class="py-4 text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Publicações</button>
+                <div class="flex space-x-8 overflow-x-auto no-scrollbar">
+                    <button @click="tab = 'sobre'" :class="{ 'tab-active': tab === 'sobre' }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap" x-text="t[lang].tab_about"></button>
+                    <button @click="tab = 'pesquisadores'" :class="{ 'tab-active': tab === 'pesquisadores' }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap" x-text="t[lang].tab_researchers"></button>
+                    <button @click="tab = 'andamento'" :class="{ 'tab-active': tab === 'andamento' }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap" x-text="t[lang].tab_projects"></button>
+                    <button @click="tab = 'publicacoes'" :class="{ 'tab-active': tab === 'publicacoes' }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap" x-text="t[lang].tab_publications"></button>
                 </div>
             </div>
         </div>
@@ -161,22 +224,26 @@
             
             <div x-show="tab === 'sobre'" x-transition.opacity>
                 <div class="bg-white p-8 rounded shadow-sm border-t-4 border-eb-green mb-8">
-                    <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-crosshairs text-eb-gold mr-3"></i> Foco Estratégico</h3>
-                    <p class="text-gray-700 italic border-l-4 border-eb-gold pl-4 mb-8 leading-relaxed" x-text="activeArea.focus"></p>
+                    <div class="mb-8">
+                        <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-crosshairs text-eb-gold mr-3"></i> <span x-text="t[lang].label_focus"></span></h3>
+                        <p class="text-gray-700 italic border-l-4 border-eb-gold pl-4 leading-relaxed text-lg" x-text="activeArea.focus[lang]"></p>
+                    </div>
                     
-                    <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-list-check text-eb-gold mr-3"></i> Temas Abrangentes</h3>
-                    <ul class="grid md:grid-cols-1 gap-3 mb-8">
-                        <template x-for="topic in activeArea.topics">
-                            <li class="flex items-start p-2 hover:bg-gray-50 rounded">
-                                <i class="fa-solid fa-check text-eb-green mt-1 mr-3"></i>
-                                <span class="text-gray-800" x-text="topic"></span>
-                            </li>
-                        </template>
-                    </ul>
+                    <div class="mb-8">
+                        <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-list-check text-eb-gold mr-3"></i> <span x-text="t[lang].label_topics"></span></h3>
+                        <ul class="grid md:grid-cols-1 gap-3">
+                            <template x-for="topic in activeArea.topics[lang]">
+                                <li class="flex items-start p-2 hover:bg-gray-50 rounded transition">
+                                    <i class="fa-solid fa-check text-eb-green mt-1 mr-3 flex-shrink-0"></i>
+                                    <span class="text-gray-800" x-text="topic"></span>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
 
                     <div class="bg-gray-50 p-6 rounded border border-gray-200">
-                        <h3 class="text-lg font-bold text-eb-green mb-3 uppercase flex items-center"><i class="fa-solid fa-microchip text-eb-gold mr-3"></i> Tecnologias Transversais</h3>
-                        <p class="text-sm text-gray-700 leading-relaxed" x-text="activeArea.tech"></p>
+                        <h3 class="text-lg font-bold text-eb-green mb-3 uppercase flex items-center"><i class="fa-solid fa-microchip text-eb-gold mr-3"></i> <span x-text="t[lang].label_tech"></span></h3>
+                        <p class="text-sm text-gray-700 leading-relaxed" x-text="activeArea.tech[lang]"></p>
                     </div>
                 </div>
             </div>
@@ -190,15 +257,14 @@
                             </div>
                             <div>
                                 <h4 class="font-bold text-eb-green" x-text="researcher.name"></h4>
-                                <p class="text-xs text-eb-gold uppercase font-bold tracking-widest mb-2" x-text="researcher.role"></p>
-                                <p class="text-sm text-gray-600 mb-3" x-text="researcher.bio"></p>
+                                <p class="text-xs text-eb-gold uppercase font-bold tracking-widest mb-2" x-text="researcher.role[lang]"></p>
+                                <p class="text-sm text-gray-600 mb-3" x-text="researcher.bio[lang]"></p>
                                 <a href="#" class="text-xs text-blue-800 hover:underline font-bold">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
                             </div>
                         </div>
                     </template>
-                    
-                    <div class="bg-gray-50 border-2 border-dashed border-gray-300 rounded p-6 flex flex-col items-center justify-center text-gray-400">
-                        <span class="text-sm">Coordenação da Linha de Pesquisa</span>
+                    <div x-show="activeArea.researchers.length === 0" class="col-span-2 text-center text-gray-500 italic p-8">
+                         <span x-text="t[lang].no_data"></span>
                     </div>
                 </div>
             </div>
@@ -208,22 +274,22 @@
                     <table class="w-full text-left">
                         <thead class="bg-eb-green text-white text-xs uppercase">
                             <tr>
-                                <th class="p-4">Projeto</th>
-                                <th class="p-4 hidden md:table-cell">Responsável</th>
-                                <th class="p-4">Status</th>
+                                <th class="p-4" x-text="t[lang].col_project"></th>
+                                <th class="p-4 hidden md:table-cell" x-text="t[lang].col_responsible"></th>
+                                <th class="p-4" x-text="t[lang].col_status"></th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
                             <template x-for="project in activeArea.ongoing">
                                 <tr class="hover:bg-gray-50">
-                                    <td class="p-4 font-bold text-gray-800 text-sm" x-text="project.title"></td>
+                                    <td class="p-4 font-bold text-gray-800 text-sm" x-text="project.title[lang]"></td>
                                     <td class="p-4 text-sm text-gray-600 hidden md:table-cell" x-text="project.responsible"></td>
-                                    <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase">Em Andamento</span></td>
+                                    <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase" x-text="t[lang].status_ongoing"></span></td>
                                 </tr>
                             </template>
                         </tbody>
                     </table>
-                    <div x-show="activeArea.ongoing.length === 0" class="p-8 text-center text-gray-500 italic">Nenhum projeto cadastrado.</div>
+                    <div x-show="activeArea.ongoing.length === 0" class="p-8 text-center text-gray-500 italic" x-text="t[lang].no_data"></div>
                 </div>
             </div>
 
@@ -242,28 +308,132 @@
                             </li>
                         </template>
                     </ul>
-                    <div x-show="activeArea.publications.length === 0" class="p-8 text-center text-gray-500 italic">Nenhuma publicação cadastrada.</div>
+                    <div x-show="activeArea.publications.length === 0" class="p-8 text-center text-gray-500 italic" x-text="t[lang].no_data"></div>
                 </div>
             </div>
 
         </div>
     </div>
 
+    <div x-show="view === 'contact'" x-cloak x-transition.opacity.duration.300ms class="flex-grow bg-gray-50">
+        <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
+            <h2 class="text-3xl font-bold uppercase" x-text="t[lang].contact_title"></h2>
+        </header>
+
+        <div class="container mx-auto px-6 py-12 max-w-4xl">
+            <div class="bg-white shadow rounded p-8 border-t-4 border-eb-green grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-bold text-eb-green mb-6 uppercase" x-text="t[lang].contact_info"></h3>
+                    <div class="space-y-4 text-gray-700">
+                        <p class="flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-3 text-eb-gold"></i> <span>Praia Vermelha<br>Urca, Rio de Janeiro - RJ<br>CEP: 22290-270</span></p>
+                        <p class="flex items-center"><i class="fa-solid fa-envelope mr-3 text-eb-gold"></i> lcm.dppg@eceme.eb.mil.br</p>
+                        <p class="flex items-center"><i class="fa-solid fa-phone mr-3 text-eb-gold"></i> (21) 3543-3456</p>
+                        <p class="flex items-center"><i class="fa-solid fa-clock mr-3 text-eb-gold"></i> 08:00 - 17:00</p>
+                    </div>
+                </div>
+                <div>
+                     <h3 class="text-xl font-bold text-eb-green mb-6 uppercase" x-text="t[lang].contact_map"></h3>
+                     <div class="bg-gray-200 w-full h-48 rounded flex items-center justify-center text-gray-500">
+                        <i class="fa-solid fa-map text-4xl"></i>
+                     </div>
+                     <button class="w-full mt-4 bg-eb-gold text-white py-2 font-bold uppercase hover:bg-yellow-600 transition" x-text="t[lang].contact_button"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-eb-green text-white py-12 border-t-8 border-eb-gold mt-auto">
-        <div class="container mx-auto px-6 text-center">
-            <h5 class="text-eb-gold font-bold uppercase mb-2">LCM - Laboratório de Ciências Militares</h5>
-            <p class="text-sm">Praia Vermelha, Urca - Rio de Janeiro / RJ</p>
-            <p class="text-xs text-gray-400 mt-6">© 2026 PPGCM / ECEME</p>
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left mb-6 md:mb-0">
+                <h5 class="text-eb-gold font-bold uppercase mb-1">LCM - Laboratório de Ciências Militares</h5>
+                <p class="text-xs text-gray-400">Escola de Comando e Estado-Maior do Exército</p>
+            </div>
+            
+            <div class="flex space-x-6 text-2xl">
+                <a href="#" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+
+            <div class="text-center md:text-right mt-6 md:mt-0">
+                <p class="text-xs text-gray-400">© 2026 PPGCM / ECEME</p>
+            </div>
         </div>
     </footer>
 
     <script>
         function appData() {
             return {
+                lang: 'pt', // pt, en, es
                 view: 'home',
                 tab: 'sobre',
                 activeArea: {},
-                
+                searchQuery: '',
+                mobileMenuOpen: false,
+
+                // Dicionário de Traduções (Interface)
+                t: {
+                    pt: {
+                        nav_home: "Início", nav_research: "Linhas de Pesquisa", nav_contact: "Contato",
+                        home_title: "Laboratório de<br>Ciências Militares",
+                        home_subtitle: "Produção de conhecimento estratégico e inovação em Defesa.",
+                        line_a_title: "Linha A: Gestão de Defesa", line_a_desc: "Foco em gerar, sustentar e governar capacidades (recursos, portfólio, aquisições, logística, BID).",
+                        line_a_label: "Linha A — Gestão de Defesa",
+                        line_b_title: "Linha B: Estudo da Paz e Guerra", line_b_desc: "Foco em emprego, legitimidade e compreensão estratégica do conflito (operações, geopolítica, ética).",
+                        line_b_label: "Linha B — Estudo da Paz e Guerra",
+                        structure_title: "Estrutura de Pesquisa", structure_subtitle: "Selecione uma subárea para detalhes",
+                        access_area: "ACESSAR ÁREA", back_home: "Voltar para Início",
+                        tab_about: "Sobre a Área", tab_researchers: "Pesquisadores", tab_projects: "Projetos", tab_publications: "Publicações",
+                        label_focus: "Foco Estratégico", label_topics: "Temas Abrangentes", label_tech: "Tecnologias Transversais",
+                        contact_title: "Fale Conosco", contact_info: "Informações de Contato", contact_map: "Localização", contact_button: "Traçar Rota",
+                        search_placeholder: "Buscar no site...", no_results: "Nenhum resultado encontrado.",
+                        col_project: "Projeto", col_responsible: "Responsável", col_status: "Status", status_ongoing: "Em Andamento", no_data: "Dados não disponíveis no momento."
+                    },
+                    en: {
+                        nav_home: "Home", nav_research: "Research Lines", nav_contact: "Contact",
+                        home_title: "Military Sciences<br>Laboratory",
+                        home_subtitle: "Strategic knowledge production and innovation in Defense.",
+                        line_a_title: "Line A: Defense Management", line_a_desc: "Focus on generating, sustaining, and governing capabilities (resources, portfolio, acquisitions, logistics, DIB).",
+                        line_a_label: "Line A — Defense Management",
+                        line_b_title: "Line B: Peace and War Studies", line_b_desc: "Focus on employment, legitimacy, and strategic understanding of conflict (operations, geopolitics, ethics).",
+                        line_b_label: "Line B — Peace and War Studies",
+                        structure_title: "Research Structure", structure_subtitle: "Select a subarea for details",
+                        access_area: "ACCESS AREA", back_home: "Back to Home",
+                        tab_about: "About Area", tab_researchers: "Researchers", tab_projects: "Projects", tab_publications: "Publications",
+                        label_focus: "Strategic Focus", label_topics: "Comprehensive Themes", label_tech: "Transversal Technologies",
+                        contact_title: "Contact Us", contact_info: "Contact Information", contact_map: "Location", contact_button: "Get Directions",
+                        search_placeholder: "Search...", no_results: "No results found.",
+                        col_project: "Project", col_responsible: "Lead", col_status: "Status", status_ongoing: "Ongoing", no_data: "Data currently unavailable."
+                    },
+                    es: {
+                        nav_home: "Inicio", nav_research: "Líneas de Investigación", nav_contact: "Contacto",
+                        home_title: "Laboratorio de<br>Ciencias Militares",
+                        home_subtitle: "Producción de conocimiento estratégico e innovación en Defensa.",
+                        line_a_title: "Línea A: Gestión de Defensa", line_a_desc: "Enfoque en generar, sostener y gobernar capacidades (recursos, cartera, adquisiciones, logística, BID).",
+                        line_a_label: "Línea A — Gestión de Defensa",
+                        line_b_title: "Línea B: Estudios de Paz y Guerra", line_b_desc: "Enfoque en empleo, legitimidad y comprensión estratégica del conflicto (operaciones, geopolítica, ética).",
+                        line_b_label: "Línea B — Estudios de Paz y Guerra",
+                        structure_title: "Estructura de Investigación", structure_subtitle: "Seleccione una subárea para detalles",
+                        access_area: "ACCEDER ÁREA", back_home: "Volver al Inicio",
+                        tab_about: "Sobre el Área", tab_researchers: "Investigadores", tab_projects: "Proyectos", tab_publications: "Publicaciones",
+                        label_focus: "Enfoque Estratégico", label_topics: "Temas Abarcados", label_tech: "Tecnologías Transversales",
+                        contact_title: "Contáctenos", contact_info: "Información de Contacto", contact_map: "Ubicación", contact_button: "Ver Ruta",
+                        search_placeholder: "Buscar...", no_results: "Ningún resultado encontrado.",
+                        col_project: "Proyecto", col_responsible: "Responsable", col_status: "Estado", status_ongoing: "En Curso", no_data: "Datos no disponibles."
+                    }
+                },
+
+                // Lógica da Busca
+                get searchResults() {
+                    if (this.searchQuery === '') return [];
+                    const q = this.searchQuery.toLowerCase();
+                    return this.subareas.filter(area => {
+                        const title = area.title[this.lang].toLowerCase();
+                        const focus = area.focus[this.lang].toLowerCase();
+                        // Busca no título ou no foco
+                        return title.includes(q) || focus.includes(q);
+                    });
+                },
+
                 getInitials(name) { return name.match(/(\b\S)?/g).join("").match(/(^\S|\S$)?/g).join("").toUpperCase(); },
                 
                 openSubarea(area) {
@@ -273,96 +443,101 @@
                     window.scrollTo(0, 0);
                 },
 
-                // =================================================================
-                // NOVA ESTRUTURA: 4 SUBÁREAS EM 2 LINHAS
-                // =================================================================
+                // BANCO DE DADOS TRADUZIDO
                 subareas: [
-                    // LINHA A - Gestão de Defesa
                     {
                         id: 1,
                         line: "A",
-                        title: "Governança, Planejamento e Gestão de Capacidades",
-                        subtitle: "PBC, Portfólio, Riscos e Simulação",
                         icon: "fa-solid fa-diagram-project",
-                        focus: "PBC, portfólio, aquisições, ciclo de vida sob governança, riscos e simulação para decisão (ponte estratégia–orçamento–capacidade).",
-                        tech: "Governança de IA (risco/vieses/auditoria), engenharia de decisões assistidas por software, gestão de maturidade tecnológica (TRL), critérios de adoção/escala.",
-                        topics: [
-                            "Planejamento Baseado em Capacidades (PBC) e priorização multicritério",
-                            "Aquisições, contratações e gestão do ciclo de vida",
-                            "Gestão de portfólio, métricas e avaliação ex ante/ex post",
-                            "Gestão de riscos institucionais e tecnológicos (compliance)",
-                            "Wargaming, simulação e modelagem para suporte decisório"
-                        ],
-                        researchers: [
-                            { name: "Ten Cel Pesquisador 1", role: "Pesquisador", bio: "Especialista em PBC e Gestão de Projetos." }
-                        ],
-                        ongoing: [],
-                        publications: []
+                        title: { pt: "Governança, Planejamento e Gestão de Capacidades", en: "Governance, Planning and Capability Management", es: "Gobernanza, Planificación y Gestión de Capacidades" },
+                        subtitle: { pt: "PBC, Portfólio e Riscos", en: "CBP, Portfolio and Risks", es: "PBC, Cartera y Riesgos" },
+                        focus: {
+                            pt: "PBC, portfólio, aquisições, ciclo de vida sob governança, riscos e simulação para decisão (ponte estratégia–orçamento–capacidade).",
+                            en: "CBP, portfolio, acquisitions, life cycle under governance, risks, and simulation for decision-making (strategy-budget-capability bridge).",
+                            es: "PBC, cartera, adquisiciones, ciclo de vida bajo gobernanza, riesgos y simulación para la decisión (puente estrategia-presupuesto-capacidad)."
+                        },
+                        tech: {
+                            pt: "Governança de IA, engenharia de decisões assistidas por software, gestão de maturidade tecnológica (TRL).",
+                            en: "AI Governance, software-assisted decision engineering, Technology Readiness Level (TRL) management.",
+                            es: "Gobernanza de IA, ingeniería de decisiones asistida por software, gestión de madurez tecnológica (TRL)."
+                        },
+                        topics: {
+                            pt: ["Planejamento Baseado em Capacidades (PBC)", "Aquisições e gestão do ciclo de vida", "Gestão de portfólio e métricas", "Gestão de riscos e compliance", "Wargaming e simulação"],
+                            en: ["Capability-Based Planning (CBP)", "Acquisitions and lifecycle management", "Portfolio management and metrics", "Risk management and compliance", "Wargaming and simulation"],
+                            es: ["Planificación Basada en Capacidades (PBC)", "Adquisiciones y gestión del ciclo de vida", "Gestión de cartera y métricas", "Gestión de riesgos y cumplimiento", "Juegos de guerra y simulación"]
+                        },
+                        researchers: [ { name: "Ten Cel Pesquisador 1", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Especialista em PBC.", en: "Specialist in CBP.", es: "Especialista en PBC." } } ],
+                        ongoing: [], publications: []
                     },
                     {
                         id: 2,
                         line: "A",
-                        title: "Capacidades, Logística, Mobilização e BID",
-                        subtitle: "Economia de Defesa e Prontidão",
                         icon: "fa-solid fa-industry",
-                        focus: "Prontidão e sustentação; mobilização e resiliência nacional; economia de defesa e BID como base de autonomia.",
-                        tech: "IA para manutenção preditiva, IoT/rastreabilidade, automação logística, manufatura aditiva, otimização avançada.",
-                        topics: [
-                            "Logística operacional, sustentação e prontidão (readiness)",
-                            "Manutenção, confiabilidade (RAM) e custo de prontidão",
-                            "Mobilização nacional e resiliência de cadeias críticas",
-                            "Economia de defesa, política industrial e inovação na BID",
-                            "Avaliação de políticas industriais e dependências externas"
-                        ],
-                        researchers: [
-                            { name: "Maj Pesquisador 2", role: "Pesquisador", bio: "Doutor em Logística Militar." }
-                        ],
-                        ongoing: [],
-                        publications: []
+                        title: { pt: "Capacidades, Logística, Mobilização e BID", en: "Capabilities, Logistics, Mobilization and DIB", es: "Capacidades, Logística, Movilización y BID" },
+                        subtitle: { pt: "Economia de Defesa e Prontidão", en: "Defense Economics and Readiness", es: "Economía de Defensa y Preparación" },
+                        focus: {
+                            pt: "Prontidão e sustentação; mobilização e resiliência nacional; economia de defesa e BID como base de autonomia.",
+                            en: "Readiness and sustainment; national mobilization and resilience; defense economics and DIB as a basis for autonomy.",
+                            es: "Preparación y sostenimiento; movilización y resiliencia nacional; economía de defensa y BID como base de autonomía."
+                        },
+                        tech: {
+                            pt: "IA para manutenção preditiva, IoT/rastreabilidade, automação logística, manufatura aditiva.",
+                            en: "AI for predictive maintenance, IoT/traceability, logistics automation, additive manufacturing.",
+                            es: "IA para mantenimiento predictivo, IoT/trazabilidad, automatización logística, manufactura aditiva."
+                        },
+                        topics: {
+                            pt: ["Logística operacional e prontidão", "Manutenção e confiabilidade (RAM)", "Mobilização nacional", "Economia de defesa e inovação", "Cadeias críticas"],
+                            en: ["Operational logistics and readiness", "Maintenance and reliability (RAM)", "National mobilization", "Defense economics and innovation", "Critical chains"],
+                            es: ["Logística operativa y preparación", "Mantenimiento y confiabilidad (RAM)", "Movilización nacional", "Economía de defensa e innovación", "Cadenas críticas"]
+                        },
+                        researchers: [ { name: "Maj Pesquisador 2", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Doutor em Logística.", en: "PhD in Logistics.", es: "Doctor en Logística." } } ],
+                        ongoing: [], publications: []
                     },
-
-                    // LINHA B - Estudo da Paz e Guerra
                     {
                         id: 3,
                         line: "B",
-                        title: "Operações, Doutrina e Superioridade Operacional",
-                        subtitle: "Multidomínio e Informacional",
                         icon: "fa-solid fa-person-military-pointing",
-                        focus: "Emprego da força, arte operacional, doutrina, C2 e superioridade operacional, incluindo componentes informacionais (ISR/GE/ciber) no nível operacional.",
-                        tech: "Sistemas autônomos e robótica, IA no apoio ao planejamento/consciência situacional, sensores avançados, edge computing, gêmeos digitais.",
-                        topics: [
-                            "Arte operacional, desenho de campanha e TTPs",
-                            "Operações conjuntas, interagências e multidomínio",
-                            "C2, ciclos decisórios e missão-comando",
-                            "Superioridade informacional: ISR/IVR, fusão de dados e GE",
-                            "Preparação, treinamento e lições aprendidas"
-                        ],
-                        researchers: [
-                            { name: "Cel Pesquisador 3", role: "Pesquisador", bio: "Especialista em Doutrina e Operações." }
-                        ],
-                        ongoing: [],
-                        publications: []
+                        title: { pt: "Operações, Doutrina e Superioridade Operacional", en: "Operations, Doctrine and Operational Superiority", es: "Operaciones, Doctrina y Superioridad Operacional" },
+                        subtitle: { pt: "Multidomínio e Informacional", en: "Multi-domain and Informational", es: "Multidominio e Informacional" },
+                        focus: {
+                            pt: "Emprego da força, arte operacional, doutrina, C2 e superioridade operacional (ISR/GE/ciber) no nível operacional.",
+                            en: "Use of force, operational art, doctrine, C2, and operational superiority (ISR/EW/cyber) at the operational level.",
+                            es: "Empleo de la fuerza, arte operacional, doctrina, C2 y superioridad operacional (ISR/GE/ciber) a nivel operacional."
+                        },
+                        tech: {
+                            pt: "Sistemas autônomos e robótica, IA no planejamento, sensores avançados, edge computing.",
+                            en: "Autonomous systems and robotics, AI in planning, advanced sensors, edge computing.",
+                            es: "Sistemas autónomos y robótica, IA en la planificación, sensores avanzados, computación perimetral."
+                        },
+                        topics: {
+                            pt: ["Arte operacional e desenho de campanha", "Operações conjuntas e multidomínio", "C2 e ciclos decisórios", "ISR, fusão de dados e GE", "Treinamento e lições aprendidas"],
+                            en: ["Operational art and campaign design", "Joint and multi-domain operations", "C2 and decision cycles", "ISR, data fusion and EW", "Training and lessons learned"],
+                            es: ["Arte operacional y diseño de campaña", "Operaciones conjuntas y multidominio", "C2 y ciclos de decisión", "ISR, fusión de datos y GE", "Entrenamiento y lecciones aprendidas"]
+                        },
+                        researchers: [], ongoing: [], publications: []
                     },
                     {
                         id: 4,
                         line: "B",
-                        title: "Estratégia, Geopolítica, Paz e Guerra",
-                        subtitle: "Dimensão Humana e Direito",
                         icon: "fa-solid fa-earth-americas",
-                        focus: "Compreender e formular estratégia; analisar poder nacional e cenários; estudar paz e conflito; legitimidade e dimensão humana.",
-                        tech: "Impactos estratégicos de tecnologias críticas (IA/ciber/espaço), governança ética de tecnologia em conflito, operações de informação.",
-                        topics: [
-                            "Estratégia, dissuasão e competição entre Estados",
-                            "Geopolítica aplicada, estudos regionais e cenários",
-                            "Estudos de paz e conflito (peace operations, estabilização)",
-                            "Dimensão humana: liderança e decisão sob estresse",
-                            "Ética militar e direito operacional (DICA/DIH)"
-                        ],
-                        researchers: [
-                            { name: "Ten Cel Pesquisador 4", role: "Pesquisador", bio: "Doutor em Ciência Política e Relações Internacionais." }
-                        ],
-                        ongoing: [],
-                        publications: []
+                        title: { pt: "Estratégia, Geopolítica, Paz e Guerra", en: "Strategy, Geopolitics, Peace and War", es: "Estrategia, Geopolítica, Paz y Guerra" },
+                        subtitle: { pt: "Dimensão Humana e Direito", en: "Human Dimension and Law", es: "Dimensión Humana y Derecho" },
+                        focus: {
+                            pt: "Compreender e formular estratégia; analisar poder nacional e cenários; estudar paz e conflito; legitimidade e dimensão humana.",
+                            en: "Understand and formulate strategy; analyze national power and scenarios; study peace and conflict; legitimacy and human dimension.",
+                            es: "Comprender y formular estrategia; analizar poder nacional y escenarios; estudiar paz y conflicto; legitimidad y dimensión humana."
+                        },
+                        tech: {
+                            pt: "Impactos estratégicos de tecnologias críticas (IA/ciber), governança ética, operações de informação.",
+                            en: "Strategic impacts of critical technologies (AI/cyber), ethical governance, information operations.",
+                            es: "Impactos estratégicos de tecnologías críticas (IA/ciber), gobernanza ética, operaciones de información."
+                        },
+                        topics: {
+                            pt: ["Estratégia e dissuasão", "Geopolítica e cenários", "Estudos de paz e conflito", "Liderança e dimensão humana", "Ética militar e direito operacional"],
+                            en: ["Strategy and deterrence", "Geopolitics and scenarios", "Peace and conflict studies", "Leadership and human dimension", "Military ethics and operational law"],
+                            es: ["Estrategia y disuasión", "Geopolítica y escenarios", "Estudios de paz y conflicto", "Liderazgo y dimensión humana", "Ética militar y derecho operacional"]
+                        },
+                        researchers: [], ongoing: [], publications: []
                     }
                 ]
             }
