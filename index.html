@@ -27,9 +27,8 @@
             background-color: #f9fafb;
         }
         
-        /* Transição suave para imagens */
-        .fade-img-enter-active, .fade-img-leave-active { transition: opacity 0.5s ease; }
-        .fade-img-enter, .fade-img-leave-to { opacity: 0; }
+        /* Ajuste para garantir que o mapa ocupe altura total no mobile */
+        .map-container iframe { width: 100%; height: 100%; min-height: 300px; border: 0; }
     </style>
 </head>
 
@@ -97,21 +96,16 @@
         <section class="bg-gray-100">
             <div class="container mx-auto px-0 md:px-6 py-6">
                 <div class="bg-white rounded shadow-lg overflow-hidden border border-gray-200">
-                    
                     <div class="relative h-[300px] md:h-[400px] overflow-hidden bg-gray-300">
                         <template x-for="(item, index) in news" :key="index">
                             <div x-show="activeSlide === index" 
                                  x-transition:enter="transition ease-in duration-500"
                                  x-transition:enter-start="opacity-0"
                                  x-transition:enter-end="opacity-100"
-                                 x-transition:leave="transition ease-out duration-500"
-                                 x-transition:leave-start="opacity-100"
-                                 x-transition:leave-end="opacity-0"
                                  class="absolute inset-0 bg-cover bg-center"
                                  :style="`background-image: url('${item.image}')`">
                             </div>
                         </template>
-                        
                         <button @click="prevSlide()" class="absolute left-0 h-full px-4 text-white hover:bg-black/30 transition"><i class="fa-solid fa-chevron-left text-3xl shadow-black drop-shadow-md"></i></button>
                         <button @click="nextSlide()" class="absolute right-0 h-full px-4 text-white hover:bg-black/30 transition"><i class="fa-solid fa-chevron-right text-3xl shadow-black drop-shadow-md"></i></button>
                     </div>
@@ -122,7 +116,6 @@
                                 <button @click="activeSlide = index" class="w-3 h-3 rounded-full border-2 border-eb-green transition-all" :class="activeSlide === index ? 'bg-eb-gold scale-125' : 'bg-white'"></button>
                             </template>
                         </div>
-
                         <template x-for="(item, index) in news" :key="index">
                             <div x-show="activeSlide === index">
                                 <span class="text-eb-gold font-bold text-xs uppercase tracking-widest mb-2 block" x-text="t[lang].news_label"></span>
@@ -140,19 +133,18 @@
                 <h2 class="text-2xl font-bold text-eb-green uppercase mb-12 border-b-2 border-eb-gold inline-block pb-2" x-text="t[lang].leadership_title"></h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                    
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-green">
-                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-green overflow-hidden shadow-sm">
-                            <i class="fa-solid fa-user text-5xl text-gray-400 mt-6"></i>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-green overflow-hidden shadow-sm flex items-center justify-center">
+                            <i class="fa-solid fa-user text-5xl text-gray-400"></i>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900" x-text="leadership.coord.name"></h3>
                         <p class="text-eb-gold font-bold text-xs uppercase tracking-widest mb-3" x-text="t[lang].coord_role"></p>
                         <a :href="leadership.coord.lattes" target="_blank" class="text-xs text-blue-700 hover:underline mt-auto border border-blue-200 px-3 py-1 rounded-full">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
                     </div>
-
+                    
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-gold">
-                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm">
-                            <i class="fa-solid fa-user text-5xl text-gray-400 mt-6"></i>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center">
+                            <i class="fa-solid fa-user text-5xl text-gray-400"></i>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900" x-text="leadership.subA.name"></h3>
                         <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3" x-text="t[lang].sub_a_role"></p>
@@ -160,14 +152,13 @@
                     </div>
 
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-gold">
-                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm">
-                            <i class="fa-solid fa-user text-5xl text-gray-400 mt-6"></i>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center">
+                            <i class="fa-solid fa-user text-5xl text-gray-400"></i>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900" x-text="leadership.subB.name"></h3>
                         <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3" x-text="t[lang].sub_b_role"></p>
                         <a :href="leadership.subB.lattes" target="_blank" class="text-xs text-blue-700 hover:underline mt-auto border border-blue-200 px-3 py-1 rounded-full">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
                     </div>
-
                 </div>
             </div>
         </section>
@@ -181,7 +172,6 @@
             </div>
 
             <div class="container mx-auto px-6 max-w-6xl">
-                
                 <div class="mb-16">
                     <div class="flex items-center mb-6 border-b border-gray-300 pb-2">
                         <div class="h-8 w-1 bg-eb-gold mr-4"></div>
@@ -272,22 +262,32 @@
             <h2 class="text-3xl font-bold uppercase" x-text="t[lang].contact_title"></h2>
         </header>
 
-        <div class="container mx-auto px-6 py-12 max-w-4xl">
+        <div class="container mx-auto px-6 py-12 max-w-6xl">
             <div class="bg-white shadow rounded p-8 border-t-4 border-eb-green grid md:grid-cols-2 gap-12">
                 <div>
                     <h3 class="text-xl font-bold text-eb-green mb-6 uppercase" x-text="t[lang].contact_info"></h3>
-                    <div class="space-y-4 text-gray-700">
-                        <p class="flex items-start"><i class="fa-solid fa-location-dot mt-1 mr-3 text-eb-gold"></i> <span>Praia Vermelha<br>Urca, Rio de Janeiro - RJ<br>CEP: 22290-270</span></p>
-                        <p class="flex items-center"><i class="fa-solid fa-envelope mr-3 text-eb-gold"></i> lcm.dppg@eceme.eb.mil.br</p>
-                        <p class="flex items-center"><i class="fa-solid fa-phone mr-3 text-eb-gold"></i> (21) 3543-3456</p>
+                    <div class="space-y-6 text-gray-700">
+                        <div class="flex items-start">
+                            <i class="fa-solid fa-location-dot mt-1 mr-4 text-eb-gold text-xl"></i>
+                            <span>
+                                <strong>Escola de Comando e Estado-Maior do Exército</strong><br>
+                                Praça Gen. Tibúrcio, 125<br>
+                                Praia Vermelha - Urca<br>
+                                Rio de Janeiro - RJ, 22290-270
+                            </span>
+                        </div>
+                        <p class="flex items-center"><i class="fa-solid fa-envelope mr-4 text-eb-gold text-xl"></i> lcm.dppg@eceme.eb.mil.br</p>
+                        <p class="flex items-center"><i class="fa-solid fa-phone mr-4 text-eb-gold text-xl"></i> (21) 3543-3456</p>
                     </div>
                 </div>
-                <div>
-                     <h3 class="text-xl font-bold text-eb-green mb-6 uppercase" x-text="t[lang].contact_map"></h3>
-                     <div class="bg-gray-200 w-full h-48 rounded flex items-center justify-center text-gray-500">
-                        <i class="fa-solid fa-map text-4xl"></i>
-                     </div>
-                     <button class="w-full mt-4 bg-eb-gold text-white py-2 font-bold uppercase hover:bg-yellow-600 transition" x-text="t[lang].contact_button"></button>
+                
+                <div class="map-container rounded overflow-hidden shadow-lg border border-gray-300 bg-gray-100 h-96">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3674.5661601614725!2d-43.16489368441829!3d-22.95415794443916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x99801ca4795e1d%3A0x6331893952541a8!2sEscola%20de%20Comando%20e%20Estado-Maior%20do%20Ex%C3%A9rcito!5e0!3m2!1spt-BR!2sbr!4v1705680000000!5m2!1spt-BR!2sbr" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
                 </div>
             </div>
         </div>
@@ -322,24 +322,27 @@
             </div>
         </div>
 
-        <div class="container mx-auto px-6 py-10 max-w-5xl">
+        <div class="container mx-auto px-6 py-10 max-w-6xl">
             <div x-show="tab === 'sobre'" x-transition.opacity>
                 <div class="bg-white p-8 rounded shadow-sm border-t-4 border-eb-green mb-8">
-                    <div class="mb-8">
+                    <div class="mb-10">
                         <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-crosshairs text-eb-gold mr-3"></i> <span x-text="t[lang].label_focus"></span></h3>
                         <p class="text-gray-700 italic border-l-4 border-eb-gold pl-4 leading-relaxed text-lg" x-text="activeArea.focus[lang]"></p>
                     </div>
-                    <div class="mb-8">
+                    
+                    <div class="mb-10">
                         <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-list-check text-eb-gold mr-3"></i> <span x-text="t[lang].label_topics"></span></h3>
-                        <ul class="grid md:grid-cols-1 gap-3">
+                        
+                        <div class="grid md:grid-cols-2 gap-x-12 gap-y-3">
                             <template x-for="topic in activeArea.topics[lang]">
-                                <li class="flex items-start p-2 hover:bg-gray-50 rounded transition">
-                                    <i class="fa-solid fa-check text-eb-green mt-1 mr-3 flex-shrink-0"></i>
-                                    <span class="text-gray-800" x-text="topic"></span>
+                                <li class="flex items-start p-2 border-b border-gray-100 last:border-0">
+                                    <i class="fa-solid fa-check text-eb-green mt-1 mr-3 flex-shrink-0 text-xs"></i>
+                                    <span class="text-gray-800 text-sm leading-snug" x-text="topic"></span>
                                 </li>
                             </template>
-                        </ul>
+                        </div>
                     </div>
+
                     <div class="bg-gray-50 p-6 rounded border border-gray-200">
                         <h3 class="text-lg font-bold text-eb-green mb-3 uppercase flex items-center"><i class="fa-solid fa-microchip text-eb-gold mr-3"></i> <span x-text="t[lang].label_tech"></span></h3>
                         <p class="text-sm text-gray-700 leading-relaxed" x-text="activeArea.tech[lang]"></p>
@@ -364,7 +367,7 @@
                     </template>
                 </div>
             </div>
-
+            
             <div x-show="tab === 'andamento'" x-transition.opacity>
                  <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
                     <table class="w-full text-left">
@@ -412,9 +415,9 @@
             </div>
             
             <div class="flex space-x-6 text-2xl">
-                <a href="https://linkedin.com/company/lcm-eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="https://instagram.com/lcm.eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
-                <a href="https://youtube.com/channel/lcm-eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
             </div>
 
             <div class="text-center md:text-right mt-6 md:mt-0">
@@ -460,9 +463,9 @@
                 ],
 
                 leadership: {
-                    coord: { name: "Cel Coordenador Nome", lattes: "http://lattes.cnpq.br/exemplo" },
-                    subA: { name: "Ten Cel Subcoordenador A", lattes: "http://lattes.cnpq.br/exemplo" },
-                    subB: { name: "Ten Cel Subcoordenador B", lattes: "http://lattes.cnpq.br/exemplo" }
+                    coord: { name: "Cel Coordenador Nome", lattes: "#" },
+                    subA: { name: "Ten Cel Subcoordenador A", lattes: "#" },
+                    subB: { name: "Ten Cel Subcoordenador B", lattes: "#" }
                 },
 
                 courses: [
@@ -550,38 +553,82 @@
                         id: 1, line: "A", icon: "fa-solid fa-diagram-project",
                         title: { pt: "Governança, Planejamento e Gestão de Capacidades", en: "Governance, Planning and Capability Management", es: "Gobernanza, Planificación y Gestión de Capacidades" },
                         subtitle: { pt: "PBC, Portfólio e Riscos", en: "CBP, Portfolio and Risks", es: "PBC, Cartera y Riesgos" },
-                        focus: { pt: "PBC, portfólio, aquisições, ciclo de vida sob governança...", en: "CBP, portfolio, acquisitions...", es: "PBC, cartera, adquisiciones..." },
-                        tech: { pt: "Governança de IA, engenharia de decisões assistidas por software...", en: "AI Governance, software-assisted decision engineering...", es: "Gobernanza de IA..." },
-                        topics: { pt: ["Planejamento Baseado em Capacidades (PBC)", "Aquisições", "Gestão de riscos"], en: ["CBP", "Acquisitions", "Risk Management"], es: ["PBC", "Adquisiciones", "Gestión de Riesgos"] },
-                        researchers: [ { name: "Ten Cel Pesquisador 1", lattes: "http://lattes.cnpq.br/exemplo", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Especialista em PBC.", en: "Specialist in CBP.", es: "Especialista en PBC." } } ],
+                        focus: { pt: "PBC, portfólio, aquisições, ciclo de vida sob governança, riscos e simulação para decisão.", en: "CBP, portfolio, acquisitions, life cycle under governance, risks and simulation.", es: "PBC, cartera, adquisiciones, ciclo de vida bajo gobernanza, riesgos y simulación." },
+                        tech: { pt: "Governança de IA, engenharia de decisões assistidas por software, gestão de maturidade tecnológica (TRL).", en: "AI Governance, software-assisted decision engineering, TRL management.", es: "Gobernanza de IA, ingeniería de decisiones asistida por software, TRL." },
+                        topics: { 
+                            pt: [
+                                "Planejamento Baseado em Capacidades (PBC)", "Priorização Multicritério", 
+                                "Aquisições de Defesa", "Gestão do Ciclo de Vida (PLM)", 
+                                "Gestão de Portfólio Estratégico", "Value for Money e Eficiência", 
+                                "Gestão de Riscos Tecnológicos", "Compliance e Integridade", 
+                                "Wargaming Analítico", "Simulação Construtiva para Decisão",
+                                "Modelagem de Força", "Racionalização Administrativa"
+                            ],
+                            en: ["Capability-Based Planning", "Multi-criteria Prioritization", "Defense Acquisitions", "PLM", "Strategic Portfolio", "Value for Money", "Tech Risk Management", "Compliance", "Analytical Wargaming", "Constructive Simulation", "Force Modeling", "Admin Rationalization"],
+                            es: ["Planificación Basada en Capacidades", "Priorización Multicriterio", "Adquisiciones de Defensa", "PLM", "Cartera Estratégica", "Valor por Dinero", "Gestión de Riesgos", "Cumplimiento", "Wargaming Analítico", "Simulación Constructiva", "Modelado de Fuerza", "Racionalización Admin"]
+                        },
+                        researchers: [ { name: "Ten Cel Pesquisador 1", lattes: "#", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Especialista em PBC.", en: "Specialist in CBP.", es: "Especialista en PBC." } } ],
                         ongoing: [], publications: []
                     },
                     {
                         id: 2, line: "A", icon: "fa-solid fa-industry",
                         title: { pt: "Capacidades, Logística, Mobilização e BID", en: "Capabilities, Logistics, Mobilization and DIB", es: "Capacidades, Logística, Movilización y BID" },
                         subtitle: { pt: "Economia de Defesa e Prontidão", en: "Defense Economics and Readiness", es: "Economía de Defensa y Preparación" },
-                        focus: { pt: "Prontidão e sustentação; mobilização e resiliência nacional...", en: "Readiness and sustainment...", es: "Preparación y sostenimiento..." },
-                        tech: { pt: "IA para manutenção preditiva, IoT...", en: "Predictive maintenance AI...", es: "IA para mantenimiento predictivo..." },
-                        topics: { pt: ["Logística operacional", "Manutenção (RAM)", "BID"], en: ["Operational logistics", "RAM", "DIB"], es: ["Logística operativa", "RAM", "BID"] },
-                        researchers: [ { name: "Maj Pesquisador 2", lattes: "http://lattes.cnpq.br/exemplo", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Doutor em Logística.", en: "PhD in Logistics.", es: "Doctor en Logística." } } ],
+                        focus: { pt: "Prontidão e sustentação; mobilização e resiliência nacional; economia de defesa e BID como base de autonomia.", en: "Readiness and sustainment; national mobilization and resilience; defense economics and DIB.", es: "Preparación y sostenimiento; movilización y resiliencia nacional; economía de defensa y BID." },
+                        tech: { pt: "IA para manutenção preditiva, IoT/rastreabilidade, automação logística, manufatura aditiva.", en: "Predictive maintenance AI, IoT, logistics automation, additive manufacturing.", es: "IA para mantenimiento predictivo, IoT, automatización logística." },
+                        topics: { 
+                            pt: [
+                                "Logística Operacional e Sustentação", "Prontidão Logística (Readiness)", 
+                                "Manutenção e Confiabilidade (RAM)", "Gestão de Estoques Estratégicos", 
+                                "Mobilização Nacional e Industrial", "Resiliência de Cadeias Críticas", 
+                                "Economia de Defesa e Orçamento", "Base Industrial de Defesa (BID)", 
+                                "Política Industrial e Inovação", "Tecnologia Dual (Dual-Use)",
+                                "Dependências Externas", "Sistemas Autônomos na Logística"
+                            ],
+                            en: ["Operational Logistics", "Logistics Readiness", "RAM", "Strategic Stocks", "National Mobilization", "Supply Chain Resilience", "Defense Economics", "Defense Industrial Base", "Industrial Policy", "Dual-Use Tech", "External Dependencies", "Autonomous Logistics"],
+                            es: ["Logística Operativa", "Preparación Logística", "RAM", "Existencias Estratégicas", "Movilización Nacional", "Resiliencia de Cadenas", "Economía de Defensa", "Base Industrial de Defensa", "Política Industrial", "Tecnología Dual", "Dependencias Externas", "Logística Autónoma"]
+                        },
+                        researchers: [ { name: "Maj Pesquisador 2", lattes: "#", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Doutor em Logística.", en: "PhD in Logistics.", es: "Doctor en Logística." } } ],
                         ongoing: [], publications: []
                     },
                     {
                         id: 3, line: "B", icon: "fa-solid fa-person-military-pointing",
                         title: { pt: "Operações, Doutrina e Superioridade Operacional", en: "Operations, Doctrine and Operational Superiority", es: "Operaciones, Doctrina y Superioridad Operacional" },
                         subtitle: { pt: "Multidomínio e Informacional", en: "Multi-domain and Informational", es: "Multidominio e Informacional" },
-                        focus: { pt: "Emprego da força, arte operacional, doutrina, C2...", en: "Use of force, operational art...", es: "Empleo de la fuerza..." },
-                        tech: { pt: "Sistemas autônomos e robótica, IA no planejamento...", en: "Autonomous systems...", es: "Sistemas autónomos..." },
-                        topics: { pt: ["Arte operacional", "Multidomínio", "C2"], en: ["Operational art", "Multi-domain", "C2"], es: ["Arte operacional", "Multidominio", "C2"] },
+                        focus: { pt: "Emprego da força, arte operacional, doutrina, C2 e superioridade operacional (ISR/GE/ciber) no nível operacional.", en: "Use of force, operational art, doctrine, C2, ISR/EW/cyber at operational level.", es: "Empleo de la fuerza, arte operacional, doctrina, C2, ISR/GE/ciber a nivel operacional." },
+                        tech: { pt: "Sistemas autônomos e robótica, IA no planejamento, sensores avançados, edge computing.", en: "Autonomous systems, AI planning, advanced sensors, edge computing.", es: "Sistemas autónomos, IA en planificación, sensores avanzados." },
+                        topics: { 
+                            pt: [
+                                "Arte Operacional e Desenho de Campanha", "Doutrina Militar Terrestre", 
+                                "Operações Conjuntas e Interagências", "Operações Multidomínio (MDO)", 
+                                "Comando e Controle (C2)", "Ciclo Decisório (OODA)", 
+                                "Inteligência, Vigilância e Reconhecimento (ISR)", "Guerra Eletrônica Tática/Operacional", 
+                                "Ciberespaço no Nível Tático", "Combate em Ambiente Urbano", 
+                                "Guerra de Selva e Ambientes Complexos", "Simulação Viva, Virtual e Construtiva"
+                            ],
+                            en: ["Operational Art", "Land Doctrine", "Joint Operations", "Multi-Domain Operations", "Command and Control", "Decision Cycle", "ISR", "Tactical EW", "Tactical Cyber", "Urban Combat", "Jungle Warfare", "LVC Simulation"],
+                            es: ["Arte Operacional", "Doctrina Terrestre", "Operaciones Conjuntas", "Operaciones Multidominio", "Mando y Control", "Ciclo de Decisión", "ISR", "Guerra Electrónica", "Ciberespacio Táctico", "Combate Urbano", "Guerra de Selva", "Simulación LVC"]
+                        },
                         researchers: [], ongoing: [], publications: []
                     },
                     {
                         id: 4, line: "B", icon: "fa-solid fa-earth-americas",
                         title: { pt: "Estratégia, Geopolítica, Paz e Guerra", en: "Strategy, Geopolitics, Peace and War", es: "Estrategia, Geopolítica, Paz y Guerra" },
                         subtitle: { pt: "Dimensão Humana e Direito", en: "Human Dimension and Law", es: "Dimensión Humana y Derecho" },
-                        focus: { pt: "Compreender e formular estratégia; analisar poder nacional...", en: "Understand and formulate strategy...", es: "Comprender y formular estrategia..." },
-                        tech: { pt: "Impactos estratégicos de tecnologias críticas...", en: "Strategic impacts...", es: "Impactos estratégicos..." },
-                        topics: { pt: ["Estratégia", "Geopolítica", "Direito Operacional"], en: ["Strategy", "Geopolitics", "Operational Law"], es: ["Estrategia", "Geopolítica", "Derecho Operacional"] },
+                        focus: { pt: "Estratégia, poder nacional, cenários, paz e conflito, legitimidade e dimensão humana.", en: "Strategy, national power, scenarios, peace/conflict, legitimacy, human dimension.", es: "Estrategia, poder nacional, escenarios, paz/conflicto, legitimidad, dimensión humana." },
+                        tech: { pt: "Impactos estratégicos de tecnologias críticas (IA/ciber), governança ética, operações de informação.", en: "Strategic impacts of tech, ethical governance, info ops.", es: "Impactos estratégicos de tec, gobernanza ética, ops de información." },
+                        topics: { 
+                            pt: [
+                                "Pensamento Estratégico Militar", "Geopolítica e Estudos Regionais", 
+                                "Poder Nacional e Dissuasão", "Cenários Prospectivos e Early Warning", 
+                                "Estudos de Paz e Estabilização", "Guerra Híbrida e Zona Cinza", 
+                                "Dimensão Humana e Liderança", "Tomada de Decisão sob Estresse", 
+                                "Ética Militar e Profissionalismo", "Direito Internacional dos Conflitos Armados", 
+                                "Operações de Informação Estratégica", "Comunicação Estratégica"
+                            ],
+                            en: ["Strategic Thinking", "Geopolitics", "National Power", "Foresight/Scenarios", "Peace Studies", "Hybrid Warfare", "Human Dimension", "Decision under Stress", "Military Ethics", "LOAC/IHL", "Strategic Info Ops", "Strategic Comms"],
+                            es: ["Pensamiento Estratégico", "Geopolítica", "Poder Nacional", "Escenarios", "Estudios de Paz", "Guerra Híbrida", "Dimensión Humana", "Decisión bajo Estrés", "Ética Militar", "DICA", "Ops de Información", "Comms Estratégicas"]
+                        },
                         researchers: [], ongoing: [], publications: []
                     }
                 ]
