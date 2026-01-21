@@ -27,7 +27,7 @@
             background-color: #f9fafb;
         }
         
-        /* Ajuste para garantir que o mapa ocupe altura total no mobile */
+        /* Mapa responsivo */
         .map-container iframe { width: 100%; height: 100%; min-height: 300px; border: 0; }
     </style>
 </head>
@@ -38,7 +38,6 @@
         <div class="container mx-auto px-4 py-3">
             
             <div class="flex justify-between items-center">
-                
                 <div class="flex items-center space-x-4 cursor-pointer" @click="view = 'home'">
                     <img src="brasao-lcm.png" alt="LCM" class="h-12 w-auto bg-white rounded-full p-0.5 object-contain">
                     <div class="hidden md:block leading-tight">
@@ -48,12 +47,10 @@
                 </div>
 
                 <div class="flex items-center space-x-4">
-                    
                     <div class="relative hidden md:block">
                         <input type="text" x-model="searchQuery" :placeholder="t[lang].search_placeholder" 
                                class="bg-green-900 text-white text-sm rounded-full px-4 py-1.5 focus:outline-none focus:ring-1 focus:ring-eb-gold w-48 border border-green-800">
                         <i class="fa-solid fa-magnifying-glass absolute right-3 top-2 text-gray-400 text-xs"></i>
-                        
                         <div x-show="searchQuery.length > 0" @click.away="searchQuery = ''" class="absolute top-10 right-0 w-80 bg-white text-gray-800 shadow-2xl rounded border border-gray-200 z-50 overflow-hidden" x-cloak>
                             <template x-for="result in searchResults" :key="result.id">
                                 <div @click="openSubarea(result); searchQuery = ''" class="p-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-0">
@@ -64,13 +61,11 @@
                             <div x-show="searchResults.length === 0" class="p-3 text-sm text-gray-500 italic"><span x-text="t[lang].no_results"></span></div>
                         </div>
                     </div>
-
                     <div class="flex space-x-2">
                         <button @click="lang = 'pt'" class="opacity-70 hover:opacity-100 transition hover:scale-110"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm"></button>
                         <button @click="lang = 'en'" class="opacity-70 hover:opacity-100 transition hover:scale-110"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm"></button>
                         <button @click="lang = 'es'" class="opacity-70 hover:opacity-100 transition hover:scale-110"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm"></button>
                     </div>
-
                     <button class="md:hidden text-2xl" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars"></i></button>
                 </div>
             </div>
@@ -133,12 +128,13 @@
                 <h2 class="text-2xl font-bold text-eb-green uppercase mb-12 border-b-2 border-eb-gold inline-block pb-2" x-text="t[lang].leadership_title"></h2>
                 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+                    
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-green">
                         <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-green overflow-hidden shadow-sm flex items-center justify-center">
                             <i class="fa-solid fa-user text-5xl text-gray-400"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900" x-text="leadership.coord.name"></h3>
-                        <p class="text-eb-gold font-bold text-xs uppercase tracking-widest mb-3" x-text="t[lang].coord_role"></p>
+                        <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.coord.name"></h3>
+                        <p class="text-eb-gold font-bold text-xs uppercase tracking-widest mb-3 mt-2" x-text="t[lang].coord_role"></p>
                         <a :href="leadership.coord.lattes" target="_blank" class="text-xs text-blue-700 hover:underline mt-auto border border-blue-200 px-3 py-1 rounded-full">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
                     </div>
                     
@@ -146,8 +142,8 @@
                         <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center">
                             <i class="fa-solid fa-user text-5xl text-gray-400"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900" x-text="leadership.subA.name"></h3>
-                        <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3" x-text="t[lang].sub_a_role"></p>
+                        <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.subA.name"></h3>
+                        <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3 mt-2" x-text="t[lang].sub_a_role"></p>
                         <a :href="leadership.subA.lattes" target="_blank" class="text-xs text-blue-700 hover:underline mt-auto border border-blue-200 px-3 py-1 rounded-full">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
                     </div>
 
@@ -155,8 +151,8 @@
                         <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center">
                             <i class="fa-solid fa-user text-5xl text-gray-400"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-gray-900" x-text="leadership.subB.name"></h3>
-                        <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3" x-text="t[lang].sub_b_role"></p>
+                        <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.subB.name"></h3>
+                        <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3 mt-2" x-text="t[lang].sub_b_role"></p>
                         <a :href="leadership.subB.lattes" target="_blank" class="text-xs text-blue-700 hover:underline mt-auto border border-blue-200 px-3 py-1 rounded-full">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
                     </div>
                 </div>
@@ -170,7 +166,6 @@
                 <h2 class="text-3xl font-bold text-eb-green uppercase" x-text="t[lang].structure_title"></h2>
                 <p class="text-gray-500 mt-2 italic" x-text="t[lang].structure_subtitle"></p>
             </div>
-
             <div class="container mx-auto px-6 max-w-6xl">
                 <div class="mb-16">
                     <div class="flex items-center mb-6 border-b border-gray-300 pb-2">
@@ -194,7 +189,6 @@
                         </template>
                     </div>
                 </div>
-
                 <div>
                     <div class="flex items-center mb-6 border-b border-gray-300 pb-2">
                         <div class="h-8 w-1 bg-eb-gold mr-4"></div>
@@ -280,10 +274,9 @@
                         <p class="flex items-center"><i class="fa-solid fa-phone mr-4 text-eb-gold text-xl"></i> (21) 3543-3456</p>
                     </div>
                 </div>
-                
                 <div class="map-container rounded overflow-hidden shadow-lg border border-gray-300 bg-gray-100 h-96">
                     <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3674.5661601614725!2d-43.16489368441829!3d-22.95415794443916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x99801ca4795e1d%3A0x6331893952541a8!2sEscola%20de%20Comando%20e%20Estado-Maior%20do%20Ex%C3%A9rcito!5e0!3m2!1spt-BR!2sbr!4v1705680000000!5m2!1spt-BR!2sbr" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3674.6044390647317!2d-43.16548772396489!3d-22.95270177922245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9980203007994b%3A0x6b8764e55e5b3211!2sEscola%20de%20Comando%20e%20Estado-Maior%20do%20Ex%C3%A9rcito%20(ECEME)!5e0!3m2!1spt-BR!2sbr!4v1709560000000!5m2!1spt-BR!2sbr" 
                         allowfullscreen="" 
                         loading="lazy" 
                         referrerpolicy="no-referrer-when-downgrade">
@@ -329,10 +322,8 @@
                         <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-crosshairs text-eb-gold mr-3"></i> <span x-text="t[lang].label_focus"></span></h3>
                         <p class="text-gray-700 italic border-l-4 border-eb-gold pl-4 leading-relaxed text-lg" x-text="activeArea.focus[lang]"></p>
                     </div>
-                    
                     <div class="mb-10">
                         <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-list-check text-eb-gold mr-3"></i> <span x-text="t[lang].label_topics"></span></h3>
-                        
                         <div class="grid md:grid-cols-2 gap-x-12 gap-y-3">
                             <template x-for="topic in activeArea.topics[lang]">
                                 <li class="flex items-start p-2 border-b border-gray-100 last:border-0">
@@ -342,7 +333,6 @@
                             </template>
                         </div>
                     </div>
-
                     <div class="bg-gray-50 p-6 rounded border border-gray-200">
                         <h3 class="text-lg font-bold text-eb-green mb-3 uppercase flex items-center"><i class="fa-solid fa-microchip text-eb-gold mr-3"></i> <span x-text="t[lang].label_tech"></span></h3>
                         <p class="text-sm text-gray-700 leading-relaxed" x-text="activeArea.tech[lang]"></p>
@@ -415,9 +405,9 @@
             </div>
             
             <div class="flex space-x-6 text-2xl">
-                <a href="#" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="#" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
+                <a href="https://linkedin.com/company/lcm-eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://instagram.com/lcm.eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://youtube.com/channel/lcm-eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
             </div>
 
             <div class="text-center md:text-right mt-6 md:mt-0">
@@ -462,10 +452,20 @@
                     }
                 ],
 
+                // --- DADOS DA LIDERANÇA ATUALIZADOS ---
                 leadership: {
-                    coord: { name: "Cel Migon - Coordenador", lattes: "http://lattes.cnpq.br/0133876688289429" },
-                    subA: { name: "Ten Cel Grigoli - Subcoordenador Gestão de Defesa", lattes: "http://lattes.cnpq.br/4082666910942025" },
-                    subB: { name: "Ten Cel Josias - Subcoordenador Estudos da Paz e da Guerra", lattes: "http://lattes.cnpq.br/9949858368400382" }
+                    coord: { 
+                        name: "Eduardo Xavier Ferreira Glaser Migon", 
+                        lattes: "http://lattes.cnpq.br/0133876688289429" 
+                    },
+                    subA: { 
+                        name: "Guilherme de Araujo Grigoli", 
+                        lattes: "http://lattes.cnpq.br/4082666910942025" 
+                    },
+                    subB: { 
+                        name: "Josias Marcos de Resende Silva", 
+                        lattes: "http://lattes.cnpq.br/9949858368400382" 
+                    }
                 },
 
                 courses: [
@@ -483,7 +483,12 @@
                         header_lcm_full: "Laboratório de Ciências Militares", header_eceme_full: "Escola de Comando e Estado-Maior do Exército",
                         nav_home: "Início", nav_research: "Linhas de Pesquisa", nav_contact: "Contato", nav_courses: "Cursos e Eventos",
                         news_label: "Destaque",
-                        leadership_title: "Coordenação LCM", coord_role: "Coordenador Geral", sub_a_role: "Subcoord. Linha A", sub_b_role: "Subcoord. Linha B",
+                        leadership_title: "Coordenação LCM", 
+                        // NOVOS TÍTULOS DE COORDENAÇÃO
+                        coord_role: "Coordenador Geral", 
+                        sub_a_role: "Coordenador da Linha de Pesquisa GD", 
+                        sub_b_role: "Coordenador da Linha de Pesquisa EPG",
+                        
                         line_a_label: "Linha A — Gestão de Defesa", line_b_label: "Linha B — Estudo da Paz e Guerra",
                         structure_title: "Estrutura de Pesquisa", structure_subtitle: "Selecione uma subárea para detalhes",
                         access_area: "ACESSAR ÁREA", back_research: "Voltar para Linhas de Pesquisa",
@@ -499,7 +504,11 @@
                         header_lcm_full: "Military Sciences Laboratory", header_eceme_full: "Army Command and General Staff School",
                         nav_home: "Home", nav_research: "Research Lines", nav_contact: "Contact", nav_courses: "Courses & Events",
                         news_label: "Featured",
-                        leadership_title: "LCM Coordination", coord_role: "General Coordinator", sub_a_role: "Sub-coord. Line A", sub_b_role: "Sub-coord. Line B",
+                        leadership_title: "LCM Coordination", 
+                        coord_role: "General Coordinator", 
+                        sub_a_role: "GD Research Line Coordinator", 
+                        sub_b_role: "EPG Research Line Coordinator",
+                        
                         line_a_label: "Line A — Defense Management", line_b_label: "Line B — Peace and War Studies",
                         structure_title: "Research Structure", structure_subtitle: "Select a subarea for details",
                         access_area: "ACCESS AREA", back_research: "Back to Research Lines",
@@ -515,7 +524,11 @@
                         header_lcm_full: "Laboratorio de Ciencias Militares", header_eceme_full: "Escuela de Comando y Estado Mayor del Ejército",
                         nav_home: "Inicio", nav_research: "Líneas de Investigación", nav_contact: "Contacto", nav_courses: "Cursos y Eventos",
                         news_label: "Destacado",
-                        leadership_title: "Coordinación LCM", coord_role: "Coordinador General", sub_a_role: "Subcoord. Línea A", sub_b_role: "Subcoord. Línea B",
+                        leadership_title: "Coordinación LCM", 
+                        coord_role: "Coordinador General", 
+                        sub_a_role: "Coordinador de Línea de Inv. GD", 
+                        sub_b_role: "Coordinador de Línea de Inv. EPG",
+                        
                         line_a_label: "Línea A — Gestión de Defensa", line_b_label: "Línea B — Estudios de Paz y Guerra",
                         structure_title: "Estructura de Investigación", structure_subtitle: "Seleccione una subárea para detalles",
                         access_area: "ACCEDER ÁREA", back_research: "Volver a Líneas de Investigación",
@@ -637,5 +650,3 @@
     </script>
 </body>
 </html>
-
-
