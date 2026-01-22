@@ -27,6 +27,7 @@
             background-color: #f9fafb;
         }
         
+        /* Mapa responsivo */
         .map-container iframe { width: 100%; height: 100%; min-height: 300px; border: 0; }
     </style>
 </head>
@@ -127,9 +128,13 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                     
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-green">
-                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-green overflow-hidden shadow-sm flex items-center justify-center relative">
-                            <img x-show="leadership.coord.photo" :src="leadership.coord.photo" class="w-full h-full object-cover object-top" alt="Foto">
-                            <i x-show="!leadership.coord.photo" class="fa-solid fa-user text-5xl text-gray-400"></i>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-green overflow-hidden shadow-sm flex items-center justify-center relative bg-gray-100">
+                            <template x-if="leadership.coord.photo">
+                                <img :src="leadership.coord.photo" class="w-full h-full object-cover object-top" alt="Foto">
+                            </template>
+                            <template x-if="!leadership.coord.photo">
+                                <i class="fa-solid fa-user text-5xl text-gray-400"></i>
+                            </template>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.coord.name"></h3>
                         <p class="text-eb-gold font-bold text-xs uppercase tracking-widest mb-3 mt-2" x-text="t[lang].coord_role"></p>
@@ -137,9 +142,13 @@
                     </div>
                     
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-gold">
-                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center relative">
-                            <img x-show="leadership.subA.photo" :src="leadership.subA.photo" class="w-full h-full object-cover object-top" alt="Foto Grigoli">
-                            <i x-show="!leadership.subA.photo" class="fa-solid fa-user text-5xl text-gray-400"></i>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center relative bg-gray-100">
+                            <template x-if="leadership.subA.photo">
+                                <img :src="leadership.subA.photo" class="w-full h-full object-cover object-top" alt="Foto Grigoli">
+                            </template>
+                            <template x-if="!leadership.subA.photo">
+                                <i class="fa-solid fa-user text-5xl text-gray-400"></i>
+                            </template>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.subA.name"></h3>
                         <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3 mt-2" x-text="t[lang].sub_a_role"></p>
@@ -147,9 +156,13 @@
                     </div>
 
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-gold">
-                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center relative">
-                             <img x-show="leadership.subB.photo" :src="leadership.subB.photo" class="w-full h-full object-cover object-top" alt="Foto Josias">
-                             <i x-show="!leadership.subB.photo" class="fa-solid fa-user text-5xl text-gray-400"></i>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center relative bg-gray-100">
+                             <template x-if="leadership.subB.photo">
+                                <img :src="leadership.subB.photo" class="w-full h-full object-cover object-top" alt="Foto Josias">
+                            </template>
+                            <template x-if="!leadership.subB.photo">
+                                <i class="fa-solid fa-user text-5xl text-gray-400"></i>
+                            </template>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.subB.name"></h3>
                         <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3 mt-2" x-text="t[lang].sub_b_role"></p>
@@ -339,9 +352,18 @@
                 <div class="grid md:grid-cols-2 gap-6">
                     <template x-for="researcher in activeArea.researchers">
                         <div class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md transition flex items-start">
-                            <div class="w-16 h-16 bg-eb-green rounded-full flex-shrink-0 flex items-center justify-center text-white font-bold text-lg mr-4">
-                                <span x-text="getInitials(researcher.name)"></span>
+                            
+                            <div class="w-16 h-16 bg-gray-200 rounded-full flex-shrink-0 overflow-hidden mr-4 relative border-2 border-eb-green">
+                                <template x-if="researcher.photo">
+                                    <img :src="researcher.photo" class="w-full h-full object-cover object-top" alt="Foto">
+                                </template>
+                                <template x-if="!researcher.photo">
+                                    <div class="w-full h-full bg-eb-green flex items-center justify-center text-white font-bold text-lg">
+                                        <span x-text="getInitials(researcher.name)"></span>
+                                    </div>
+                                </template>
                             </div>
+
                             <div>
                                 <h4 class="font-bold text-eb-green" x-text="researcher.name"></h4>
                                 <p class="text-xs text-eb-gold uppercase font-bold tracking-widest mb-2" x-text="researcher.role[lang]"></p>
@@ -350,6 +372,9 @@
                             </div>
                         </div>
                     </template>
+                    <div x-show="activeArea.researchers.length === 0" class="col-span-2 text-center text-gray-500 italic p-8">
+                         <span x-text="t[lang].no_data"></span>
+                    </div>
                 </div>
             </div>
             
@@ -447,22 +472,22 @@
                     }
                 ],
 
-                // --- DADOS DA LIDERANÇA ATUALIZADOS ---
+                // --- DADOS DA LIDERANÇA ---
                 leadership: {
                     coord: { 
                         name: "Eduardo Xavier Ferreira Glaser Migon", 
                         lattes: "http://lattes.cnpq.br/0133876688289429",
-                        photo: null // Sem foto solicitada, mantém null para mostrar ícone
+                        photo: null 
                     },
                     subA: { 
                         name: "Guilherme de Araujo Grigoli", 
                         lattes: "http://lattes.cnpq.br/4082666910942025",
-                        photo: "grigoli.png" // Foto solicitada
+                        photo: "./grigoli.png?v=1" 
                     },
                     subB: { 
                         name: "Josias Marcos de Resende Silva", 
                         lattes: "http://lattes.cnpq.br/9949858368400382",
-                        photo: "josias.png" // Foto solicitada
+                        photo: "./josias.png?v=1" 
                     }
                 },
 
@@ -566,18 +591,11 @@
                         focus: { pt: "PBC, portfólio, aquisições, ciclo de vida sob governança, riscos e simulação para decisão.", en: "CBP, portfolio, acquisitions, life cycle under governance, risks and simulation.", es: "PBC, cartera, adquisiciones, ciclo de vida bajo gobernanza, riesgos y simulación." },
                         tech: { pt: "Governança de IA, engenharia de decisões assistidas por software, gestão de maturidade tecnológica (TRL).", en: "AI Governance, software-assisted decision engineering, TRL management.", es: "Gobernanza de IA, ingeniería de decisiones asistida por software, TRL." },
                         topics: { 
-                            pt: [
-                                "Planejamento Baseado em Capacidades (PBC)", "Priorização Multicritério", 
-                                "Aquisições de Defesa", "Gestão do Ciclo de Vida (PLM)", 
-                                "Gestão de Portfólio Estratégico", "Value for Money e Eficiência", 
-                                "Gestão de Riscos Tecnológicos", "Compliance e Integridade", 
-                                "Wargaming Analítico", "Simulação Construtiva para Decisão",
-                                "Modelagem de Força", "Racionalização Administrativa"
-                            ],
+                            pt: ["Planejamento Baseado em Capacidades (PBC)", "Priorização Multicritério", "Aquisições de Defesa", "Gestão do Ciclo de Vida (PLM)", "Gestão de Portfólio Estratégico", "Value for Money e Eficiência", "Gestão de Riscos Tecnológicos", "Compliance e Integridade", "Wargaming Analítico", "Simulação Construtiva para Decisão", "Modelagem de Força", "Racionalização Administrativa"],
                             en: ["Capability-Based Planning", "Multi-criteria Prioritization", "Defense Acquisitions", "PLM", "Strategic Portfolio", "Value for Money", "Tech Risk Management", "Compliance", "Analytical Wargaming", "Constructive Simulation", "Force Modeling", "Admin Rationalization"],
                             es: ["Planificación Basada en Capacidades", "Priorización Multicriterio", "Adquisiciones de Defensa", "PLM", "Cartera Estratégica", "Valor por Dinero", "Gestión de Riesgos", "Cumplimiento", "Wargaming Analítico", "Simulación Constructiva", "Modelado de Fuerza", "Racionalización Admin"]
                         },
-                        researchers: [ { name: "Ten Cel Pesquisador 1", lattes: "#", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Especialista em PBC.", en: "Specialist in CBP.", es: "Especialista en PBC." } } ],
+                        researchers: [ { name: "Ten Cel Pesquisador 1", lattes: "#", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Especialista em PBC.", en: "Specialist in CBP.", es: "Especialista en PBC." }, photo: null } ],
                         ongoing: [], publications: []
                     },
                     {
@@ -587,18 +605,19 @@
                         focus: { pt: "Prontidão e sustentação; mobilização e resiliência nacional; economia de defesa e BID como base de autonomia.", en: "Readiness and sustainment; national mobilization and resilience; defense economics and DIB.", es: "Preparación y sostenimiento; movilización y resiliencia nacional; economía de defensa y BID." },
                         tech: { pt: "IA para manutenção preditiva, IoT/rastreabilidade, automação logística, manufatura aditiva.", en: "Predictive maintenance AI, IoT, logistics automation, additive manufacturing.", es: "IA para mantenimiento predictivo, IoT, automatización logística." },
                         topics: { 
-                            pt: [
-                                "Logística Operacional e Sustentação", "Prontidão Logística (Readiness)", 
-                                "Manutenção e Confiabilidade (RAM)", "Gestão de Estoques Estratégicos", 
-                                "Mobilização Nacional e Industrial", "Resiliência de Cadeias Críticas", 
-                                "Economia de Defesa e Orçamento", "Base Industrial de Defesa (BID)", 
-                                "Política Industrial e Inovação", "Tecnologia Dual (Dual-Use)",
-                                "Dependências Externas", "Sistemas Autônomos na Logística"
-                            ],
+                            pt: ["Logística Operacional e Sustentação", "Prontidão Logística (Readiness)", "Manutenção e Confiabilidade (RAM)", "Gestão de Estoques Estratégicos", "Mobilização Nacional e Industrial", "Resiliência de Cadeias Críticas", "Economia de Defesa e Orçamento", "Base Industrial de Defesa (BID)", "Política Industrial e Inovação", "Tecnologia Dual (Dual-Use)", "Dependências Externas", "Sistemas Autônomos na Logística"],
                             en: ["Operational Logistics", "Logistics Readiness", "RAM", "Strategic Stocks", "National Mobilization", "Supply Chain Resilience", "Defense Economics", "Defense Industrial Base", "Industrial Policy", "Dual-Use Tech", "External Dependencies", "Autonomous Logistics"],
                             es: ["Logística Operativa", "Preparación Logística", "RAM", "Existencias Estratégicas", "Movilización Nacional", "Resiliencia de Cadenas", "Economía de Defensa", "Base Industrial de Defensa", "Política Industrial", "Tecnología Dual", "Dependencias Externas", "Logística Autónoma"]
                         },
-                        researchers: [ { name: "Maj Pesquisador 2", lattes: "#", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Doutor em Logística.", en: "PhD in Logistics.", es: "Doctor en Logística." } } ],
+                        researchers: [ 
+                            { 
+                                name: "Mardônio Bezerra Silva", 
+                                lattes: "http://lattes.cnpq.br/6330241765425435", 
+                                photo: "./mardonio.png?v=1",
+                                role: { pt: "Pesquisador Discente", en: "Student Researcher", es: "Investigador Estudiante" }, 
+                                bio: { pt: "Membro do Laboratório de Ciências Militares.", en: "Member of the Military Sciences Laboratory.", es: "Miembro del Laboratorio de Ciencias Militares." } 
+                            } 
+                        ],
                         ongoing: [], publications: []
                     },
                     {
@@ -608,18 +627,20 @@
                         focus: { pt: "Emprego da força, arte operacional, doutrina, C2 e superioridade operacional (ISR/GE/ciber) no nível operacional.", en: "Use of force, operational art, doctrine, C2, ISR/EW/cyber at operational level.", es: "Empleo de la fuerza, arte operacional, doctrina, C2, ISR/GE/ciber a nivel operacional." },
                         tech: { pt: "Sistemas autônomos e robótica, IA no planejamento, sensores avançados, edge computing.", en: "Autonomous systems, AI planning, advanced sensors, edge computing.", es: "Sistemas autónomos, IA en planificación, sensores avanzados." },
                         topics: { 
-                            pt: [
-                                "Arte Operacional e Desenho de Campanha", "Doutrina Militar Terrestre", 
-                                "Operações Conjuntas e Interagências", "Operações Multidomínio (MDO)", 
-                                "Comando e Controle (C2)", "Ciclo Decisório (OODA)", 
-                                "Inteligência, Vigilância e Reconhecimento (ISR)", "Guerra Eletrônica Tática/Operacional", 
-                                "Ciberespaço no Nível Tático", "Combate em Ambiente Urbano", 
-                                "Guerra de Selva e Ambientes Complexos", "Simulação Viva, Virtual e Construtiva"
-                            ],
+                            pt: ["Arte Operacional e Desenho de Campanha", "Doutrina Militar Terrestre", "Operações Conjuntas e Interagências", "Operações Multidomínio (MDO)", "Comando e Controle (C2)", "Ciclo Decisório (OODA)", "Inteligência, Vigilância e Reconhecimento (ISR)", "Guerra Eletrônica Tática/Operacional", "Ciberespaço no Nível Tático", "Combate em Ambiente Urbano", "Guerra de Selva e Ambientes Complexos", "Simulação Viva, Virtual e Construtiva"],
                             en: ["Operational Art", "Land Doctrine", "Joint Operations", "Multi-Domain Operations", "Command and Control", "Decision Cycle", "ISR", "Tactical EW", "Tactical Cyber", "Urban Combat", "Jungle Warfare", "LVC Simulation"],
                             es: ["Arte Operacional", "Doctrina Terrestre", "Operaciones Conjuntas", "Operaciones Multidominio", "Mando y Control", "Ciclo de Decisión", "ISR", "Guerra Electrónica", "Ciberespacio Táctico", "Combate Urbano", "Guerra de Selva", "Simulación LVC"]
                         },
-                        researchers: [], ongoing: [], publications: []
+                        researchers: [
+                            { 
+                                name: "Henrique de Oliveira Mendonça", 
+                                lattes: "http://lattes.cnpq.br/9207642455474797", 
+                                photo: "./henrique.png?v=1",
+                                role: { pt: "Coordenador", en: "Coordinator", es: "Coordinador" }, 
+                                bio: { pt: "Coordenador de Subárea no LCM.", en: "Subarea Coordinator at LCM.", es: "Coordinador de Subárea en el LCM." } 
+                            }
+                        ], 
+                        ongoing: [], publications: []
                     },
                     {
                         id: 4, line: "B", icon: "fa-solid fa-earth-americas",
@@ -628,14 +649,7 @@
                         focus: { pt: "Estratégia, poder nacional, cenários, paz e conflito, legitimidade e dimensão humana.", en: "Strategy, national power, scenarios, peace/conflict, legitimacy, human dimension.", es: "Estrategia, poder nacional, escenarios, paz/conflicto, legitimidad, dimensión humana." },
                         tech: { pt: "Impactos estratégicos de tecnologias críticas (IA/ciber), governança ética, operações de informação.", en: "Strategic impacts of tech, ethical governance, info ops.", es: "Impactos estratégicos de tec, gobernanza ética, ops de información." },
                         topics: { 
-                            pt: [
-                                "Pensamento Estratégico Militar", "Geopolítica e Estudos Regionais", 
-                                "Poder Nacional e Dissuasão", "Cenários Prospectivos e Early Warning", 
-                                "Estudos de Paz e Estabilização", "Guerra Híbrida e Zona Cinza", 
-                                "Dimensão Humana e Liderança", "Tomada de Decisão sob Estresse", 
-                                "Ética Militar e Profissionalismo", "Direito Internacional dos Conflitos Armados", 
-                                "Operações de Informação Estratégica", "Comunicação Estratégica"
-                            ],
+                            pt: ["Pensamento Estratégico Militar", "Geopolítica e Estudos Regionais", "Poder Nacional e Dissuasão", "Cenários Prospectivos e Early Warning", "Estudos de Paz e Estabilização", "Guerra Híbrida e Zona Cinza", "Dimensão Humana e Liderança", "Tomada de Decisão sob Estresse", "Ética Militar e Profissionalismo", "Direito Internacional dos Conflitos Armados", "Operações de Informação Estratégica", "Comunicação Estratégica"],
                             en: ["Strategic Thinking", "Geopolitics", "National Power", "Foresight/Scenarios", "Peace Studies", "Hybrid Warfare", "Human Dimension", "Decision under Stress", "Military Ethics", "LOAC/IHL", "Strategic Info Ops", "Strategic Comms"],
                             es: ["Pensamiento Estratégico", "Geopolítica", "Poder Nacional", "Escenarios", "Estudios de Paz", "Guerra Híbrida", "Dimensión Humana", "Decisión bajo Estrés", "Ética Militar", "DICA", "Ops de Información", "Comms Estratégicas"]
                         },
