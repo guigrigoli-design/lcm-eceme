@@ -27,7 +27,6 @@
             background-color: #f9fafb;
         }
         
-        /* Mapa responsivo */
         .map-container iframe { width: 100%; height: 100%; min-height: 300px; border: 0; }
     </style>
 </head>
@@ -36,7 +35,6 @@
 
     <nav class="bg-eb-green text-white border-b-2 border-eb-gold sticky top-0 z-50 shadow-xl">
         <div class="container mx-auto px-4 py-3">
-            
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-4 cursor-pointer" @click="view = 'home'">
                     <img src="brasao-lcm.png" alt="LCM" class="h-12 w-auto bg-white rounded-full p-0.5 object-contain">
@@ -104,7 +102,6 @@
                         <button @click="prevSlide()" class="absolute left-0 h-full px-4 text-white hover:bg-black/30 transition"><i class="fa-solid fa-chevron-left text-3xl shadow-black drop-shadow-md"></i></button>
                         <button @click="nextSlide()" class="absolute right-0 h-full px-4 text-white hover:bg-black/30 transition"><i class="fa-solid fa-chevron-right text-3xl shadow-black drop-shadow-md"></i></button>
                     </div>
-
                     <div class="bg-eb-green text-white p-8 md:p-10 text-center relative">
                         <div class="absolute -top-4 left-1/2 -translate-x-1/2 flex space-x-2">
                             <template x-for="(item, index) in news" :key="index">
@@ -130,8 +127,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                     
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-green">
-                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-green overflow-hidden shadow-sm flex items-center justify-center">
-                            <i class="fa-solid fa-user text-5xl text-gray-400"></i>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-green overflow-hidden shadow-sm flex items-center justify-center relative">
+                            <img x-show="leadership.coord.photo" :src="leadership.coord.photo" class="w-full h-full object-cover object-top" alt="Foto">
+                            <i x-show="!leadership.coord.photo" class="fa-solid fa-user text-5xl text-gray-400"></i>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.coord.name"></h3>
                         <p class="text-eb-gold font-bold text-xs uppercase tracking-widest mb-3 mt-2" x-text="t[lang].coord_role"></p>
@@ -139,8 +137,9 @@
                     </div>
                     
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-gold">
-                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center">
-                            <i class="fa-solid fa-user text-5xl text-gray-400"></i>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center relative">
+                            <img x-show="leadership.subA.photo" :src="leadership.subA.photo" class="w-full h-full object-cover object-top" alt="Foto Grigoli">
+                            <i x-show="!leadership.subA.photo" class="fa-solid fa-user text-5xl text-gray-400"></i>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.subA.name"></h3>
                         <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3 mt-2" x-text="t[lang].sub_a_role"></p>
@@ -148,8 +147,9 @@
                     </div>
 
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-gold">
-                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center">
-                            <i class="fa-solid fa-user text-5xl text-gray-400"></i>
+                        <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center relative">
+                             <img x-show="leadership.subB.photo" :src="leadership.subB.photo" class="w-full h-full object-cover object-top" alt="Foto Josias">
+                             <i x-show="!leadership.subB.photo" class="fa-solid fa-user text-5xl text-gray-400"></i>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.subB.name"></h3>
                         <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3 mt-2" x-text="t[lang].sub_b_role"></p>
@@ -275,12 +275,7 @@
                     </div>
                 </div>
                 <div class="map-container rounded overflow-hidden shadow-lg border border-gray-300 bg-gray-100 h-96">
-                    <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3674.6044390647317!2d-43.16548772396489!3d-22.95270177922245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9980203007994b%3A0x6b8764e55e5b3211!2sEscola%20de%20Comando%20e%20Estado-Maior%20do%20Ex%C3%A9rcito%20(ECEME)!5e0!3m2!1spt-BR!2sbr!4v1709560000000!5m2!1spt-BR!2sbr" 
-                        allowfullscreen="" 
-                        loading="lazy" 
-                        referrerpolicy="no-referrer-when-downgrade">
-                    </iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3674.5661601614725!2d-43.16489368441829!3d-22.95415794443916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x99801ca4795e1d%3A0x6331893952541a8!2sEscola%20de%20Comando%20e%20Estado-Maior%20do%20Ex%C3%A9rcito!5e0!3m2!1spt-BR!2sbr!4v1705680000000!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </div>
@@ -456,15 +451,18 @@
                 leadership: {
                     coord: { 
                         name: "Eduardo Xavier Ferreira Glaser Migon", 
-                        lattes: "http://lattes.cnpq.br/0133876688289429" 
+                        lattes: "http://lattes.cnpq.br/0133876688289429",
+                        photo: null // Sem foto solicitada, mantém null para mostrar ícone
                     },
                     subA: { 
                         name: "Guilherme de Araujo Grigoli", 
-                        lattes: "http://lattes.cnpq.br/4082666910942025" 
+                        lattes: "http://lattes.cnpq.br/4082666910942025",
+                        photo: "grigoli.png" // Foto solicitada
                     },
                     subB: { 
                         name: "Josias Marcos de Resende Silva", 
-                        lattes: "http://lattes.cnpq.br/9949858368400382" 
+                        lattes: "http://lattes.cnpq.br/9949858368400382",
+                        photo: "josias.png" // Foto solicitada
                     }
                 },
 
@@ -484,7 +482,6 @@
                         nav_home: "Início", nav_research: "Linhas de Pesquisa", nav_contact: "Contato", nav_courses: "Cursos e Eventos",
                         news_label: "Destaque",
                         leadership_title: "Coordenação LCM", 
-                        // NOVOS TÍTULOS DE COORDENAÇÃO
                         coord_role: "Coordenador Geral", 
                         sub_a_role: "Coordenador da Linha de Pesquisa GD", 
                         sub_b_role: "Coordenador da Linha de Pesquisa EPG",
