@@ -1,0 +1,42 @@
+[
+    { 
+        "subarea_id": 1,
+        "name": "Ten Cel Pesquisador 1", 
+        "lattes": "#", 
+        "role": { "pt": "Pesquisador", "en": "Researcher", "es": "Investigador" }, 
+        "bio": { "pt": "Especialista em PBC.", "en": "Specialist in CBP.", "es": "Especialista en PBC." }, 
+        "photo": null 
+    },
+    { 
+        "subarea_id": 2,
+        "name": "Mardônio Bezerra Silva", 
+        "lattes": "http://lattes.cnpq.br/6330241765425435", 
+        "photo": "./mardonio.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
+    },
+    { 
+        "subarea_id": 3,
+        "name": "Henrique de Oliveira Mendonça", 
+        "lattes": "http://lattes.cnpq.br/9207642455474797", 
+        "photo": "./henrique.png?v=1",
+        "role": { "pt": "Coordenador", "en": "Coordinator", "es": "Coordinador" }, 
+        "bio": { "pt": "Coordenador de Subárea no LCM.", "en": "Subarea Coordinator at LCM.", "es": "Coordinador de Subárea en el LCM." } 
+    },
+    { 
+        "subarea_id": 3,
+        "name": "Eliezer de Souza Batista Junior", 
+        "lattes": "https://lattes.cnpq.br/1454270652578057", 
+        "photo": "./eliezer.png?v=1",
+        "role": { "pt": "Subcoordenador", "en": "Sub-coordinator", "es": "Subcoordinador" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
+    },
+    { 
+        "subarea_id": 3,
+        "name": "Ronay Souza Diniz", 
+        "lattes": "http://lattes.cnpq.br/2109315083731050", 
+        "photo": "./diniz.png?v=1",
+        "role": { "pt": "Pesquisador Egresso", "en": "Alumnus Researcher", "es": "Investigador Egresado" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
+    }
+]
