@@ -1,0 +1,20 @@
+[
+    {
+        "title": { "pt": "Seminário de Defesa Nacional 2026", "en": "National Defense Seminar 2026", "es": "Seminario de Defensa Nacional 2026" },
+        "desc": { 
+            "pt": "O LCM convida a comunidade acadêmica para o debate sobre os novos desafios da guerra híbrida e a integração de tecnologias emergentes no combate moderno.",
+            "en": "LCM invites the academic community to debate new challenges of hybrid warfare and the integration of emerging technologies in modern combat.",
+            "es": "El LCM invita a la comunidad académica al debate sobre los nuevos desafíos de la guerra híbrida y la integración de tecnologías emergentes."
+        },
+        "image": "https://images.unsplash.com/photo-1595182068936-e63d3b764026?q=80&w=2070&auto=format&fit=crop"
+    },
+    {
+        "title": { "pt": "Novas Publicações sobre Ciberdefesa", "en": "New Publications on Cyberdefense", "es": "Nuevas Publicaciones sobre Ciberdefensa" },
+        "desc": { 
+            "pt": "Confira os últimos artigos produzidos pelos pesquisadores da Subárea 3, abordando a resiliência de infraestruturas críticas.",
+            "en": "Check out the latest articles produced by Subarea 3 researchers, addressing critical infrastructure resilience.",
+            "es": "Vea los últimos artículos producidos por investigadores de la Subárea 3, abordando la resiliencia de infraestructuras críticas."
+        },
+        "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+    }
+]
