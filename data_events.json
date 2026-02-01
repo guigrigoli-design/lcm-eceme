@@ -1,0 +1,13 @@
+[
+    {
+        "id": 1, 
+        "active": true, 
+        "day": "15", 
+        "month": { "pt": "Mar", "en": "Mar", "es": "Mar" },
+        "type": { "pt": "Simpósio", "en": "Symposium", "es": "Simposio" },
+        "title": { "pt": "Inovação na Base Industrial de Defesa", "en": "Innovation in the Defense Industrial Base", "es": "Innovación en la Base Industrial de Defensa" },
+        "desc": { "pt": "Evento focado na análise de políticas públicas para o fortalecimento da BID.", "en": "Event focused on public policy analysis for DIB.", "es": "Evento enfocado en el análisis de políticas públicas para la BID." },
+        "time": "09:00 - 16:00", 
+        "material_link": "edital.pdf"
+    }
+]
