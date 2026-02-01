@@ -46,5 +46,18 @@
         "photo": "./marinho.png?v=1",
         "role": { "pt": "Coordenador", "en": "Coordinator", "es": "Coordinador" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
-    }
+    },
+        "subarea_id": 3,
+        "name": "Luis Felipe Comodo Seelig", 
+        "lattes": "http://lattes.cnpq.br/3085772366493629", 
+        "photo": "./seelig.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
+},
+        "subarea_id": 3,
+        "name": "Bianca Ariel Oliveira Santos", 
+        "lattes": "http://lattes.cnpq.br/7186405772462489", 
+        "photo": "./ariel.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
 ]
