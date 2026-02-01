@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LCM - Laboratório de Ciências Militares | ECEME</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-
     <style>
         :root { --eb-green: #1e3a2c; --eb-gold: #c5a059; --eb-gold-light: #d4b781; }
         .bg-eb-green { background-color: var(--eb-green); }
@@ -19,20 +17,12 @@
         .hover-gold:hover { color: var(--eb-gold-light); }
         body { font-family: 'Georgia', serif; }
         [x-cloak] { display: none !important; }
-        
-        .tab-active {
-            border-bottom: 4px solid var(--eb-gold);
-            color: var(--eb-green);
-            font-weight: bold;
-            background-color: #f9fafb;
-        }
-        
-        /* Mapa responsivo */
+        .tab-active { border-bottom: 4px solid var(--eb-gold); color: var(--eb-green); font-weight: bold; background-color: #f9fafb; }
         .map-container iframe { width: 100%; height: 100%; min-height: 300px; border: 0; }
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen" x-data="appData()">
+<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen" x-data="appData()" x-init="initApp()">
 
     <nav class="bg-eb-green text-white border-b-2 border-eb-gold sticky top-0 z-50 shadow-xl">
         <div class="container mx-auto px-4 py-3">
@@ -44,11 +34,9 @@
                         <p class="text-[10px] tracking-widest text-eb-gold uppercase" x-text="t[lang].header_eceme_full"></p>
                     </div>
                 </div>
-
                 <div class="flex items-center space-x-4">
                     <div class="relative hidden md:block">
-                        <input type="text" x-model="searchQuery" :placeholder="t[lang].search_placeholder" 
-                               class="bg-green-900 text-white text-sm rounded-full px-4 py-1.5 focus:outline-none focus:ring-1 focus:ring-eb-gold w-48 border border-green-800">
+                        <input type="text" x-model="searchQuery" :placeholder="t[lang].search_placeholder" class="bg-green-900 text-white text-sm rounded-full px-4 py-1.5 focus:outline-none focus:ring-1 focus:ring-eb-gold w-48 border border-green-800">
                         <i class="fa-solid fa-magnifying-glass absolute right-3 top-2 text-gray-400 text-xs"></i>
                         <div x-show="searchQuery.length > 0" @click.away="searchQuery = ''" class="absolute top-10 right-0 w-80 bg-white text-gray-800 shadow-2xl rounded border border-gray-200 z-50 overflow-hidden" x-cloak>
                             <template x-for="result in searchResults" :key="result.id">
@@ -57,7 +45,6 @@
                                     <p class="text-sm font-semibold truncate" x-text="result.title[lang]"></p>
                                 </div>
                             </template>
-                            <div x-show="searchResults.length === 0" class="p-3 text-sm text-gray-500 italic"><span x-text="t[lang].no_results"></span></div>
                         </div>
                     </div>
                     <div class="flex space-x-2">
@@ -68,14 +55,12 @@
                     <button class="md:hidden text-2xl" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars"></i></button>
                 </div>
             </div>
-
             <div class="hidden md:flex justify-center mt-3 space-x-8 text-xs font-bold uppercase tracking-widest border-t border-green-800 pt-3">
                 <button @click="view = 'home'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'home'}" x-text="t[lang].nav_home"></button>
                 <button @click="view = 'research'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'research'}" x-text="t[lang].nav_research"></button>
                 <button @click="view = 'events'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'events'}" x-text="t[lang].nav_courses"></button>
                 <button @click="view = 'contact'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'contact'}" x-text="t[lang].nav_contact"></button>
             </div>
-
             <div x-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-green-800" x-cloak>
                 <button @click="view = 'home'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_home"></button>
                 <button @click="view = 'research'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_research"></button>
@@ -86,19 +71,12 @@
     </nav>
 
     <main x-show="view === 'home'" x-transition.opacity.duration.300ms class="flex-grow">
-        
         <section class="bg-gray-100">
             <div class="container mx-auto px-0 md:px-6 py-6">
-                <div class="bg-white rounded shadow-lg overflow-hidden border border-gray-200">
+                <div class="bg-white rounded shadow-lg overflow-hidden border border-gray-200" x-show="news.length > 0">
                     <div class="relative h-[300px] md:h-[400px] overflow-hidden bg-gray-300">
                         <template x-for="(item, index) in news" :key="index">
-                            <div x-show="activeSlide === index" 
-                                 x-transition:enter="transition ease-in duration-500"
-                                 x-transition:enter-start="opacity-0"
-                                 x-transition:enter-end="opacity-100"
-                                 class="absolute inset-0 bg-cover bg-center"
-                                 :style="`background-image: url('${item.image}')`">
-                            </div>
+                            <div x-show="activeSlide === index" x-transition:enter="transition ease-in duration-500" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="absolute inset-0 bg-cover bg-center" :style="`background-image: url('${item.image}')`"></div>
                         </template>
                         <button @click="prevSlide()" class="absolute left-0 h-full px-4 text-white hover:bg-black/30 transition"><i class="fa-solid fa-chevron-left text-3xl shadow-black drop-shadow-md"></i></button>
                         <button @click="nextSlide()" class="absolute right-0 h-full px-4 text-white hover:bg-black/30 transition"><i class="fa-solid fa-chevron-right text-3xl shadow-black drop-shadow-md"></i></button>
@@ -124,45 +102,29 @@
         <section class="py-16 bg-white border-b border-gray-200">
             <div class="container mx-auto px-6 max-w-6xl text-center">
                 <h2 class="text-2xl font-bold text-eb-green uppercase mb-12 border-b-2 border-eb-gold inline-block pb-2" x-text="t[lang].leadership_title"></h2>
-                
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                    
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-green">
                         <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-green overflow-hidden shadow-sm flex items-center justify-center relative bg-gray-100">
-                            <template x-if="leadership.coord.photo">
-                                <img :src="leadership.coord.photo" class="w-full h-full object-cover object-top" alt="Foto">
-                            </template>
-                            <template x-if="!leadership.coord.photo">
-                                <i class="fa-solid fa-user text-5xl text-gray-400"></i>
-                            </template>
+                            <template x-if="leadership.coord.photo"><img :src="leadership.coord.photo" class="w-full h-full object-cover object-top" alt="Foto"></template>
+                            <template x-if="!leadership.coord.photo"><i class="fa-solid fa-user text-5xl text-gray-400"></i></template>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.coord.name"></h3>
                         <p class="text-eb-gold font-bold text-xs uppercase tracking-widest mb-3 mt-2" x-text="t[lang].coord_role"></p>
                         <a :href="leadership.coord.lattes" target="_blank" class="text-xs text-blue-700 hover:underline mt-auto border border-blue-200 px-3 py-1 rounded-full">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
                     </div>
-                    
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-gold">
                         <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center relative bg-gray-100">
-                            <template x-if="leadership.subA.photo">
-                                <img :src="leadership.subA.photo" class="w-full h-full object-cover object-top" alt="Foto Grigoli">
-                            </template>
-                            <template x-if="!leadership.subA.photo">
-                                <i class="fa-solid fa-user text-5xl text-gray-400"></i>
-                            </template>
+                            <template x-if="leadership.subA.photo"><img :src="leadership.subA.photo" class="w-full h-full object-cover object-top" alt="Foto Grigoli"></template>
+                            <template x-if="!leadership.subA.photo"><i class="fa-solid fa-user text-5xl text-gray-400"></i></template>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.subA.name"></h3>
                         <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3 mt-2" x-text="t[lang].sub_a_role"></p>
                         <a :href="leadership.subA.lattes" target="_blank" class="text-xs text-blue-700 hover:underline mt-auto border border-blue-200 px-3 py-1 rounded-full">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
                     </div>
-
                     <div class="flex flex-col items-center p-6 bg-gray-50 rounded shadow-sm hover:shadow-md transition h-full border-t-4 border-eb-gold">
                         <div class="w-28 h-28 bg-gray-200 rounded-full mb-4 border-4 border-eb-gold overflow-hidden shadow-sm flex items-center justify-center relative bg-gray-100">
-                             <template x-if="leadership.subB.photo">
-                                <img :src="leadership.subB.photo" class="w-full h-full object-cover object-top" alt="Foto Josias">
-                            </template>
-                            <template x-if="!leadership.subB.photo">
-                                <i class="fa-solid fa-user text-5xl text-gray-400"></i>
-                            </template>
+                             <template x-if="leadership.subB.photo"><img :src="leadership.subB.photo" class="w-full h-full object-cover object-top" alt="Foto Josias"></template>
+                            <template x-if="!leadership.subB.photo"><i class="fa-solid fa-user text-5xl text-gray-400"></i></template>
                         </div>
                         <h3 class="text-lg font-bold text-gray-900 leading-tight min-h-[3rem] flex items-center justify-center" x-text="leadership.subB.name"></h3>
                         <p class="text-gray-500 text-xs uppercase font-bold tracking-widest mb-3 mt-2" x-text="t[lang].sub_b_role"></p>
@@ -233,7 +195,6 @@
             <h2 class="text-3xl font-bold uppercase" x-text="t[lang].courses_title"></h2>
             <p class="text-gray-300 mt-2 italic" x-text="t[lang].courses_subtitle"></p>
         </header>
-
         <div class="container mx-auto px-6 py-12 max-w-5xl">
             <div class="grid gap-8">
                 <template x-for="event in courses" :key="event.id">
@@ -253,9 +214,7 @@
                             </div>
                             <div class="flex items-center justify-between border-t border-gray-100 pt-4 mt-2">
                                 <span class="text-xs text-gray-500"><i class="fa-solid fa-clock mr-1"></i> <span x-text="event.time"></span></span>
-                                <button x-show="event.material_link" class="text-xs bg-eb-green text-white px-4 py-2 rounded hover:bg-green-800 transition font-bold uppercase">
-                                    <i class="fa-solid fa-download mr-2"></i> <span x-text="t[lang].download_material"></span>
-                                </button>
+                                <button x-show="event.material_link" class="text-xs bg-eb-green text-white px-4 py-2 rounded hover:bg-green-800 transition font-bold uppercase"><i class="fa-solid fa-download mr-2"></i> <span x-text="t[lang].download_material"></span></button>
                             </div>
                         </div>
                     </div>
@@ -268,7 +227,6 @@
         <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
             <h2 class="text-3xl font-bold uppercase" x-text="t[lang].contact_title"></h2>
         </header>
-
         <div class="container mx-auto px-6 py-12 max-w-6xl">
             <div class="bg-white shadow rounded p-8 border-t-4 border-eb-green grid md:grid-cols-2 gap-12">
                 <div>
@@ -276,12 +234,7 @@
                     <div class="space-y-6 text-gray-700">
                         <div class="flex items-start">
                             <i class="fa-solid fa-location-dot mt-1 mr-4 text-eb-gold text-xl"></i>
-                            <span>
-                                <strong>Escola de Comando e Estado-Maior do Exército</strong><br>
-                                Praça Gen. Tibúrcio, 125<br>
-                                Praia Vermelha - Urca<br>
-                                Rio de Janeiro - RJ, 22290-270
-                            </span>
+                            <span><strong>Escola de Comando e Estado-Maior do Exército</strong><br>Praça Gen. Tibúrcio, 125<br>Praia Vermelha - Urca<br>Rio de Janeiro - RJ, 22290-270</span>
                         </div>
                         <p class="flex items-center"><i class="fa-solid fa-envelope mr-4 text-eb-gold text-xl"></i> lcm.dppg@eceme.eb.mil.br</p>
                         <p class="flex items-center"><i class="fa-solid fa-phone mr-4 text-eb-gold text-xl"></i> (21) 3543-3456</p>
@@ -295,12 +248,9 @@
     </div>
 
     <div x-show="view === 'subarea'" x-cloak x-transition.opacity.duration.300ms class="flex-grow bg-gray-50">
-        
         <div class="bg-eb-green text-white py-12 border-b-4 border-eb-gold">
             <div class="container mx-auto px-6">
-                <button @click="view = 'research'" class="text-xs font-bold uppercase tracking-widest text-eb-gold hover:text-white mb-6 flex items-center transition-colors">
-                    <i class="fa-solid fa-arrow-left mr-2"></i> <span x-text="t[lang].back_research"></span>
-                </button>
+                <button @click="view = 'research'" class="text-xs font-bold uppercase tracking-widest text-eb-gold hover:text-white mb-6 flex items-center transition-colors"><i class="fa-solid fa-arrow-left mr-2"></i> <span x-text="t[lang].back_research"></span></button>
                 <div class="flex flex-col md:flex-row items-start justify-between">
                     <div class="max-w-3xl">
                         <span class="bg-eb-gold text-eb-green text-xs font-bold px-2 py-1 uppercase rounded-sm mb-3 inline-block" x-text="activeArea.line === 'A' ? t[lang].line_a_label : t[lang].line_b_label"></span>
@@ -311,7 +261,6 @@
                 </div>
             </div>
         </div>
-
         <div class="bg-white shadow sticky top-[62px] md:top-[66px] z-30">
             <div class="container mx-auto px-6">
                 <div class="flex space-x-8 overflow-x-auto no-scrollbar">
@@ -322,7 +271,6 @@
                 </div>
             </div>
         </div>
-
         <div class="container mx-auto px-6 py-10 max-w-6xl">
             <div x-show="tab === 'sobre'" x-transition.opacity>
                 <div class="bg-white p-8 rounded shadow-sm border-t-4 border-eb-green mb-8">
@@ -334,10 +282,7 @@
                         <h3 class="text-lg font-bold text-eb-green mb-4 uppercase flex items-center"><i class="fa-solid fa-list-check text-eb-gold mr-3"></i> <span x-text="t[lang].label_topics"></span></h3>
                         <div class="grid md:grid-cols-2 gap-x-12 gap-y-3">
                             <template x-for="topic in activeArea.topics[lang]">
-                                <li class="flex items-start p-2 border-b border-gray-100 last:border-0">
-                                    <i class="fa-solid fa-check text-eb-green mt-1 mr-3 flex-shrink-0 text-xs"></i>
-                                    <span class="text-gray-800 text-sm leading-snug" x-text="topic"></span>
-                                </li>
+                                <li class="flex items-start p-2 border-b border-gray-100 last:border-0"><i class="fa-solid fa-check text-eb-green mt-1 mr-3 flex-shrink-0 text-xs"></i><span class="text-gray-800 text-sm leading-snug" x-text="topic"></span></li>
                             </template>
                         </div>
                     </div>
@@ -347,23 +292,15 @@
                     </div>
                 </div>
             </div>
-
+            
             <div x-show="tab === 'pesquisadores'" x-transition.opacity>
                 <div class="grid md:grid-cols-2 gap-6">
                     <template x-for="researcher in activeArea.researchers">
                         <div class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md transition flex items-start">
-                            
                             <div class="w-16 h-16 bg-gray-200 rounded-full flex-shrink-0 overflow-hidden mr-4 relative border-2 border-eb-green">
-                                <template x-if="researcher.photo">
-                                    <img :src="researcher.photo" class="w-full h-full object-cover object-top" alt="Foto">
-                                </template>
-                                <template x-if="!researcher.photo">
-                                    <div class="w-full h-full bg-eb-green flex items-center justify-center text-white font-bold text-lg">
-                                        <span x-text="getInitials(researcher.name)"></span>
-                                    </div>
-                                </template>
+                                <template x-if="researcher.photo"><img :src="researcher.photo" class="w-full h-full object-cover object-top" alt="Foto"></template>
+                                <template x-if="!researcher.photo"><div class="w-full h-full bg-eb-green flex items-center justify-center text-white font-bold text-lg"><span x-text="getInitials(researcher.name)"></span></div></template>
                             </div>
-
                             <div>
                                 <h4 class="font-bold text-eb-green" x-text="researcher.name"></h4>
                                 <p class="text-xs text-eb-gold uppercase font-bold tracking-widest mb-2" x-text="researcher.role[lang]"></p>
@@ -372,12 +309,10 @@
                             </div>
                         </div>
                     </template>
-                    <div x-show="activeArea.researchers.length === 0" class="col-span-2 text-center text-gray-500 italic p-8">
-                         <span x-text="t[lang].no_data"></span>
-                    </div>
+                    <div x-show="activeArea.researchers.length === 0" class="col-span-2 text-center text-gray-500 italic p-8"><span x-text="t[lang].no_data"></span></div>
                 </div>
             </div>
-            
+
             <div x-show="tab === 'andamento'" x-transition.opacity>
                  <div class="bg-white rounded shadow-sm border border-gray-200 overflow-hidden">
                     <table class="w-full text-left">
@@ -392,6 +327,7 @@
                                     <td class="p-4"><span class="bg-yellow-100 text-yellow-800 text-[10px] font-bold px-2 py-1 rounded-full uppercase" x-text="t[lang].status_ongoing"></span></td>
                                 </tr>
                             </template>
+                            <tr x-show="activeArea.ongoing.length === 0"><td colspan="3" class="p-8 text-center text-gray-500 italic" x-text="t[lang].no_data"></td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -411,6 +347,7 @@
                                 </div>
                             </li>
                         </template>
+                        <li x-show="activeArea.publications.length === 0" class="text-center text-gray-500 italic" x-text="t[lang].no_data"></li>
                     </ul>
                 </div>
             </div>
@@ -423,13 +360,11 @@
                 <h5 class="text-eb-gold font-bold uppercase mb-1">LCM - Laboratório de Ciências Militares</h5>
                 <p class="text-xs text-gray-400">Escola de Comando e Estado-Maior do Exército</p>
             </div>
-            
             <div class="flex space-x-6 text-2xl">
                 <a href="https://linkedin.com/company/lcm-eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
                 <a href="https://instagram.com/lcm.eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://youtube.com/channel/lcm-eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
             </div>
-
             <div class="text-center md:text-right mt-6 md:mt-0">
                 <p class="text-xs text-gray-400">© 2026 PPGCM / ECEME</p>
             </div>
@@ -447,123 +382,115 @@
                 mobileMenuOpen: false,
                 activeSlide: 0,
                 
-                init() { setInterval(() => { this.nextSlide(); }, 6000); },
-                nextSlide() { this.activeSlide = (this.activeSlide === this.news.length - 1) ? 0 : this.activeSlide + 1; },
-                prevSlide() { this.activeSlide = (this.activeSlide === 0) ? this.news.length - 1 : this.activeSlide - 1; },
-
-                news: [
+                // Dados Vazios (Serão preenchidos via JSON)
+                news: [],
+                courses: [],
+                // Subáreas apenas com a estrutura estática (títulos, ícones). As listas (researchers, ongoing, publications) estão vazias.
+                subareas: [
                     {
-                        title: { pt: "Seminário de Defesa Nacional 2026", en: "National Defense Seminar 2026", es: "Seminario de Defensa Nacional 2026" },
-                        desc: { 
-                            pt: "O LCM convida a comunidade acadêmica para o debate sobre os novos desafios da guerra híbrida e a integração de tecnologias emergentes no combate moderno.",
-                            en: "LCM invites the academic community to debate new challenges of hybrid warfare and the integration of emerging technologies in modern combat.",
-                            es: "El LCM invita a la comunidad académica al debate sobre los nuevos desafíos de la guerra híbrida y la integración de tecnologías emergentes."
-                        },
-                        image: "https://images.unsplash.com/photo-1595182068936-e63d3b764026?q=80&w=2070&auto=format&fit=crop"
+                        id: 1, line: "A", icon: "fa-solid fa-diagram-project",
+                        title: { pt: "Governança, Planejamento e Gestão de Capacidades", en: "Governance, Planning and Capability Management", es: "Gobernanza, Planificación y Gestión de Capacidades" },
+                        subtitle: { pt: "PBC, Portfólio e Riscos", en: "CBP, Portfolio and Risks", es: "PBC, Cartera y Riesgos" },
+                        focus: { pt: "PBC, portfólio, aquisições, ciclo de vida sob governança, riscos e simulação para decisão.", en: "CBP, portfolio, acquisitions, life cycle under governance, risks and simulation.", es: "PBC, cartera, adquisiciones, ciclo de vida bajo gobernanza, riesgos y simulación." },
+                        tech: { pt: "Governança de IA, engenharia de decisões assistidas por software, gestão de maturidade tecnológica (TRL).", en: "AI Governance, software-assisted decision engineering, TRL management.", es: "Gobernanza de IA, ingeniería de decisiones asistida por software, TRL." },
+                        topics: { pt: ["Planejamento Baseado em Capacidades (PBC)", "Priorização Multicritério", "Aquisições de Defesa", "Gestão do Ciclo de Vida (PLM)", "Gestão de Portfólio Estratégico", "Value for Money e Eficiência", "Gestão de Riscos Tecnológicos", "Compliance e Integridade", "Wargaming Analítico", "Simulação Construtiva para Decisão", "Modelagem de Força", "Racionalização Administrativa"], en: ["CBP", "Acquisitions"], es: ["PBC", "Adquisiciones"] },
+                        researchers: [], ongoing: [], publications: []
                     },
                     {
-                        title: { pt: "Novas Publicações sobre Ciberdefesa", en: "New Publications on Cyberdefense", es: "Nuevas Publicaciones sobre Ciberdefensa" },
-                        desc: { 
-                            pt: "Confira os últimos artigos produzidos pelos pesquisadores da Subárea 3, abordando a resiliência de infraestruturas críticas.",
-                            en: "Check out the latest articles produced by Subarea 3 researchers, addressing critical infrastructure resilience.",
-                            es: "Vea los últimos artículos producidos por investigadores de la Subárea 3, abordando la resiliencia de infraestructuras críticas."
-                        },
-                        image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+                        id: 2, line: "A", icon: "fa-solid fa-industry",
+                        title: { pt: "Capacidades, Logística, Mobilização e BID", en: "Capabilities, Logistics, Mobilization and DIB", es: "Capacidades, Logística, Movilización y BID" },
+                        subtitle: { pt: "Economia de Defesa e Prontidão", en: "Defense Economics and Readiness", es: "Economía de Defensa y Preparación" },
+                        focus: { pt: "Prontidão e sustentação; mobilização e resiliência nacional; economia de defesa e BID como base de autonomia.", en: "Readiness and sustainment; national mobilization and resilience; defense economics and DIB.", es: "Preparación y sostenimiento; movilización y resiliencia nacional; economía de defensa y BID." },
+                        tech: { pt: "IA para manutenção preditiva, IoT/rastreabilidade, automação logística, manufatura aditiva.", en: "Predictive maintenance AI, IoT, logistics automation, additive manufacturing.", es: "IA para mantenimiento predictivo, IoT, automatización logística." },
+                        topics: { pt: ["Logística Operacional e Sustentação", "Prontidão Logística (Readiness)", "Manutenção e Confiabilidade (RAM)", "Gestão de Estoques Estratégicos", "Mobilização Nacional e Industrial", "Resiliência de Cadeias Críticas", "Economia de Defesa e Orçamento", "Base Industrial de Defesa (BID)", "Política Industrial e Inovação", "Tecnologia Dual (Dual-Use)", "Dependências Externas", "Sistemas Autônomos na Logística"], en: ["Logistics"], es: ["Logística"] },
+                        researchers: [], ongoing: [], publications: []
+                    },
+                    {
+                        id: 3, line: "B", icon: "fa-solid fa-person-military-pointing",
+                        title: { pt: "Operações, Doutrina e Superioridade Operacional", en: "Operations, Doctrine and Operational Superiority", es: "Operaciones, Doctrina y Superioridad Operacional" },
+                        subtitle: { pt: "Multidomínio e Informacional", en: "Multi-domain and Informational", es: "Multidominio e Informacional" },
+                        focus: { pt: "Emprego da força, arte operacional, doutrina, C2 e superioridade operacional (ISR/GE/ciber) no nível operacional.", en: "Use of force, operational art, doctrine, C2, ISR/EW/cyber at operational level.", es: "Empleo de la fuerza, arte operacional, doctrina, C2, ISR/GE/ciber a nivel operacional." },
+                        tech: { pt: "Sistemas autônomos e robótica, IA no planejamento, sensores avançados, edge computing.", en: "Autonomous systems, AI planning, advanced sensors, edge computing.", es: "Sistemas autónomos, IA en planificación, sensores avanzados." },
+                        topics: { pt: ["Arte Operacional e Desenho de Campanha", "Doutrina Militar Terrestre", "Operações Conjuntas e Interagências", "Operações Multidomínio (MDO)", "Comando e Controle (C2)", "Ciclo Decisório (OODA)", "Inteligência, Vigilância e Reconhecimento (ISR)", "Guerra Eletrônica Tática/Operacional", "Ciberespaço no Nível Tático", "Combate em Ambiente Urbano", "Guerra de Selva e Ambientes Complexos", "Simulação Viva, Virtual e Construtiva"], en: ["Operational Art"], es: ["Arte Operacional"] },
+                        researchers: [], ongoing: [], publications: []
+                    },
+                    {
+                        id: 4, line: "B", icon: "fa-solid fa-earth-americas",
+                        title: { pt: "Estratégia, Geopolítica, Paz e Guerra", en: "Strategy, Geopolitics, Peace and War", es: "Estrategia, Geopolítica, Paz y Guerra" },
+                        subtitle: { pt: "Dimensão Humana e Direito", en: "Human Dimension and Law", es: "Dimensión Humana y Derecho" },
+                        focus: { pt: "Estratégia, poder nacional, cenários, paz e conflito, legitimidade e dimensão humana.", en: "Strategy, national power, scenarios, peace/conflict, legitimacy, human dimension.", es: "Estrategia, poder nacional, escenarios, paz/conflicto, legitimidad, dimensión humana." },
+                        tech: { pt: "Impactos estratégicos de tecnologias críticas (IA/ciber), governança ética, operações de informação.", en: "Strategic impacts of tech, ethical governance, info ops.", es: "Impactos estratégicos de tec, gobernanza ética, ops de información." },
+                        topics: { pt: ["Pensamento Estratégico Militar", "Geopolítica e Estudos Regionais", "Poder Nacional e Dissuasão", "Cenários Prospectivos e Early Warning", "Estudos de Paz e Estabilização", "Guerra Híbrida e Zona Cinza", "Dimensão Humana e Liderança", "Tomada de Decisão sob Estresse", "Ética Militar e Profissionalismo", "Direito Internacional dos Conflitos Armados", "Operações de Informação Estratégica", "Comunicação Estratégica"], en: ["Strategy"], es: ["Estrategia"] },
+                        researchers: [], ongoing: [], publications: []
                     }
                 ],
 
-                // --- DADOS DA LIDERANÇA ---
                 leadership: {
-                    coord: { 
-                        name: "Eduardo Xavier Ferreira Glaser Migon", 
-                        lattes: "http://lattes.cnpq.br/0133876688289429",
-                        photo: "./migon.png?v=1" 
-                    },
-                    subA: { 
-                        name: "Guilherme de Araujo Grigoli", 
-                        lattes: "http://lattes.cnpq.br/4082666910942025",
-                        photo: "./grigoli.png?v=1" 
-                    },
-                    subB: { 
-                        name: "Josias Marcos de Resende Silva", 
-                        lattes: "http://lattes.cnpq.br/9949858368400382",
-                        photo: "./josias.png?v=1" 
-                    }
+                    coord: { name: "Eduardo Xavier Ferreira Glaser Migon", lattes: "http://lattes.cnpq.br/0133876688289429", photo: "./migon.png?v=1" },
+                    subA: { name: "Guilherme de Araujo Grigoli", lattes: "http://lattes.cnpq.br/4082666910942025", photo: "./grigoli.png?v=1" },
+                    subB: { name: "Josias Marcos de Resende Silva", lattes: "http://lattes.cnpq.br/9949858368400382", photo: "./josias.png?v=1" }
                 },
-
-                courses: [
-                    {
-                        id: 1, active: true, day: "15", month: { pt: "Mar", en: "Mar", es: "Mar" },
-                        type: { pt: "Simpósio", en: "Symposium", es: "Simposio" },
-                        title: { pt: "Inovação na Base Industrial de Defesa", en: "Innovation in the Defense Industrial Base", es: "Innovación en la Base Industrial de Defensa" },
-                        desc: { pt: "Evento focado na análise de políticas públicas para o fortalecimento da BID.", en: "Event focused on public policy analysis for DIB.", es: "Evento enfocado en el análisis de políticas públicas para la BID." },
-                        time: "09:00 - 16:00", material_link: "edital.pdf"
-                    }
-                ],
 
                 t: {
-                    pt: {
-                        header_lcm_full: "Laboratório de Ciências Militares", header_eceme_full: "Escola de Comando e Estado-Maior do Exército",
-                        nav_home: "Início", nav_research: "Linhas de Pesquisa", nav_contact: "Contato", nav_courses: "Cursos e Eventos",
-                        news_label: "Destaque",
-                        leadership_title: "Coordenação LCM", 
-                        coord_role: "Coordenador Geral", 
-                        sub_a_role: "Coordenador da Linha de Pesquisa GD", 
-                        sub_b_role: "Coordenador da Linha de Pesquisa EPG",
-                        
-                        line_a_label: "Linha A — Gestão de Defesa", line_b_label: "Linha B — Estudo da Paz e Guerra",
-                        structure_title: "Estrutura de Pesquisa", structure_subtitle: "Selecione uma subárea para detalhes",
-                        access_area: "ACESSAR ÁREA", back_research: "Voltar para Linhas de Pesquisa",
-                        tab_about: "Sobre a Área", tab_researchers: "Pesquisadores", tab_projects: "Projetos", tab_publications: "Publicações",
-                        label_focus: "Foco Estratégico", label_topics: "Temas Abrangentes", label_tech: "Tecnologias Transversais",
-                        contact_title: "Fale Conosco", contact_info: "Informações de Contato", contact_map: "Localização", contact_button: "Traçar Rota",
-                        courses_title: "Cursos e Eventos", courses_subtitle: "Acompanhe nossa agenda acadêmica",
-                        search_placeholder: "Buscar no site...", no_results: "Nenhum resultado encontrado.",
-                        col_project: "Projeto", col_responsible: "Responsável", col_status: "Status", status_ongoing: "Em Andamento", no_data: "Dados não disponíveis no momento.",
-                        download_material: "Baixar Material", status_open: "Inscrições Abertas", status_closed: "Encerrado"
-                    },
-                    en: {
-                        header_lcm_full: "Military Sciences Laboratory", header_eceme_full: "Army Command and General Staff School",
-                        nav_home: "Home", nav_research: "Research Lines", nav_contact: "Contact", nav_courses: "Courses & Events",
-                        news_label: "Featured",
-                        leadership_title: "LCM Coordination", 
-                        coord_role: "General Coordinator", 
-                        sub_a_role: "GD Research Line Coordinator", 
-                        sub_b_role: "EPG Research Line Coordinator",
-                        
-                        line_a_label: "Line A — Defense Management", line_b_label: "Line B — Peace and War Studies",
-                        structure_title: "Research Structure", structure_subtitle: "Select a subarea for details",
-                        access_area: "ACCESS AREA", back_research: "Back to Research Lines",
-                        tab_about: "About Area", tab_researchers: "Researchers", tab_projects: "Projects", tab_publications: "Publications",
-                        label_focus: "Strategic Focus", label_topics: "Comprehensive Themes", label_tech: "Transversal Technologies",
-                        contact_title: "Contact Us", contact_info: "Contact Information", contact_map: "Location", contact_button: "Get Directions",
-                        courses_title: "Courses & Events", courses_subtitle: "Follow our academic schedule",
-                        search_placeholder: "Search...", no_results: "No results found.",
-                        col_project: "Project", col_responsible: "Lead", col_status: "Status", status_ongoing: "Ongoing", no_data: "Data currently unavailable.",
-                        download_material: "Download Material", status_open: "Open", status_closed: "Closed"
-                    },
-                    es: {
-                        header_lcm_full: "Laboratorio de Ciencias Militares", header_eceme_full: "Escuela de Comando y Estado Mayor del Ejército",
-                        nav_home: "Inicio", nav_research: "Líneas de Investigación", nav_contact: "Contacto", nav_courses: "Cursos y Eventos",
-                        news_label: "Destacado",
-                        leadership_title: "Coordinación LCM", 
-                        coord_role: "Coordinador General", 
-                        sub_a_role: "Coordinador de Línea de Inv. GD", 
-                        sub_b_role: "Coordinador de Línea de Inv. EPG",
-                        
-                        line_a_label: "Línea A — Gestión de Defensa", line_b_label: "Línea B — Estudios de Paz y Guerra",
-                        structure_title: "Estructura de Investigación", structure_subtitle: "Seleccione una subárea para detalles",
-                        access_area: "ACCEDER ÁREA", back_research: "Volver a Líneas de Investigación",
-                        tab_about: "Sobre el Área", tab_researchers: "Investigadores", tab_projects: "Proyectos", tab_publications: "Publicaciones",
-                        label_focus: "Enfoque Estratégico", label_topics: "Temas Abarcados", label_tech: "Tecnologías Transversales",
-                        contact_title: "Contáctenos", contact_info: "Información de Contacto", contact_map: "Ubicación", contact_button: "Ver Ruta",
-                        courses_title: "Cursos y Eventos", courses_subtitle: "Siga nuestra agenda académica",
-                        search_placeholder: "Buscar...", no_results: "Ningún resultado encontrado.",
-                        col_project: "Proyecto", col_responsible: "Responsable", col_status: "Estado", status_ongoing: "En Curso", no_data: "Datos no disponibles.",
-                        download_material: "Descargar Material", status_open: "Abierto", status_closed: "Cerrado"
-                    }
+                    pt: { header_lcm_full: "Laboratório de Ciências Militares", header_eceme_full: "Escola de Comando e Estado-Maior do Exército", nav_home: "Início", nav_research: "Linhas de Pesquisa", nav_contact: "Contato", nav_courses: "Cursos e Eventos", news_label: "Destaque", leadership_title: "Coordenação LCM", coord_role: "Coordenador Geral", sub_a_role: "Coordenador da Linha de Pesquisa GD", sub_b_role: "Coordenador da Linha de Pesquisa EPG", line_a_label: "Linha A — Gestão de Defesa", line_b_label: "Linha B — Estudo da Paz e Guerra", structure_title: "Estrutura de Pesquisa", structure_subtitle: "Selecione uma subárea para detalhes", access_area: "ACESSAR ÁREA", back_research: "Voltar para Linhas de Pesquisa", tab_about: "Sobre a Área", tab_researchers: "Pesquisadores", tab_projects: "Projetos", tab_publications: "Publicações", label_focus: "Foco Estratégico", label_topics: "Temas Abrangentes", label_tech: "Tecnologias Transversais", contact_title: "Fale Conosco", contact_info: "Informações de Contato", contact_map: "Localização", contact_button: "Traçar Rota", courses_title: "Cursos e Eventos", courses_subtitle: "Acompanhe nossa agenda acadêmica", search_placeholder: "Buscar no site...", no_results: "Nenhum resultado encontrado.", col_project: "Projeto", col_responsible: "Responsável", col_status: "Status", status_ongoing: "Em Andamento", no_data: "Dados não disponíveis no momento.", download_material: "Baixar Material", status_open: "Inscrições Abertas", status_closed: "Encerrado" },
+                    en: { header_lcm_full: "Military Sciences Laboratory", header_eceme_full: "Army Command and General Staff School", nav_home: "Home", nav_research: "Research Lines", nav_contact: "Contact", nav_courses: "Courses & Events", news_label: "Featured", leadership_title: "LCM Coordination", coord_role: "General Coordinator", sub_a_role: "GD Research Line Coordinator", sub_b_role: "EPG Research Line Coordinator", line_a_label: "Line A — Defense Management", line_b_label: "Line B — Peace and War Studies", structure_title: "Research Structure", structure_subtitle: "Select a subarea for details", access_area: "ACCESS AREA", back_research: "Back to Research Lines", tab_about: "About Area", tab_researchers: "Researchers", tab_projects: "Projects", tab_publications: "Publications", label_focus: "Strategic Focus", label_topics: "Comprehensive Themes", label_tech: "Transversal Technologies", contact_title: "Contact Us", contact_info: "Contact Information", contact_map: "Location", contact_button: "Get Directions", courses_title: "Courses & Events", courses_subtitle: "Follow our academic schedule", search_placeholder: "Search...", no_results: "No results found.", col_project: "Project", col_responsible: "Lead", col_status: "Status", status_ongoing: "Ongoing", no_data: "Data currently unavailable.", download_material: "Download Material", status_open: "Open", status_closed: "Closed" },
+                    es: { header_lcm_full: "Laboratorio de Ciencias Militares", header_eceme_full: "Escuela de Comando y Estado Mayor del Ejército", nav_home: "Inicio", nav_research: "Líneas de Investigación", nav_contact: "Contacto", nav_courses: "Cursos y Eventos", news_label: "Destacado", leadership_title: "Coordinación LCM", coord_role: "Coordinador General", sub_a_role: "Coordinador de Línea de Inv. GD", sub_b_role: "Coordinador de Línea de Inv. EPG", line_a_label: "Línea A — Gestión de Defensa", line_b_label: "Línea B — Estudios de Paz y Guerra", structure_title: "Estructura de Investigación", structure_subtitle: "Seleccione una subárea para detalles", access_area: "ACCEDER ÁREA", back_research: "Volver a Líneas de Investigación", tab_about: "Sobre el Área", tab_researchers: "Investigadores", tab_projects: "Proyectos", tab_publications: "Publicaciones", label_focus: "Enfoque Estratégico", label_topics: "Temas Abarcados", label_tech: "Tecnologías Transversales", contact_title: "Contáctenos", contact_info: "Información de Contacto", contact_map: "Ubicación", contact_button: "Ver Ruta", courses_title: "Cursos y Eventos", courses_subtitle: "Siga nuestra agenda académica", search_placeholder: "Buscar...", no_results: "Ningún resultado encontrado.", col_project: "Proyecto", col_responsible: "Responsable", col_status: "Estado", status_ongoing: "En Curso", no_data: "Datos no disponibles.", download_material: "Descargar Material", status_open: "Abierto", status_closed: "Cerrado" }
                 },
 
+                // Inicialização com Carregamento de Dados Externos
+                initApp() {
+                    this.loadNews();
+                    this.loadEvents();
+                    this.loadResearchers();
+                    this.loadProjects();
+                    this.loadPublications();
+                    setInterval(() => { this.nextSlide(); }, 6000);
+                },
+
+                // Funções de Busca de Dados (Fetch)
+                async loadNews() {
+                    try { const res = await fetch('./data_news.json?v=' + new Date().getTime()); this.news = await res.json(); } 
+                    catch (e) { console.error("Erro ao carregar notícias", e); }
+                },
+                async loadEvents() {
+                    try { const res = await fetch('./data_events.json?v=' + new Date().getTime()); this.courses = await res.json(); } 
+                    catch (e) { console.error("Erro ao carregar eventos", e); }
+                },
+                async loadResearchers() {
+                    try { 
+                        const res = await fetch('./data_researchers.json?v=' + new Date().getTime()); 
+                        const data = await res.json();
+                        // Distribui os pesquisadores nas subáreas corretas
+                        data.forEach(item => {
+                            const area = this.subareas.find(s => s.id === item.subarea_id);
+                            if (area) area.researchers.push(item);
+                        });
+                    } catch (e) { console.error("Erro ao carregar pesquisadores", e); }
+                },
+                async loadProjects() {
+                    try { 
+                        const res = await fetch('./data_projects.json?v=' + new Date().getTime()); 
+                        const data = await res.json();
+                        data.forEach(item => {
+                            const area = this.subareas.find(s => s.id === item.subarea_id);
+                            if (area) area.ongoing.push(item);
+                        });
+                    } catch (e) { console.error("Erro ao carregar projetos", e); }
+                },
+                async loadPublications() {
+                    try { 
+                        const res = await fetch('./data_publications.json?v=' + new Date().getTime()); 
+                        const data = await res.json();
+                        data.forEach(item => {
+                            const area = this.subareas.find(s => s.id === item.subarea_id);
+                            if (area) area.publications.push(item);
+                        });
+                    } catch (e) { console.error("Erro ao carregar publicações", e); }
+                },
+
+                // Métodos Auxiliares
+                nextSlide() { this.activeSlide = (this.activeSlide === this.news.length - 1) ? 0 : this.activeSlide + 1; },
+                prevSlide() { this.activeSlide = (this.activeSlide === 0) ? this.news.length - 1 : this.activeSlide - 1; },
                 get searchResults() {
                     if (this.searchQuery === '') return [];
                     const q = this.searchQuery.toLowerCase();
@@ -573,103 +500,13 @@
                         return title.includes(q) || focus.includes(q);
                     });
                 },
-
                 getInitials(name) { return name.match(/(\b\S)?/g).join("").match(/(^\S|\S$)?/g).join("").toUpperCase(); },
-                
                 openSubarea(area) {
                     this.activeArea = area;
                     this.view = 'subarea';
                     this.tab = 'sobre';
                     window.scrollTo(0, 0);
-                },
-
-                subareas: [
-                    {
-                        id: 1, line: "A", icon: "fa-solid fa-diagram-project",
-                        title: { pt: "Governança, Planejamento e Gestão de Capacidades", en: "Governance, Planning and Capability Management", es: "Gobernanza, Planificación y Gestión de Capacidades" },
-                        subtitle: { pt: "PBC, Portfólio e Riscos", en: "CBP, Portfolio and Risks", es: "PBC, Cartera y Riesgos" },
-                        focus: { pt: "PBC, portfólio, aquisições, ciclo de vida sob governança, riscos e simulação para decisão.", en: "CBP, portfolio, acquisitions, life cycle under governance, risks and simulation.", es: "PBC, cartera, adquisiciones, ciclo de vida bajo gobernanza, riesgos y simulación." },
-                        tech: { pt: "Governança de IA, engenharia de decisões assistidas por software, gestão de maturidade tecnológica (TRL).", en: "AI Governance, software-assisted decision engineering, TRL management.", es: "Gobernanza de IA, ingeniería de decisiones asistida por software, TRL." },
-                        topics: { 
-                            pt: ["Planejamento Baseado em Capacidades (PBC)", "Priorização Multicritério", "Aquisições de Defesa", "Gestão do Ciclo de Vida (PLM)", "Gestão de Portfólio Estratégico", "Value for Money e Eficiência", "Gestão de Riscos Tecnológicos", "Compliance e Integridade", "Wargaming Analítico", "Simulação Construtiva para Decisão", "Modelagem de Força", "Racionalização Administrativa"],
-                            en: ["Capability-Based Planning", "Multi-criteria Prioritization", "Defense Acquisitions", "PLM", "Strategic Portfolio", "Value for Money", "Tech Risk Management", "Compliance", "Analytical Wargaming", "Constructive Simulation", "Force Modeling", "Admin Rationalization"],
-                            es: ["Planificación Basada en Capacidades", "Priorización Multicriterio", "Adquisiciones de Defensa", "PLM", "Cartera Estratégica", "Valor por Dinero", "Gestión de Riesgos", "Cumplimiento", "Wargaming Analítico", "Simulación Constructiva", "Modelado de Fuerza", "Racionalización Admin"]
-                        },
-                        researchers: [ { name: "Ten Cel Pesquisador 1", lattes: "#", role: { pt: "Pesquisador", en: "Researcher", es: "Investigador" }, bio: { pt: "Especialista em PBC.", en: "Specialist in CBP.", es: "Especialista en PBC." }, photo: null } ],
-                        ongoing: [], publications: []
-                    },
-                    {
-                        id: 2, line: "A", icon: "fa-solid fa-industry",
-                        title: { pt: "Capacidades, Logística, Mobilização e BID", en: "Capabilities, Logistics, Mobilization and DIB", es: "Capacidades, Logística, Movilización y BID" },
-                        subtitle: { pt: "Economia de Defesa e Prontidão", en: "Defense Economics and Readiness", es: "Economía de Defensa y Preparación" },
-                        focus: { pt: "Prontidão e sustentação; mobilização e resiliência nacional; economia de defesa e BID como base de autonomia.", en: "Readiness and sustainment; national mobilization and resilience; defense economics and DIB.", es: "Preparación y sostenimiento; movilización y resiliencia nacional; economía de defensa y BID." },
-                        tech: { pt: "IA para manutenção preditiva, IoT/rastreabilidade, automação logística, manufatura aditiva.", en: "Predictive maintenance AI, IoT, logistics automation, additive manufacturing.", es: "IA para mantenimiento predictivo, IoT, automatización logística." },
-                        topics: { 
-                            pt: ["Logística Operacional e Sustentação", "Prontidão Logística (Readiness)", "Manutenção e Confiabilidade (RAM)", "Gestão de Estoques Estratégicos", "Mobilização Nacional e Industrial", "Resiliência de Cadeias Críticas", "Economia de Defesa e Orçamento", "Base Industrial de Defesa (BID)", "Política Industrial e Inovação", "Tecnologia Dual (Dual-Use)", "Dependências Externas", "Sistemas Autônomos na Logística"],
-                            en: ["Operational Logistics", "Logistics Readiness", "RAM", "Strategic Stocks", "National Mobilization", "Supply Chain Resilience", "Defense Economics", "Defense Industrial Base", "Industrial Policy", "Dual-Use Tech", "External Dependencies", "Autonomous Logistics"],
-                            es: ["Logística Operativa", "Preparación Logística", "RAM", "Existencias Estratégicas", "Movilización Nacional", "Resiliencia de Cadenas", "Economía de Defensa", "Base Industrial de Defensa", "Política Industrial", "Tecnología Dual", "Dependencias Externas", "Logística Autónoma"]
-                        },
-                        researchers: [ 
-                            { 
-                                name: "Mardônio Bezerra Silva", 
-                                lattes: "http://lattes.cnpq.br/6330241765425435", 
-                                photo: "./mardonio.png?v=1",
-                                role: { pt: "Pesquisador Discente", en: "Student Researcher", es: "Investigador Estudiante" }, 
-                                bio: { pt: "Membro do Laboratório de Ciências Militares.", en: "Member of the Military Sciences Laboratory.", es: "Miembro del Laboratorio de Ciencias Militares." } 
-                            } 
-                        ],
-                        ongoing: [], publications: []
-                    },
-                    {
-                        id: 3, line: "B", icon: "fa-solid fa-person-military-pointing",
-                        title: { pt: "Operações, Doutrina e Superioridade Operacional", en: "Operations, Doctrine and Operational Superiority", es: "Operaciones, Doctrina y Superioridad Operacional" },
-                        subtitle: { pt: "Multidomínio e Informacional", en: "Multi-domain and Informational", es: "Multidominio e Informacional" },
-                        focus: { pt: "Emprego da força, arte operacional, doutrina, C2 e superioridade operacional (ISR/GE/ciber) no nível operacional.", en: "Use of force, operational art, doctrine, C2, ISR/EW/cyber at operational level.", es: "Empleo de la fuerza, arte operacional, doctrina, C2, ISR/GE/ciber a nivel operacional." },
-                        tech: { pt: "Sistemas autônomos e robótica, IA no planejamento, sensores avançados, edge computing.", en: "Autonomous systems, AI planning, advanced sensors, edge computing.", es: "Sistemas autónomos, IA en planificación, sensores avanzados." },
-                        topics: { 
-                            pt: ["Arte Operacional e Desenho de Campanha", "Doutrina Militar Terrestre", "Operações Conjuntas e Interagências", "Operações Multidomínio (MDO)", "Comando e Controle (C2)", "Ciclo Decisório (OODA)", "Inteligência, Vigilância e Reconhecimento (ISR)", "Guerra Eletrônica Tática/Operacional", "Ciberespaço no Nível Tático", "Combate em Ambiente Urbano", "Guerra de Selva e Ambientes Complexos", "Simulação Viva, Virtual e Construtiva"],
-                            en: ["Operational Art", "Land Doctrine", "Joint Operations", "Multi-Domain Operations", "Command and Control", "Decision Cycle", "ISR", "Tactical EW", "Tactical Cyber", "Urban Combat", "Jungle Warfare", "LVC Simulation"],
-                            es: ["Arte Operacional", "Doctrina Terrestre", "Operaciones Conjuntas", "Operaciones Multidominio", "Mando y Control", "Ciclo de Decisión", "ISR", "Guerra Electrónica", "Ciberespacio Táctico", "Combate Urbano", "Guerra de Selva", "Simulación LVC"]
-                        },
-                        researchers: [
-                            { 
-                                name: "Henrique de Oliveira Mendonça", 
-                                lattes: "http://lattes.cnpq.br/9207642455474797", 
-                                photo: "./henrique.png?v=1",
-                                role: { pt: "Coordenador", en: "Coordinator", es: "Coordinador" }, 
-                                bio: { pt: "Coordenador de Subárea no LCM.", en: "Subarea Coordinator at LCM.", es: "Coordinador de Subárea en el LCM." } 
-                            },
-                            { 
-                                name: "Eliezer de Souza Batista Junior", 
-                                lattes: "https://lattes.cnpq.br/1454270652578057", 
-                                photo: "./eliezer.png?v=1",
-                                role: { pt: "Subcoordenador", en: "Sub-coordinator", es: "Subcoordinador" }, 
-                                bio: { pt: "Membro do Laboratório de Ciências Militares.", en: "Member of the Military Sciences Laboratory.", es: "Miembro del Laboratorio de Ciencias Militares." } 
-                            },
-                            { 
-                                name: "Ronay Souza Diniz", 
-                                lattes: "http://lattes.cnpq.br/2109315083731050", 
-                                photo: "./diniz.png?v=1",
-                                role: { pt: "Pesquisador Egresso", en: "Alumnus Researcher", es: "Investigador Egresado" }, 
-                                bio: { pt: "Membro do Laboratório de Ciências Militares.", en: "Member of the Military Sciences Laboratory.", es: "Miembro del Laboratorio de Ciencias Militares." } 
-                            }
-                        ], 
-                        ongoing: [], publications: []
-                    },
-                    {
-                        id: 4, line: "B", icon: "fa-solid fa-earth-americas",
-                        title: { pt: "Estratégia, Geopolítica, Paz e Guerra", en: "Strategy, Geopolitics, Peace and War", es: "Estrategia, Geopolítica, Paz y Guerra" },
-                        subtitle: { pt: "Dimensão Humana e Direito", en: "Human Dimension and Law", es: "Dimensión Humana y Derecho" },
-                        focus: { pt: "Estratégia, poder nacional, cenários, paz e conflito, legitimidade e dimensão humana.", en: "Strategy, national power, scenarios, peace/conflict, legitimacy, human dimension.", es: "Estrategia, poder nacional, escenarios, paz/conflicto, legitimidad, dimensión humana." },
-                        tech: { pt: "Impactos estratégicos de tecnologias críticas (IA/ciber), governança ética, operações de informação.", en: "Strategic impacts of tech, ethical governance, info ops.", es: "Impactos estratégicos de tec, gobernanza ética, ops de información." },
-                        topics: { 
-                            pt: ["Pensamento Estratégico Militar", "Geopolítica e Estudos Regionais", "Poder Nacional e Dissuasão", "Cenários Prospectivos e Early Warning", "Estudos de Paz e Estabilização", "Guerra Híbrida e Zona Cinza", "Dimensão Humana e Liderança", "Tomada de Decisão sob Estresse", "Ética Militar e Profissionalismo", "Direito Internacional dos Conflitos Armados", "Operações de Informação Estratégica", "Comunicação Estratégica"],
-                            en: ["Strategic Thinking", "Geopolitics", "National Power", "Foresight/Scenarios", "Peace Studies", "Hybrid Warfare", "Human Dimension", "Decision under Stress", "Military Ethics", "LOAC/IHL", "Strategic Info Ops", "Strategic Comms"],
-                            es: ["Pensamiento Estratégico", "Geopolítica", "Poder Nacional", "Escenarios", "Estudios de Paz", "Guerra Híbrida", "Dimensión Humana", "Decisión bajo Estrés", "Ética Militar", "DICA", "Ops de Información", "Comms Estratégicas"]
-                        },
-                        researchers: [], ongoing: [], publications: []
-                    }
-                ]
+                }
             }
         }
     </script>
