@@ -55,16 +55,20 @@
                     <button class="md:hidden text-2xl" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars"></i></button>
                 </div>
             </div>
+            
             <div class="hidden md:flex justify-center mt-3 space-x-8 text-xs font-bold uppercase tracking-widest border-t border-green-800 pt-3">
                 <button @click="view = 'home'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'home'}" x-text="t[lang].nav_home"></button>
                 <button @click="view = 'research'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'research'}" x-text="t[lang].nav_research"></button>
                 <button @click="view = 'events'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'events'}" x-text="t[lang].nav_courses"></button>
+                <button @click="view = 'all_researchers'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'all_researchers'}" x-text="t[lang].nav_all_researchers"></button>
                 <button @click="view = 'contact'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'contact'}" x-text="t[lang].nav_contact"></button>
             </div>
+            
             <div x-show="mobileMenuOpen" class="md:hidden mt-4 pb-4 border-t border-green-800" x-cloak>
                 <button @click="view = 'home'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_home"></button>
                 <button @click="view = 'research'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_research"></button>
                 <button @click="view = 'events'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_courses"></button>
+                <button @click="view = 'all_researchers'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_all_researchers"></button>
                 <button @click="view = 'contact'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_contact"></button>
             </div>
         </div>
@@ -223,6 +227,44 @@
         </div>
     </div>
 
+    <div x-show="view === 'all_researchers'" x-cloak x-transition.opacity.duration.300ms class="flex-grow bg-gray-50">
+        <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
+            <h2 class="text-3xl font-bold uppercase" x-text="t[lang].nav_all_researchers"></h2>
+            <p class="text-gray-300 mt-2 italic" x-text="t[lang].all_researchers_subtitle"></p>
+        </header>
+
+        <div class="container mx-auto px-6 py-12 max-w-6xl">
+            <template x-for="area in subareas" :key="area.id">
+                <div x-show="area.researchers.length > 0" class="mb-16">
+                    <div class="flex items-center mb-6 border-b border-gray-300 pb-2">
+                        <div class="h-8 w-1 bg-eb-gold mr-4"></div>
+                        <div>
+                             <span class="text-xs font-bold text-eb-gold uppercase tracking-widest block" x-text="area.line === 'A' ? t[lang].line_a_label : t[lang].line_b_label"></span>
+                             <h3 class="text-2xl font-bold text-eb-green uppercase" x-text="area.title[lang]"></h3>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <template x-for="researcher in area.researchers">
+                            <div class="bg-white p-6 rounded shadow-sm border border-gray-200 hover:shadow-md transition flex items-start">
+                                <div class="w-16 h-16 bg-gray-200 rounded-full flex-shrink-0 overflow-hidden mr-4 relative border-2 border-eb-green">
+                                    <template x-if="researcher.photo"><img :src="researcher.photo" class="w-full h-full object-cover object-top" alt="Foto"></template>
+                                    <template x-if="!researcher.photo"><div class="w-full h-full bg-eb-green flex items-center justify-center text-white font-bold text-lg"><span x-text="getInitials(researcher.name)"></span></div></template>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-eb-green" x-text="researcher.name"></h4>
+                                    <p class="text-xs text-eb-gold uppercase font-bold tracking-widest mb-2" x-text="researcher.role[lang]"></p>
+                                    <p class="text-sm text-gray-600 mb-3" x-text="researcher.bio[lang]"></p>
+                                    <a :href="researcher.lattes" target="_blank" class="text-xs text-blue-800 hover:underline font-bold">Lattes CV <i class="fa-solid fa-external-link-alt ml-1"></i></a>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
     <div x-show="view === 'contact'" x-cloak x-transition.opacity.duration.300ms class="flex-grow bg-gray-50">
         <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
             <h2 class="text-3xl font-bold uppercase" x-text="t[lang].contact_title"></h2>
@@ -339,32 +381,24 @@
                         <template x-for="pub in activeArea.publications">
                             <li class="border-b border-gray-100 pb-4 last:border-0">
                                 <div class="flex items-start">
-                                    
                                     <template x-if="pub.link">
                                         <a :href="pub.link" target="_blank" class="flex-shrink-0 cursor-pointer hover:scale-110 transition" title="Acessar Publicação">
                                             <i class="fa-solid fa-file-pdf text-red-600 text-xl mt-1 mr-4"></i>
                                         </a>
                                     </template>
                                     <template x-if="!pub.link">
-                                        <div class="flex-shrink-0">
-                                            <i class="fa-solid fa-file-pdf text-gray-400 text-xl mt-1 mr-4"></i>
-                                        </div>
+                                        <div class="flex-shrink-0"><i class="fa-solid fa-file-pdf text-gray-400 text-xl mt-1 mr-4"></i></div>
                                     </template>
-
                                     <div>
                                         <template x-if="pub.link">
                                             <a :href="pub.link" target="_blank" class="font-bold text-blue-800 hover:text-blue-600 hover:underline cursor-pointer block leading-tight">
-                                                <span x-text="pub.title"></span> 
-                                                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 opacity-70"></i>
+                                                <span x-text="pub.title"></span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 opacity-70"></i>
                                             </a>
                                         </template>
                                         <template x-if="!pub.link">
                                             <h4 class="font-bold text-gray-900 leading-tight cursor-default" x-text="pub.title"></h4>
                                         </template>
-
-                                        <p class="text-sm text-gray-600 mt-1">
-                                            <span x-text="pub.authors"></span> • <span class="italic" x-text="pub.journal"></span>, <span x-text="pub.year"></span>.
-                                        </p>
+                                        <p class="text-sm text-gray-600 mt-1"><span x-text="pub.authors"></span> • <span class="italic" x-text="pub.journal"></span>, <span x-text="pub.year"></span>.</p>
                                     </div>
                                 </div>
                             </li>
@@ -373,6 +407,8 @@
                     </ul>
                 </div>
             </div>
+        </div>
+    </div>
 
     <footer class="bg-eb-green text-white py-12 border-t-8 border-eb-gold mt-auto">
         <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
@@ -381,8 +417,8 @@
                 <p class="text-xs text-gray-400">Escola de Comando e Estado-Maior do Exército</p>
             </div>
             <div class="flex space-x-6 text-2xl">
-                <a href="https://www.linkedin.com/company/lcmeceme/?viewAsMember=true" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="https://www.instagram.com/lcmeceme" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://linkedin.com/company/lcm-eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://instagram.com/lcm.eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://youtube.com/channel/lcm-eceme-placeholder" target="_blank" class="hover:text-eb-gold transition transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
             </div>
             <div class="text-center md:text-right mt-6 md:mt-0">
@@ -405,7 +441,7 @@
                 // Dados Vazios (Serão preenchidos via JSON)
                 news: [],
                 courses: [],
-                // Subáreas apenas com a estrutura estática (títulos, ícones). As listas (researchers, ongoing, publications) estão vazias.
+                // Subáreas apenas com a estrutura estática
                 subareas: [
                     {
                         id: 1, line: "A", icon: "fa-solid fa-diagram-project",
@@ -452,9 +488,9 @@
                 },
 
                 t: {
-                    pt: { header_lcm_full: "Laboratório de Ciências Militares", header_eceme_full: "Escola de Comando e Estado-Maior do Exército", nav_home: "Início", nav_research: "Linhas de Pesquisa", nav_contact: "Contato", nav_courses: "Cursos e Eventos", news_label: "Destaque", leadership_title: "Coordenação LCM", coord_role: "Coordenador Geral", sub_a_role: "Coordenador da Linha de Pesquisa GD", sub_b_role: "Coordenador da Linha de Pesquisa EPG", line_a_label: "Linha A — Gestão de Defesa", line_b_label: "Linha B — Estudo da Paz e Guerra", structure_title: "Estrutura de Pesquisa", structure_subtitle: "Selecione uma subárea para detalhes", access_area: "ACESSAR ÁREA", back_research: "Voltar para Linhas de Pesquisa", tab_about: "Sobre a Área", tab_researchers: "Pesquisadores", tab_projects: "Projetos", tab_publications: "Publicações", label_focus: "Foco Estratégico", label_topics: "Temas Abrangentes", label_tech: "Tecnologias Transversais", contact_title: "Fale Conosco", contact_info: "Informações de Contato", contact_map: "Localização", contact_button: "Traçar Rota", courses_title: "Cursos e Eventos", courses_subtitle: "Acompanhe nossa agenda acadêmica", search_placeholder: "Buscar no site...", no_results: "Nenhum resultado encontrado.", col_project: "Projeto", col_responsible: "Responsável", col_status: "Status", status_ongoing: "Em Andamento", no_data: "Dados não disponíveis no momento.", download_material: "Baixar Material", status_open: "Inscrições Abertas", status_closed: "Encerrado" },
-                    en: { header_lcm_full: "Military Sciences Laboratory", header_eceme_full: "Army Command and General Staff School", nav_home: "Home", nav_research: "Research Lines", nav_contact: "Contact", nav_courses: "Courses & Events", news_label: "Featured", leadership_title: "LCM Coordination", coord_role: "General Coordinator", sub_a_role: "GD Research Line Coordinator", sub_b_role: "EPG Research Line Coordinator", line_a_label: "Line A — Defense Management", line_b_label: "Line B — Peace and War Studies", structure_title: "Research Structure", structure_subtitle: "Select a subarea for details", access_area: "ACCESS AREA", back_research: "Back to Research Lines", tab_about: "About Area", tab_researchers: "Researchers", tab_projects: "Projects", tab_publications: "Publications", label_focus: "Strategic Focus", label_topics: "Comprehensive Themes", label_tech: "Transversal Technologies", contact_title: "Contact Us", contact_info: "Contact Information", contact_map: "Location", contact_button: "Get Directions", courses_title: "Courses & Events", courses_subtitle: "Follow our academic schedule", search_placeholder: "Search...", no_results: "No results found.", col_project: "Project", col_responsible: "Lead", col_status: "Status", status_ongoing: "Ongoing", no_data: "Data currently unavailable.", download_material: "Download Material", status_open: "Open", status_closed: "Closed" },
-                    es: { header_lcm_full: "Laboratorio de Ciencias Militares", header_eceme_full: "Escuela de Comando y Estado Mayor del Ejército", nav_home: "Inicio", nav_research: "Líneas de Investigación", nav_contact: "Contacto", nav_courses: "Cursos y Eventos", news_label: "Destacado", leadership_title: "Coordinación LCM", coord_role: "Coordinador General", sub_a_role: "Coordinador de Línea de Inv. GD", sub_b_role: "Coordinador de Línea de Inv. EPG", line_a_label: "Línea A — Gestión de Defensa", line_b_label: "Línea B — Estudios de Paz y Guerra", structure_title: "Estructura de Investigación", structure_subtitle: "Seleccione una subárea para detalles", access_area: "ACCEDER ÁREA", back_research: "Volver a Líneas de Investigación", tab_about: "Sobre el Área", tab_researchers: "Investigadores", tab_projects: "Proyectos", tab_publications: "Publicaciones", label_focus: "Enfoque Estratégico", label_topics: "Temas Abarcados", label_tech: "Tecnologías Transversales", contact_title: "Contáctenos", contact_info: "Información de Contacto", contact_map: "Ubicación", contact_button: "Ver Ruta", courses_title: "Cursos y Eventos", courses_subtitle: "Siga nuestra agenda académica", search_placeholder: "Buscar...", no_results: "Ningún resultado encontrado.", col_project: "Proyecto", col_responsible: "Responsable", col_status: "Estado", status_ongoing: "En Curso", no_data: "Datos no disponibles.", download_material: "Descargar Material", status_open: "Abierto", status_closed: "Cerrado" }
+                    pt: { header_lcm_full: "Laboratório de Ciências Militares", header_eceme_full: "Escola de Comando e Estado-Maior do Exército", nav_home: "Início", nav_research: "Linhas de Pesquisa", nav_all_researchers: "Pesquisadores", nav_contact: "Contato", nav_courses: "Cursos e Eventos", all_researchers_subtitle: "Corpo de pesquisadores do LCM dividido por subárea", news_label: "Destaque", leadership_title: "Coordenação LCM", coord_role: "Coordenador Geral", sub_a_role: "Coordenador da Linha de Pesquisa GD", sub_b_role: "Coordenador da Linha de Pesquisa EPG", line_a_label: "Linha A — Gestão de Defesa", line_b_label: "Linha B — Estudo da Paz e Guerra", structure_title: "Estrutura de Pesquisa", structure_subtitle: "Selecione uma subárea para detalhes", access_area: "ACESSAR ÁREA", back_research: "Voltar para Linhas de Pesquisa", tab_about: "Sobre a Área", tab_researchers: "Pesquisadores", tab_projects: "Projetos", tab_publications: "Publicações", label_focus: "Foco Estratégico", label_topics: "Temas Abrangentes", label_tech: "Tecnologias Transversais", contact_title: "Fale Conosco", contact_info: "Informações de Contato", contact_map: "Localização", contact_button: "Traçar Rota", courses_title: "Cursos e Eventos", courses_subtitle: "Acompanhe nossa agenda acadêmica", search_placeholder: "Buscar no site...", no_results: "Nenhum resultado encontrado.", col_project: "Projeto", col_responsible: "Responsável", col_status: "Status", status_ongoing: "Em Andamento", no_data: "Dados não disponíveis no momento.", download_material: "Baixar Material", status_open: "Inscrições Abertas", status_closed: "Encerrado" },
+                    en: { header_lcm_full: "Military Sciences Laboratory", header_eceme_full: "Army Command and General Staff School", nav_home: "Home", nav_research: "Research Lines", nav_all_researchers: "Researchers", nav_contact: "Contact", nav_courses: "Courses & Events", all_researchers_subtitle: "LCM researchers organized by subarea", news_label: "Featured", leadership_title: "LCM Coordination", coord_role: "General Coordinator", sub_a_role: "GD Research Line Coordinator", sub_b_role: "EPG Research Line Coordinator", line_a_label: "Line A — Defense Management", line_b_label: "Line B — Peace and War Studies", structure_title: "Research Structure", structure_subtitle: "Select a subarea for details", access_area: "ACCESS AREA", back_research: "Back to Research Lines", tab_about: "About Area", tab_researchers: "Researchers", tab_projects: "Projects", tab_publications: "Publications", label_focus: "Strategic Focus", label_topics: "Comprehensive Themes", label_tech: "Transversal Technologies", contact_title: "Contact Us", contact_info: "Contact Information", contact_map: "Location", contact_button: "Get Directions", courses_title: "Courses & Events", courses_subtitle: "Follow our academic schedule", search_placeholder: "Search...", no_results: "No results found.", col_project: "Project", col_responsible: "Lead", col_status: "Status", status_ongoing: "Ongoing", no_data: "Data currently unavailable.", download_material: "Download Material", status_open: "Open", status_closed: "Closed" },
+                    es: { header_lcm_full: "Laboratorio de Ciencias Militares", header_eceme_full: "Escuela de Comando y Estado Mayor del Ejército", nav_home: "Inicio", nav_research: "Líneas de Investigación", nav_all_researchers: "Investigadores", nav_contact: "Contacto", nav_courses: "Cursos y Eventos", all_researchers_subtitle: "Investigadores del LCM divididos por subárea", news_label: "Destacado", leadership_title: "Coordinación LCM", coord_role: "Coordinador General", sub_a_role: "Coordinador de Línea de Inv. GD", sub_b_role: "Coordinador de Línea de Inv. EPG", line_a_label: "Línea A — Gestión de Defensa", line_b_label: "Línea B — Estudios de Paz y Guerra", structure_title: "Estructura de Investigación", structure_subtitle: "Seleccione una subárea para detalles", access_area: "ACCEDER ÁREA", back_research: "Volver a Líneas de Investigación", tab_about: "Sobre el Área", tab_researchers: "Investigadores", tab_projects: "Proyectos", tab_publications: "Publicaciones", label_focus: "Enfoque Estratégico", label_topics: "Temas Abarcados", label_tech: "Tecnologías Transversales", contact_title: "Contáctenos", contact_info: "Información de Contacto", contact_map: "Ubicación", contact_button: "Ver Ruta", courses_title: "Cursos y Eventos", courses_subtitle: "Siga nuestra agenda académica", search_placeholder: "Buscar...", no_results: "Ningún resultado encontrado.", col_project: "Proyecto", col_responsible: "Responsable", col_status: "Estado", status_ongoing: "En Curso", no_data: "Datos no disponibles.", download_material: "Descargar Material", status_open: "Abierto", status_closed: "Cerrado" }
                 },
 
                 // Inicialização com Carregamento de Dados Externos
@@ -532,8 +568,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
