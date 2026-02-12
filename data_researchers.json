@@ -86,5 +86,21 @@
         "photo": "./carloshenrique.png?v=1",
         "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 1,
+        "name": "Marco Aurélio Vasques Silva", 
+        "lattes": "http://lattes.cnpq.br/1829721176713221", 
+        "photo": "./vasques.png?v=1",
+        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 4,
+        "name": "Rafael Soares Pinheiro da Cunha", 
+        "lattes": "http://lattes.cnpq.br/8115814743833200", 
+        "photo": "./rafaelpinheiro.png?v=1",
+        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     }
 ]
