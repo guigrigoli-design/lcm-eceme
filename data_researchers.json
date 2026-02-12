@@ -102,5 +102,29 @@
         "photo": "./rafaelpinheiro.png?v=1",
         "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+   { 
+        "subarea_id": 1,
+        "name": "Marcelo Eduardo Deotti Júnior", 
+        "lattes": "http://lattes.cnpq.br/4735244729676642", 
+        "photo": "./deotti.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 3,
+        "name": "Alexandre Shoji", 
+        "lattes": "http://lattes.cnpq.br/2866737103543425", 
+        "photo": "./shoji.png?v=1",
+        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 3,
+        "name": "Alexandre Rhoden Barcellos", 
+        "lattes": "http://lattes.cnpq.br/3316496921469115", 
+        "photo": "./barcellos.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     }
 ]
