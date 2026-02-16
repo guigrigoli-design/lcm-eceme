@@ -1,7 +1,7 @@
 [
     {
         "id": 1, 
-        "active": true, 
+        "active": false, 
         "day": "15", 
         "month": { "pt": "Mar", "en": "Mar", "es": "Mar" },
         "type": { "pt": "Simpósio", "en": "Symposium", "es": "Simposio" },
