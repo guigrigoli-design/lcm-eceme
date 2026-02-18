@@ -182,5 +182,29 @@
         "photo": "./marinho2.png?v=1",
         "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 2,
+        "name": "Leonardo da Silva Lima", 
+        "lattes": "http://lattes.cnpq.br/7168205749530418", 
+        "photo": "./silvalima.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 4,
+        "name": "Daniel Corrêa de Freitas", 
+        "lattes": "http://lattes.cnpq.br/8268992118047481", 
+        "photo": "./danielcorrea.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 3,
+        "name": "Celso Montenegro Justo", 
+        "lattes": "http://lattes.cnpq.br/4775709225541354", 
+        "photo": "./montenegro.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     }
 ]
