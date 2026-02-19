@@ -62,6 +62,7 @@
                 <button @click="view = 'events'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'events'}" x-text="t[lang].nav_courses"></button>
                 <button @click="view = 'all_researchers'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'all_researchers'}" x-text="t[lang].nav_all_researchers"></button>
                 <button @click="view = 'theses'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'theses'}" x-text="t[lang].nav_theses"></button>
+                <button @click="view = 'all_publications'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'all_publications'}" x-text="t[lang].nav_all_publications"></button>
                 <button @click="view = 'contact'" class="hover:text-eb-gold transition py-1 border-b-2 border-transparent" :class="{'text-eb-gold border-eb-gold': view === 'contact'}" x-text="t[lang].nav_contact"></button>
             </div>
             
@@ -71,6 +72,7 @@
                 <button @click="view = 'events'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_courses"></button>
                 <button @click="view = 'all_researchers'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_all_researchers"></button>
                 <button @click="view = 'theses'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_theses"></button>
+                <button @click="view = 'all_publications'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_all_publications"></button>
                 <button @click="view = 'contact'; mobileMenuOpen = false" class="block py-2 w-full text-left" x-text="t[lang].nav_contact"></button>
             </div>
         </div>
@@ -310,6 +312,70 @@
         </div>
     </div>
 
+    <div x-show="view === 'all_publications'" x-cloak x-transition.opacity.duration.300ms class="flex-grow bg-gray-50">
+        <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
+            <h2 class="text-3xl font-bold uppercase" x-text="t[lang].nav_all_publications"></h2>
+            <p class="text-gray-300 mt-2 italic" x-text="t[lang].all_pubs_subtitle"></p>
+        </header>
+
+        <div class="bg-white shadow sticky top-[62px] md:top-[66px] z-30">
+            <div class="container mx-auto px-6 flex justify-center space-x-8 overflow-x-auto no-scrollbar">
+                <button @click="activePubSubarea = 1" :class="{ 'tab-active': activePubSubarea === 1 }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Subárea 01</button>
+                <button @click="activePubSubarea = 2" :class="{ 'tab-active': activePubSubarea === 2 }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Subárea 02</button>
+                <button @click="activePubSubarea = 3" :class="{ 'tab-active': activePubSubarea === 3 }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Subárea 03</button>
+                <button @click="activePubSubarea = 4" :class="{ 'tab-active': activePubSubarea === 4 }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Subárea 04</button>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-6 py-12 max-w-5xl">
+            <template x-for="group in getStructuredPublications(activePubSubarea)" :key="group.year">
+                <div class="mb-10">
+                    <div class="flex items-center mb-6">
+                        <span class="bg-eb-gold text-white font-bold text-sm px-3 py-1 rounded-sm shadow-sm" x-text="group.year"></span>
+                        <div class="h-px bg-gray-200 flex-grow ml-4"></div>
+                    </div>
+                    <div class="bg-white p-8 rounded shadow-sm border border-gray-200">
+                        <ul class="space-y-6">
+                            <template x-for="pub in group.docs">
+                                <li class="border-b border-gray-100 pb-4 last:border-0">
+                                    <div class="flex items-start">
+                                        <template x-if="pub.link">
+                                            <a :href="pub.link" target="_blank" @click="pub.downloads = (pub.downloads || 0) + 1" class="flex-shrink-0 cursor-pointer hover:scale-110 transition group" title="Acessar Publicação">
+                                                <i class="fa-solid fa-file-pdf text-red-600 text-xl mt-1 mr-4"></i>
+                                            </a>
+                                        </template>
+                                        <template x-if="!pub.link">
+                                            <div class="flex-shrink-0"><i class="fa-solid fa-file-pdf text-gray-400 text-xl mt-1 mr-4"></i></div>
+                                        </template>
+                                        
+                                        <div class="flex-grow">
+                                            <template x-if="pub.link">
+                                                <a :href="pub.link" target="_blank" @click="pub.downloads = (pub.downloads || 0) + 1" class="font-bold text-blue-800 hover:text-blue-600 hover:underline cursor-pointer block leading-tight">
+                                                    <span x-text="pub.title"></span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px] ml-1 opacity-70"></i>
+                                                </a>
+                                            </template>
+                                            <template x-if="!pub.link">
+                                                <h4 class="font-bold text-gray-900 leading-tight cursor-default" x-text="pub.title"></h4>
+                                            </template>
+                                            <p class="text-sm text-gray-600 mt-1"><span x-text="pub.authors"></span> • <span class="italic" x-text="pub.journal"></span>, <span x-text="pub.year"></span>.</p>
+                                        </div>
+
+                                        <div class="ml-4 flex-shrink-0 text-center min-w-[60px]" x-show="pub.link">
+                                            <span class="text-xs font-bold text-gray-400 block"><i class="fa-solid fa-eye mr-1"></i><span x-text="pub.downloads || 0"></span></span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </template>
+            <div x-show="getStructuredPublications(activePubSubarea).length === 0" class="text-center py-12 text-gray-500 italic">
+                Nenhuma publicação encontrada nesta subárea.
+            </div>
+        </div>
+    </div>
+
     <div x-show="view === 'contact'" x-cloak x-transition.opacity.duration.300ms class="flex-grow bg-gray-50">
         <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
             <h2 class="text-3xl font-bold uppercase" x-text="t[lang].contact_title"></h2>
@@ -483,14 +549,17 @@
                 mobileMenuOpen: false,
                 activeSlide: 0,
                 
-                // Variáveis da nova vista de Teses
-                activeThesisTab: 'Tese', // Pode ser 'Tese', 'Dissertação' ou 'TCC'
-                theses: [], // Dados carregados do JSON
+                // Variáveis das novas vistas
+                activeThesisTab: 'Tese', 
+                activePubSubarea: 1, // Controle da aba de publicações (1,2,3,4)
+                
+                // Dados Globais
+                theses: [], 
+                all_raw_publications: [], // Armazena todas as publicações cruas para a vista geral
                 
                 // Dados Vazios (Serão preenchidos via JSON)
                 news: [],
                 courses: [],
-                // Subáreas apenas com a estrutura estática
                 subareas: [
                     {
                         id: 1, line: "A", icon: "fa-solid fa-diagram-project",
@@ -537,9 +606,9 @@
                 },
 
                 t: {
-                    pt: { header_lcm_full: "Laboratório de Ciências Militares", header_eceme_full: "Escola de Comando e Estado-Maior do Exército", nav_home: "Início", nav_research: "Linhas de Pesquisa", nav_all_researchers: "Pesquisadores", nav_theses: "Teses e Dissertações", nav_contact: "Contato", nav_courses: "Cursos e Eventos", all_researchers_subtitle: "Corpo de pesquisadores do LCM dividido por subárea", theses_subtitle: "Repositório acadêmico do LCM", news_label: "Destaque", leadership_title: "Coordenação LCM", coord_role: "Coordenador Geral", sub_a_role: "Coordenador da Linha de Pesquisa GD", sub_b_role: "Coordenador da Linha de Pesquisa EPG", line_a_label: "Linha A — Gestão de Defesa", line_b_label: "Linha B — Estudo da Paz e Guerra", structure_title: "Estrutura de Pesquisa", structure_subtitle: "Selecione uma subárea para detalhes", access_area: "ACESSAR ÁREA", back_research: "Voltar para Linhas de Pesquisa", tab_about: "Sobre a Área", tab_researchers: "Pesquisadores", tab_projects: "Projetos", tab_publications: "Publicações", label_focus: "Foco Estratégico", label_topics: "Temas Abrangentes", label_tech: "Tecnologias Transversais", contact_title: "Fale Conosco", contact_info: "Informações de Contato", contact_map: "Localização", contact_button: "Traçar Rota", courses_title: "Cursos e Eventos", courses_subtitle: "Acompanhe nossa agenda acadêmica", search_placeholder: "Buscar no site...", no_results: "Nenhum resultado encontrado.", col_project: "Projeto", col_responsible: "Responsável", col_status: "Status", status_ongoing: "Em Andamento", no_data: "Dados não disponíveis no momento.", download_material: "Baixar Material", status_open: "Inscrições Abertas", status_closed: "Encerrado" },
-                    en: { header_lcm_full: "Military Sciences Laboratory", header_eceme_full: "Army Command and General Staff School", nav_home: "Home", nav_research: "Research Lines", nav_all_researchers: "Researchers", nav_theses: "Theses & Dissertations", nav_contact: "Contact", nav_courses: "Courses & Events", all_researchers_subtitle: "LCM researchers organized by subarea", theses_subtitle: "LCM Academic Repository", news_label: "Featured", leadership_title: "LCM Coordination", coord_role: "General Coordinator", sub_a_role: "GD Research Line Coordinator", sub_b_role: "EPG Research Line Coordinator", line_a_label: "Line A — Defense Management", line_b_label: "Line B — Peace and War Studies", structure_title: "Research Structure", structure_subtitle: "Select a subarea for details", access_area: "ACCESS AREA", back_research: "Back to Research Lines", tab_about: "About Area", tab_researchers: "Researchers", tab_projects: "Projects", tab_publications: "Publications", label_focus: "Strategic Focus", label_topics: "Comprehensive Themes", label_tech: "Transversal Technologies", contact_title: "Contact Us", contact_info: "Contact Information", contact_map: "Location", contact_button: "Get Directions", courses_title: "Courses & Events", courses_subtitle: "Follow our academic schedule", search_placeholder: "Search...", no_results: "No results found.", col_project: "Project", col_responsible: "Lead", col_status: "Status", status_ongoing: "Ongoing", no_data: "Data currently unavailable.", download_material: "Download Material", status_open: "Open", status_closed: "Closed" },
-                    es: { header_lcm_full: "Laboratorio de Ciencias Militares", header_eceme_full: "Escuela de Comando y Estado Mayor del Ejército", nav_home: "Inicio", nav_research: "Líneas de Investigación", nav_all_researchers: "Investigadores", nav_theses: "Tesis y Disertaciones", nav_contact: "Contacto", nav_courses: "Cursos y Eventos", all_researchers_subtitle: "Investigadores del LCM divididos por subárea", theses_subtitle: "Repositorio académico del LCM", news_label: "Destacado", leadership_title: "Coordinación LCM", coord_role: "Coordinador General", sub_a_role: "Coordinador de Línea de Inv. GD", sub_b_role: "Coordinador de Línea de Inv. EPG", line_a_label: "Línea A — Gestión de Defensa", line_b_label: "Línea B — Estudios de Paz y Guerra", structure_title: "Estructura de Investigación", structure_subtitle: "Seleccione una subárea para detalles", access_area: "ACCEDER ÁREA", back_research: "Volver a Líneas de Investigación", tab_about: "Sobre el Área", tab_researchers: "Investigadores", tab_projects: "Proyectos", tab_publications: "Publicaciones", label_focus: "Enfoque Estratégico", label_topics: "Temas Abarcados", label_tech: "Tecnologías Transversales", contact_title: "Contáctenos", contact_info: "Información de Contacto", contact_map: "Ubicación", contact_button: "Ver Ruta", courses_title: "Cursos y Eventos", courses_subtitle: "Siga nuestra agenda académica", search_placeholder: "Buscar...", no_results: "Ningún resultado encontrado.", col_project: "Proyecto", col_responsible: "Responsable", col_status: "Estado", status_ongoing: "En Curso", no_data: "Datos no disponibles.", download_material: "Descargar Material", status_open: "Abierto", status_closed: "Cerrado" }
+                    pt: { header_lcm_full: "Laboratório de Ciências Militares", header_eceme_full: "Escola de Comando e Estado-Maior do Exército", nav_home: "Início", nav_research: "Linhas de Pesquisa", nav_all_researchers: "Pesquisadores", nav_theses: "Teses e Dissertações", nav_all_publications: "Publicações", nav_contact: "Contato", nav_courses: "Cursos e Eventos", all_researchers_subtitle: "Corpo de pesquisadores do LCM dividido por subárea", theses_subtitle: "Repositório acadêmico do LCM", all_pubs_subtitle: "Acervo completo de publicações do LCM", news_label: "Destaque", leadership_title: "Coordenação LCM", coord_role: "Coordenador Geral", sub_a_role: "Coordenador da Linha de Pesquisa GD", sub_b_role: "Coordenador da Linha de Pesquisa EPG", line_a_label: "Linha A — Gestão de Defesa", line_b_label: "Linha B — Estudo da Paz e Guerra", structure_title: "Estrutura de Pesquisa", structure_subtitle: "Selecione uma subárea para detalhes", access_area: "ACESSAR ÁREA", back_research: "Voltar para Linhas de Pesquisa", tab_about: "Sobre a Área", tab_researchers: "Pesquisadores", tab_projects: "Projetos", tab_publications: "Publicações", label_focus: "Foco Estratégico", label_topics: "Temas Abrangentes", label_tech: "Tecnologias Transversais", contact_title: "Fale Conosco", contact_info: "Informações de Contato", contact_map: "Localização", contact_button: "Traçar Rota", courses_title: "Cursos e Eventos", courses_subtitle: "Acompanhe nossa agenda acadêmica", search_placeholder: "Buscar no site...", no_results: "Nenhum resultado encontrado.", col_project: "Projeto", col_responsible: "Responsável", col_status: "Status", status_ongoing: "Em Andamento", no_data: "Dados não disponíveis no momento.", download_material: "Baixar Material", status_open: "Inscrições Abertas", status_closed: "Encerrado" },
+                    en: { header_lcm_full: "Military Sciences Laboratory", header_eceme_full: "Army Command and General Staff School", nav_home: "Home", nav_research: "Research Lines", nav_all_researchers: "Researchers", nav_theses: "Theses & Dissertations", nav_all_publications: "Publications", nav_contact: "Contact", nav_courses: "Courses & Events", all_researchers_subtitle: "LCM researchers organized by subarea", theses_subtitle: "LCM Academic Repository", all_pubs_subtitle: "Complete LCM publications archive", news_label: "Featured", leadership_title: "LCM Coordination", coord_role: "General Coordinator", sub_a_role: "GD Research Line Coordinator", sub_b_role: "EPG Research Line Coordinator", line_a_label: "Line A — Defense Management", line_b_label: "Line B — Peace and War Studies", structure_title: "Research Structure", structure_subtitle: "Select a subarea for details", access_area: "ACCESS AREA", back_research: "Back to Research Lines", tab_about: "About Area", tab_researchers: "Researchers", tab_projects: "Projects", tab_publications: "Publications", label_focus: "Strategic Focus", label_topics: "Comprehensive Themes", label_tech: "Transversal Technologies", contact_title: "Contact Us", contact_info: "Contact Information", contact_map: "Location", contact_button: "Get Directions", courses_title: "Courses & Events", courses_subtitle: "Follow our academic schedule", search_placeholder: "Search...", no_results: "No results found.", col_project: "Project", col_responsible: "Lead", col_status: "Status", status_ongoing: "Ongoing", no_data: "Data currently unavailable.", download_material: "Download Material", status_open: "Open", status_closed: "Closed" },
+                    es: { header_lcm_full: "Laboratorio de Ciencias Militares", header_eceme_full: "Escuela de Comando y Estado Mayor del Ejército", nav_home: "Inicio", nav_research: "Líneas de Investigación", nav_all_researchers: "Investigadores", nav_theses: "Tesis y Disertaciones", nav_all_publications: "Publicaciones", nav_contact: "Contacto", nav_courses: "Cursos y Eventos", all_researchers_subtitle: "Investigadores del LCM divididos por subárea", theses_subtitle: "Repositorio académico del LCM", all_pubs_subtitle: "Archivo completo de publicaciones del LCM", news_label: "Destacado", leadership_title: "Coordinación LCM", coord_role: "Coordinador General", sub_a_role: "Coordinador de Línea de Inv. GD", sub_b_role: "Coordinador de Línea de Inv. EPG", line_a_label: "Línea A — Gestión de Defensa", line_b_label: "Línea B — Estudios de Paz y Guerra", structure_title: "Estructura de Investigación", structure_subtitle: "Seleccione una subárea para detalles", access_area: "ACCEDER ÁREA", back_research: "Volver a Líneas de Investigación", tab_about: "Sobre el Área", tab_researchers: "Investigadores", tab_projects: "Proyectos", tab_publications: "Publicaciones", label_focus: "Enfoque Estratégico", label_topics: "Temas Abarcados", label_tech: "Tecnologías Transversales", contact_title: "Contáctenos", contact_info: "Información de Contacto", contact_map: "Ubicación", contact_button: "Ver Ruta", courses_title: "Cursos y Eventos", courses_subtitle: "Siga nuestra agenda académica", search_placeholder: "Buscar...", no_results: "Ningún resultado encontrado.", col_project: "Proyecto", col_responsible: "Responsable", col_status: "Estado", status_ongoing: "En Curso", no_data: "Datos no disponibles.", download_material: "Descargar Material", status_open: "Abierto", status_closed: "Cerrado" }
                 },
 
                 // Inicialização
@@ -549,7 +618,7 @@
                     this.loadResearchers();
                     this.loadProjects();
                     this.loadPublications();
-                    this.loadTheses(); // Carregar teses
+                    this.loadTheses(); 
                     setInterval(() => { this.nextSlide(); }, 6000);
                 },
 
@@ -558,23 +627,42 @@
                 async loadEvents() { try { const res = await fetch('./data_events.json?v=' + new Date().getTime()); this.courses = await res.json(); } catch (e) { console.error("Erro eventos", e); } },
                 async loadResearchers() { try { const res = await fetch('./data_researchers.json?v=' + new Date().getTime()); const data = await res.json(); data.forEach(item => { const area = this.subareas.find(s => s.id === item.subarea_id); if (area) area.researchers.push(item); }); } catch (e) { console.error("Erro pesquisadores", e); } },
                 async loadProjects() { try { const res = await fetch('./data_projects.json?v=' + new Date().getTime()); const data = await res.json(); data.forEach(item => { const area = this.subareas.find(s => s.id === item.subarea_id); if (area) area.ongoing.push(item); }); } catch (e) { console.error("Erro projetos", e); } },
-                async loadPublications() { try { const res = await fetch('./data_publications.json?v=' + new Date().getTime()); const data = await res.json(); data.forEach(item => { const area = this.subareas.find(s => s.id === item.subarea_id); if (area) area.publications.push(item); }); } catch (e) { console.error("Erro publicações", e); } },
                 async loadTheses() { try { const res = await fetch('./data_theses.json?v=' + new Date().getTime()); this.theses = await res.json(); } catch (e) { console.error("Erro teses", e); } },
+                async loadPublications() { 
+                    try { 
+                        const res = await fetch('./data_publications.json?v=' + new Date().getTime()); 
+                        const data = await res.json();
+                        this.all_raw_publications = data; // Guarda cru para a vista geral
+                        data.forEach(item => {
+                            const area = this.subareas.find(s => s.id === item.subarea_id);
+                            if (area) area.publications.push(item);
+                        });
+                    } catch (e) { console.error("Erro publicações", e); } 
+                },
 
-                // Lógica de Agrupamento das Teses por Ano
-                getStructuredTheses(type) {
-                    // 1. Filtrar pelo tipo (Tese, Dissertação, TCC)
-                    const filtered = this.theses.filter(t => t.type === type);
+                // Lógica de Agrupamento das Publicações (Subárea -> Ano)
+                getStructuredPublications(subareaId) {
+                    // 1. Filtrar pela subárea ativa
+                    const filtered = this.all_raw_publications.filter(p => p.subarea_id === subareaId);
                     
-                    // 2. Extrair anos únicos e ordenar decrescente (2026, 2025...)
+                    // 2. Extrair anos únicos e ordenar decrescente
                     const years = [...new Set(filtered.map(item => item.year))].sort((a, b) => b - a);
                     
-                    // 3. Montar estrutura [{year: 2026, docs: []}, {year: 2025, docs: []}]
+                    // 3. Montar estrutura
                     return years.map(year => {
                         return {
                             year: year,
                             docs: filtered.filter(item => item.year === year)
                         };
+                    });
+                },
+
+                // Lógica de Agrupamento das Teses
+                getStructuredTheses(type) {
+                    const filtered = this.theses.filter(t => t.type === type);
+                    const years = [...new Set(filtered.map(item => item.year))].sort((a, b) => b - a);
+                    return years.map(year => {
+                        return { year: year, docs: filtered.filter(item => item.year === year) };
                     });
                 },
 
