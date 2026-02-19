@@ -214,7 +214,7 @@
                         <div class="p-6 flex flex-col justify-between flex-grow">
                             <div>
                                 <div class="flex justify-between items-start">
-                                    <span class="bg-eb-gold text-white text-[10px] font-bold px-2 py-1 uppercase rounded mb-2 inline-block" x-text="event.type[lang]"></span>
+                                    <span class="bg-eb-gold text-gray-900 text-[10px] font-bold px-2 py-1 uppercase rounded mb-2 inline-block" x-text="event.type[lang]"></span>
                                     <span :class="event.active ? 'text-green-600' : 'text-red-500'" class="text-xs font-bold uppercase border px-2 py-1 rounded" x-text="event.active ? t[lang].status_open : t[lang].status_closed"></span>
                                 </div>
                                 <h3 class="text-xl font-bold text-eb-green mb-2" x-text="event.title[lang]"></h3>
@@ -283,7 +283,7 @@
             <template x-for="group in getStructuredTheses(activeThesisTab)" :key="group.year">
                 <div class="mb-10">
                     <div class="flex items-center mb-6">
-                        <span class="bg-eb-gold text-white font-bold text-sm px-3 py-1 rounded-sm shadow-sm" x-text="group.year"></span>
+                        <span class="bg-eb-gold text-gray-900 font-bold text-sm px-3 py-1 rounded-sm shadow-sm" x-text="group.year"></span>
                         <div class="h-px bg-gray-200 flex-grow ml-4"></div>
                     </div>
                     <div class="grid gap-4">
@@ -329,7 +329,7 @@
             <template x-for="group in getStructuredPublications(activePubSubarea)" :key="group.year">
                 <div class="mb-10">
                     <div class="flex items-center mb-6">
-                        <span class="bg-eb-gold text-white font-bold text-sm px-3 py-1 rounded-sm shadow-sm" x-text="group.year"></span>
+                        <span class="bg-eb-gold text-gray-900 font-bold text-sm px-3 py-1 rounded-sm shadow-sm" x-text="group.year"></span>
                         <div class="h-px bg-gray-200 flex-grow ml-4"></div>
                     </div>
                     <div class="bg-white p-8 rounded shadow-sm border border-gray-200">
@@ -688,3 +688,4 @@
     </script>
 </body>
 </html>
+
