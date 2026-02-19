@@ -1,0 +1,34 @@
+[
+    {
+        "type": "Tese",
+        "year": 2026,
+        "title": "A Geopolítica Cibernética no Atlântico Sul",
+        "researcher": "Eduardo Xavier Ferreira Glaser Migon",
+        "file_link": "tese_migon_2026.pdf",
+        "downloads": 142
+    },
+    {
+        "type": "Dissertação",
+        "year": 2026,
+        "title": "Logística Preditiva e IA na Defesa",
+        "researcher": "Guilherme de Araujo Grigoli",
+        "file_link": "dissertacao_grigoli_2026.pdf",
+        "downloads": 89
+    },
+    {
+        "type": "Dissertação",
+        "year": 2025,
+        "title": "O Emprego de Drones em Conflitos Assimétricos",
+        "researcher": "Josias Marcos de Resende Silva",
+        "file_link": "dissertacao_josias_2025.pdf",
+        "downloads": 310
+    },
+    {
+        "type": "TCC",
+        "year": 2025,
+        "title": "Estudo sobre a Base Industrial de Defesa",
+        "researcher": "Mardônio Bezerra Silva",
+        "file_link": "tcc_mardonio_2025.pdf",
+        "downloads": 45
+    }
+]
