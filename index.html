@@ -272,7 +272,6 @@
             <h2 class="text-3xl font-bold uppercase" x-text="t[lang].nav_theses"></h2>
             <p class="text-gray-300 mt-2 italic" x-text="t[lang].theses_subtitle"></p>
         </header>
-
         <div class="bg-white shadow sticky top-[62px] md:top-[66px] z-30">
             <div class="container mx-auto px-6 flex justify-center space-x-8 overflow-x-auto no-scrollbar">
                 <button @click="activeThesisTab = 'Tese'" :class="{ 'tab-active': activeThesisTab === 'Tese' }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Teses</button>
@@ -280,7 +279,6 @@
                 <button @click="activeThesisTab = 'TCC'" :class="{ 'tab-active': activeThesisTab === 'TCC' }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">TCC</button>
             </div>
         </div>
-
         <div class="container mx-auto px-6 py-12 max-w-5xl">
             <template x-for="group in getStructuredTheses(activeThesisTab)" :key="group.year">
                 <div class="mb-10">
@@ -347,7 +345,6 @@
                                         <template x-if="!pub.link">
                                             <div class="flex-shrink-0"><i class="fa-solid fa-file-pdf text-gray-400 text-xl mt-1 mr-4"></i></div>
                                         </template>
-                                        
                                         <div class="flex-grow">
                                             <template x-if="pub.link">
                                                 <a :href="pub.link" target="_blank" @click="pub.downloads = (pub.downloads || 0) + 1" class="font-bold text-blue-800 hover:text-blue-600 hover:underline cursor-pointer block leading-tight">
@@ -359,7 +356,6 @@
                                             </template>
                                             <p class="text-sm text-gray-600 mt-1"><span x-text="pub.authors"></span> • <span class="italic" x-text="pub.journal"></span>, <span x-text="pub.year"></span>.</p>
                                         </div>
-
                                         <div class="ml-4 flex-shrink-0 text-center min-w-[60px]" x-show="pub.link">
                                             <span class="text-xs font-bold text-gray-400 block"><i class="fa-solid fa-eye mr-1"></i><span x-text="pub.downloads || 0"></span></span>
                                         </div>
@@ -551,11 +547,11 @@
                 
                 // Variáveis das novas vistas
                 activeThesisTab: 'Tese', 
-                activePubSubarea: 1, // Controle da aba de publicações (1,2,3,4)
+                activePubSubarea: 1, 
                 
                 // Dados Globais
                 theses: [], 
-                all_raw_publications: [], // Armazena todas as publicações cruas para a vista geral
+                all_raw_publications: [], // Corrigido: Inicializa vazio para evitar erro de undefined
                 
                 // Dados Vazios (Serão preenchidos via JSON)
                 news: [],
@@ -611,7 +607,6 @@
                     es: { header_lcm_full: "Laboratorio de Ciencias Militares", header_eceme_full: "Escuela de Comando y Estado Mayor del Ejército", nav_home: "Inicio", nav_research: "Líneas de Investigación", nav_all_researchers: "Investigadores", nav_theses: "Tesis y Disertaciones", nav_all_publications: "Publicaciones", nav_contact: "Contacto", nav_courses: "Cursos y Eventos", all_researchers_subtitle: "Investigadores del LCM divididos por subárea", theses_subtitle: "Repositorio académico del LCM", all_pubs_subtitle: "Archivo completo de publicaciones del LCM", news_label: "Destacado", leadership_title: "Coordinación LCM", coord_role: "Coordinador General", sub_a_role: "Coordinador de Línea de Inv. GD", sub_b_role: "Coordinador de Línea de Inv. EPG", line_a_label: "Línea A — Gestión de Defensa", line_b_label: "Línea B — Estudios de Paz y Guerra", structure_title: "Estructura de Investigación", structure_subtitle: "Seleccione una subárea para detalles", access_area: "ACCEDER ÁREA", back_research: "Volver a Líneas de Investigación", tab_about: "Sobre el Área", tab_researchers: "Investigadores", tab_projects: "Proyectos", tab_publications: "Publicaciones", label_focus: "Enfoque Estratégico", label_topics: "Temas Abarcados", label_tech: "Tecnologías Transversales", contact_title: "Contáctenos", contact_info: "Información de Contacto", contact_map: "Ubicación", contact_button: "Ver Ruta", courses_title: "Cursos y Eventos", courses_subtitle: "Siga nuestra agenda académica", search_placeholder: "Buscar...", no_results: "Ningún resultado encontrado.", col_project: "Proyecto", col_responsible: "Responsable", col_status: "Estado", status_ongoing: "En Curso", no_data: "Datos no disponibles.", download_material: "Descargar Material", status_open: "Abierto", status_closed: "Cerrado" }
                 },
 
-                // Inicialização
                 initApp() {
                     this.loadNews();
                     this.loadEvents();
@@ -622,33 +617,38 @@
                     setInterval(() => { this.nextSlide(); }, 6000);
                 },
 
-                // Fetchs
                 async loadNews() { try { const res = await fetch('./data_news.json?v=' + new Date().getTime()); this.news = await res.json(); } catch (e) { console.error("Erro notícias", e); } },
                 async loadEvents() { try { const res = await fetch('./data_events.json?v=' + new Date().getTime()); this.courses = await res.json(); } catch (e) { console.error("Erro eventos", e); } },
                 async loadResearchers() { try { const res = await fetch('./data_researchers.json?v=' + new Date().getTime()); const data = await res.json(); data.forEach(item => { const area = this.subareas.find(s => s.id === item.subarea_id); if (area) area.researchers.push(item); }); } catch (e) { console.error("Erro pesquisadores", e); } },
                 async loadProjects() { try { const res = await fetch('./data_projects.json?v=' + new Date().getTime()); const data = await res.json(); data.forEach(item => { const area = this.subareas.find(s => s.id === item.subarea_id); if (area) area.ongoing.push(item); }); } catch (e) { console.error("Erro projetos", e); } },
                 async loadTheses() { try { const res = await fetch('./data_theses.json?v=' + new Date().getTime()); this.theses = await res.json(); } catch (e) { console.error("Erro teses", e); } },
+                
+                // CARREGAMENTO DE PUBLICAÇÕES
                 async loadPublications() { 
                     try { 
                         const res = await fetch('./data_publications.json?v=' + new Date().getTime()); 
                         const data = await res.json();
-                        this.all_raw_publications = data; // Guarda cru para a vista geral
+                        
+                        this.all_raw_publications = data; // Popula a variável global
+                        
+                        // Popula as subáreas individuais
                         data.forEach(item => {
-                            const area = this.subareas.find(s => s.id === item.subarea_id);
+                            const area = this.subareas.find(s => s.id == item.subarea_id); // Usa == para garantir compatibilidade
                             if (area) area.publications.push(item);
                         });
                     } catch (e) { console.error("Erro publicações", e); } 
                 },
 
-                // Lógica de Agrupamento das Publicações (Subárea -> Ano)
+                // FUNÇÃO DE AGRUPAMENTO (CORRIGIDA COM ==)
                 getStructuredPublications(subareaId) {
-                    // 1. Filtrar pela subárea ativa
-                    const filtered = this.all_raw_publications.filter(p => p.subarea_id === subareaId);
+                    // Garante que a lista não é nula
+                    if (!this.all_raw_publications) return [];
                     
-                    // 2. Extrair anos únicos e ordenar decrescente
+                    // Filtra usando == para aceitar tanto string quanto number
+                    const filtered = this.all_raw_publications.filter(p => p.subarea_id == subareaId);
+                    
                     const years = [...new Set(filtered.map(item => item.year))].sort((a, b) => b - a);
                     
-                    // 3. Montar estrutura
                     return years.map(year => {
                         return {
                             year: year,
@@ -657,7 +657,6 @@
                     });
                 },
 
-                // Lógica de Agrupamento das Teses
                 getStructuredTheses(type) {
                     const filtered = this.theses.filter(t => t.type === type);
                     const years = [...new Set(filtered.map(item => item.year))].sort((a, b) => b - a);
@@ -666,7 +665,6 @@
                     });
                 },
 
-                // Auxiliares
                 nextSlide() { this.activeSlide = (this.activeSlide === this.news.length - 1) ? 0 : this.activeSlide + 1; },
                 prevSlide() { this.activeSlide = (this.activeSlide === 0) ? this.news.length - 1 : this.activeSlide - 1; },
                 get searchResults() {
