@@ -214,7 +214,7 @@
                         <div class="p-6 flex flex-col justify-between flex-grow">
                             <div>
                                 <div class="flex justify-between items-start">
-                                    <span class="bg-eb-gold text-gray-900 text-[10px] font-bold px-2 py-1 uppercase rounded mb-2 inline-block" x-text="event.type[lang]"></span>
+                                    <span class="bg-eb-gold text-white text-[10px] font-bold px-2 py-1 uppercase rounded mb-2 inline-block" x-text="event.type[lang]"></span>
                                     <span :class="event.active ? 'text-green-600' : 'text-red-500'" class="text-xs font-bold uppercase border px-2 py-1 rounded" x-text="event.active ? t[lang].status_open : t[lang].status_closed"></span>
                                 </div>
                                 <h3 class="text-xl font-bold text-eb-green mb-2" x-text="event.title[lang]"></h3>
@@ -283,7 +283,7 @@
             <template x-for="group in getStructuredTheses(activeThesisTab)" :key="group.year">
                 <div class="mb-10">
                     <div class="flex items-center mb-6">
-                        <span class="bg-eb-gold text-gray-900 font-bold text-sm px-3 py-1 rounded-sm shadow-sm" x-text="group.year"></span>
+                        <span class="bg-eb-gold text-white font-bold text-sm px-3 py-1 rounded-sm shadow-sm" x-text="group.year"></span>
                         <div class="h-px bg-gray-200 flex-grow ml-4"></div>
                     </div>
                     <div class="grid gap-4">
@@ -316,22 +316,14 @@
             <p class="text-gray-300 mt-2 italic" x-text="t[lang].all_pubs_subtitle"></p>
         </header>
 
-        <div class="bg-white shadow sticky top-[62px] md:top-[66px] z-30">
-            <div class="container mx-auto px-6 flex justify-center space-x-8 overflow-x-auto no-scrollbar">
-                <button @click="activePubSubarea = 1" :class="{ 'tab-active': activePubSubarea === 1 }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Subárea 01</button>
-                <button @click="activePubSubarea = 2" :class="{ 'tab-active': activePubSubarea === 2 }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Subárea 02</button>
-                <button @click="activePubSubarea = 3" :class="{ 'tab-active': activePubSubarea === 3 }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Subárea 03</button>
-                <button @click="activePubSubarea = 4" :class="{ 'tab-active': activePubSubarea === 4 }" class="py-4 text-xs md:text-sm font-bold uppercase tracking-wide text-gray-500 hover:text-eb-green transition whitespace-nowrap">Subárea 04</button>
-            </div>
-        </div>
-
         <div class="container mx-auto px-6 py-12 max-w-5xl">
-            <template x-for="group in getStructuredPublications(activePubSubarea)" :key="group.year">
+            <template x-for="group in getAllStructuredPublications()" :key="group.year">
                 <div class="mb-10">
                     <div class="flex items-center mb-6">
                         <span class="bg-eb-gold text-gray-900 font-bold text-sm px-3 py-1 rounded-sm shadow-sm" x-text="group.year"></span>
                         <div class="h-px bg-gray-200 flex-grow ml-4"></div>
                     </div>
+                    
                     <div class="bg-white p-8 rounded shadow-sm border border-gray-200">
                         <ul class="space-y-6">
                             <template x-for="pub in group.docs">
@@ -366,8 +358,8 @@
                     </div>
                 </div>
             </template>
-            <div x-show="getStructuredPublications(activePubSubarea).length === 0" class="text-center py-12 text-gray-500 italic">
-                Nenhuma publicação encontrada nesta subárea.
+            <div x-show="getAllStructuredPublications().length === 0" class="text-center py-12 text-gray-500 italic">
+                Nenhuma publicação encontrada.
             </div>
         </div>
     </div>
@@ -545,13 +537,12 @@
                 mobileMenuOpen: false,
                 activeSlide: 0,
                 
-                // Variáveis das novas vistas
+                // Variáveis das Vistas
                 activeThesisTab: 'Tese', 
-                activePubSubarea: 1, 
                 
                 // Dados Globais
                 theses: [], 
-                all_raw_publications: [], // Corrigido: Inicializa vazio para evitar erro de undefined
+                all_raw_publications: [], // Inicia vazio
                 
                 // Dados Vazios (Serão preenchidos via JSON)
                 news: [],
@@ -623,36 +614,41 @@
                 async loadProjects() { try { const res = await fetch('./data_projects.json?v=' + new Date().getTime()); const data = await res.json(); data.forEach(item => { const area = this.subareas.find(s => s.id === item.subarea_id); if (area) area.ongoing.push(item); }); } catch (e) { console.error("Erro projetos", e); } },
                 async loadTheses() { try { const res = await fetch('./data_theses.json?v=' + new Date().getTime()); this.theses = await res.json(); } catch (e) { console.error("Erro teses", e); } },
                 
-                // CARREGAMENTO DE PUBLICAÇÕES
                 async loadPublications() { 
                     try { 
                         const res = await fetch('./data_publications.json?v=' + new Date().getTime()); 
                         const data = await res.json();
                         
-                        this.all_raw_publications = data; // Popula a variável global
+                        this.all_raw_publications = data; 
                         
-                        // Popula as subáreas individuais
                         data.forEach(item => {
-                            const area = this.subareas.find(s => s.id == item.subarea_id); // Usa == para garantir compatibilidade
+                            const area = this.subareas.find(s => s.id == item.subarea_id); 
                             if (area) area.publications.push(item);
                         });
                     } catch (e) { console.error("Erro publicações", e); } 
                 },
 
-                // FUNÇÃO DE AGRUPAMENTO (CORRIGIDA COM ==)
-                getStructuredPublications(subareaId) {
-                    // Garante que a lista não é nula
-                    if (!this.all_raw_publications) return [];
+                // NOVA FUNÇÃO: Agrupa TUDO por ano e ORDENA por ordem alfabética
+                getAllStructuredPublications() {
+                    if (!this.all_raw_publications || this.all_raw_publications.length === 0) return [];
                     
-                    // Filtra usando == para aceitar tanto string quanto number
-                    const filtered = this.all_raw_publications.filter(p => p.subarea_id == subareaId);
-                    
-                    const years = [...new Set(filtered.map(item => item.year))].sort((a, b) => b - a);
+                    // Extrai todos os anos e organiza em ordem decrescente (ex: 2026, 2025...)
+                    const years = [...new Set(this.all_raw_publications.map(item => item.year))].sort((a, b) => b - a);
                     
                     return years.map(year => {
+                        // Pega todos os artigos daquele ano
+                        let docsForYear = this.all_raw_publications.filter(item => item.year == year);
+                        
+                        // Organiza em ordem alfabética A-Z pelo título
+                        docsForYear.sort((a, b) => {
+                            let titleA = a.title ? a.title.toLowerCase() : "";
+                            let titleB = b.title ? b.title.toLowerCase() : "";
+                            return titleA.localeCompare(titleB, 'pt-BR');
+                        });
+
                         return {
                             year: year,
-                            docs: filtered.filter(item => item.year === year)
+                            docs: docsForYear
                         };
                     });
                 },
@@ -688,4 +684,3 @@
     </script>
 </body>
 </html>
-
