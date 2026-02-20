@@ -1,4 +1,4 @@
-[
+   [
     {
         "subarea_id": 2,
         "title": "Challenges and perspectives for humanitarian logistics: a comparative study between the Democratic Republic of Congo, the Central African Republic and the Republic of South Sudan",
@@ -367,7 +367,8 @@
         "year": "2023",
         "link": "https://portaldeperiodicos.marinha.mil.br/index.php/revistadaegn/article/view/4956",
         "downloads": 0
-    }{
+    },
+    {
         "subarea_id": 4,
         "title": "A Última Guerra na América do Sul: o êxito equatoriano no conflito do Cenepa sob os fundamentos da teoria da guerra de Clausewitz",
         "authors": "Moraes, C. H. A.",
@@ -411,16 +412,16 @@
         "year": "2021",
         "link": "https://www.researchgate.net/publication/361266125_A_presenca_do_estamento_militar_na_Amazonia_Brasileira_como_cultura_estrategica_nacional"
         "downloads": 0
-},
-{
- "subarea_id": 4,
+    },
+    {
+       "subarea_id": 4,
         "title": "A Importância dos Pelotões Especiais de Fronteira na Região Amazônica Brasileira",
         "authors": "Moraes, C. H. A.",
         "journal": "Revista Agulhas Negra, Vol. 5 No. 6 pp. 101-112",
         "year": "2021",
         "link": "https://www.researchgate.net/publication/384624281_A_Importancia_dos_Pelotoes_Especiais_de_Fronteira_na_Regiao_Amazonica_Brasileira"
         "downloads": 0
-},
+    },
     {
         "subarea_id": 2,
         "title": "Valoração de Tecnologias: desafios no contexto do Exército Brasileiro",
