@@ -220,7 +220,7 @@
         "name": "Júlio César Lacerda Martins", 
         "lattes": "http://lattes.cnpq.br/6845412710307350", 
         "photo": "./juliocesar.png?v=1",
-        "role": { "pt": "Coordenador", "en": "Coordinator", "es": "Coordinador" }, 
+        "role": { "pt": "Subcoordenador", "en": "Sub-coordinator", "es": "Subcoordinador" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
