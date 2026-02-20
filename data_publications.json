@@ -520,5 +520,59 @@
         "year": "2018",
         "link": "https://zenodo.org/records/18246956",
         "downloads": 0
-    }
+    },
+     {
+        "subarea_id": 3,
+        "title": "Solução de controvérsias por meio da arbitragem como estratégia em contratos de tecnologia do setor de Defesa",
+        "authors": "CORRÊA, L. D. P.; Luz, M. C. V.; WINTER, E.",
+        "journal": "Revista da Escola Superior de Guerra, v. 34, p. 185-203",
+        "year": "2020",
+        "link": "https://revista.esg.br/index.php/revistadaesg/article/view/1122"
+        "downloads": 0
+    },
+    {
+        "subarea_id": 1,
+        "title": "Empresas de Defesa e instrumentos da propriedade intelectual: breve análise da legislação federal",
+        "authors": "CORRÊA, L. D. P.; WINTER, E.",
+        "journal": "Revista da ABPI, v. 147, p. 17-30",
+        "year": "2017",
+        "link": "https://abpi.org.br/revistas/edicao-147-mes-marco-abril-ano-2017/"
+        "downloads": 0
+    },
+    {
+        "subarea_id": 1,
+        "title": "Mecanismos de proteção da propriedade intelectual de ativos intangíveis de produtos e sistemas de defesa",
+        "authors": "CORRÊA, L. D. P.; MARINHO, B. C.; VIEIRA, A. L.",
+        "journal": "Revista Militar de Ciência e Tecnologia, v. 34, p. 35-46",
+        "year": "2017",
+        "link": "https://rmct.ime.eb.br/arquivos/revistas/RMCT_1_sem_2017.pdf"
+        "downloads": 0
+    },
+    {
+        "subarea_id": 2,
+        "title": "Lei 10.973/2004 e gestão de direitos de propriedade intelectual no setor de Defesa Nacional: a criação do Núcleo de Inovação Tecnológica do Exército Brasileiro (NIT/EB)",
+        "authors": "CORRÊA, L. D. P.; FIGUEIREDO, M.",
+        "journal": "Interação, v. 18, p. 143-164",
+        "year": "2016",
+        "link": "https://periodicos.unis.edu.br/interacao/article/view/93"
+        "downloads": 0
+    },
+    {
+        "subarea_id": 2,
+        "title": "Novo Marco Legal da Inovação no Brasil: Breve Análise dos Reflexos das Alterações na Lei Nº 10.973/2004 para os Núcleos de Inovação Tecnológica",
+        "authors": "MARINHO, B. C.; CORRÊA, L. D. P.",
+        "journal": "Revista de Direito, Inovação, Propriedade Intelectual e Concorrência, v. 2, p. 43-58",
+        "year": "2016",
+        "link": "https://indexlaw.org/index.php/revistadipic/article/view/918"
+        "downloads": 0
+    },
+    {
+        "subarea_id": 4,
+        "title": "Formulação de políticas setoriais em Defesa Nacional e Segurança: a gestão de propriedade intelectual e inovação nas Forças Armadas",
+        "authors": "CORRÊA, L. D. P.; BONDARCZUK, B. A.",
+        "journal": "Coleção Meira Mattos - Revista das Ciências Militares (Online), v. 9, p. 835-848",
+        "year": "2015",
+        "link": "https://ebrevistas.eb.mil.br/RMM/article/view/525"
+        "downloads": 0
+    },
 ]
