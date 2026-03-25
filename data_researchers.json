@@ -286,5 +286,21 @@
         "photo": "./lorena.png?v=1",
         "role": { "pt": "Pesquisador de Iniciação Científica", "en": "Undergraduate Researcher", "es": "Investigador de pregrado" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 1,
+        "name": "Thiago José Bandeira Santos", 
+        "lattes": "http://lattes.cnpq.br/1278346316869136", 
+        "photo": "./tbandeira.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 3,
+        "name": "Israel Alves de Souza Júnior", 
+        "lattes": "http://lattes.cnpq.br/9704343343549815", 
+        "photo": "./israel.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     }
 ]
