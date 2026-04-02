@@ -305,9 +305,17 @@
     },
     { 
         "subarea_id": 4,
-        "name": " Pablo Ahedo Cordón", 
+        "name": "Pablo Ahedo Cordón", 
         "lattes": "http://lattes.cnpq.br/0", 
         "photo": "./pabloahedo.png?v=1",
+        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 2,
+        "name": "Erick Cozzo Betat de Souzan", 
+        "lattes": "http://lattes.cnpq.br/7361130169998522", 
+        "photo": "./betat.png?v=1",
         "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     }
