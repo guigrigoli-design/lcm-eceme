@@ -1,0 +1,51 @@
+{
+    "coords": [
+        {
+            "name": "Mariana Costa Silva",
+            "role": { "pt": "Coordenadora de IC", "en": "IC Coordinator", "es": "Coordinadora de IC" },
+            "bio": { "pt": "Doutora em Relações Internacionais.", "en": "PhD in International Relations.", "es": "Doctora en Relaciones Internacionales." },
+            "lattes": "http://lattes.cnpq.br/0000000000000004",
+            "photo": ""
+        }
+    ],
+    "docs": [
+        {
+            "title": "Edital de Seleção IC 2024",
+            "year": 2024,
+            "date": "2024-01-15",
+            "link": "https://www.google.com"
+        },
+        {
+            "title": "Resultado Preliminar 2024",
+            "year": 2024,
+            "date": "2024-02-10",
+            "link": "https://www.google.com"
+        },
+        {
+            "title": "Edital de Seleção IC 2023",
+            "year": 2023,
+            "date": "2023-01-20",
+            "link": "https://www.google.com"
+        }
+    ],
+    "students": [
+        {
+            "name": "João Pedro Souza",
+            "year": 2024,
+            "join_date": "2024-03-01",
+            "role": { "pt": "Bolsista IC", "en": "IC Scholar", "es": "Becario IC" },
+            "bio": { "pt": "Pesquisa sobre simulação construtiva.", "en": "Researching constructive simulation.", "es": "Investigación sobre simulación constructiva." },
+            "lattes": "http://lattes.cnpq.br/0000000000000005",
+            "photo": ""
+        },
+        {
+            "name": "Ana Luiza Freitas",
+            "year": 2024,
+            "join_date": "2024-03-15",
+            "role": { "pt": "Pesquisadora Voluntária", "en": "Volunteer Researcher", "es": "Investigadora Voluntaria" },
+            "bio": { "pt": "Estuda tecnologias disruptivas aplicadas à defesa.", "en": "Studies disruptive technologies applied to defense.", "es": "Estudia tecnologías disruptivas aplicadas a la defensa." },
+            "lattes": "http://lattes.cnpq.br/0000000000000006",
+            "photo": ""
+        }
+    ]
+}
