@@ -30,22 +30,13 @@
     ],
     "students": [
         {
-            "name": "João Pedro Souza",
-            "year": 2024,
-            "join_date": "2024-03-01",
-            "role": { "pt": "Bolsista IC", "en": "IC Scholar", "es": "Becario IC" },
-            "bio": { "pt": "Pesquisa sobre simulação construtiva.", "en": "Researching constructive simulation.", "es": "Investigación sobre simulación constructiva." },
-            "lattes": "http://lattes.cnpq.br/0000000000000005",
-            "photo": ""
-        },
-        {
-            "name": "Ana Luiza Freitas",
-            "year": 2024,
-            "join_date": "2024-03-15",
-            "role": { "pt": "Pesquisadora Voluntária", "en": "Volunteer Researcher", "es": "Investigadora Voluntaria" },
-            "bio": { "pt": "Estuda tecnologias disruptivas aplicadas à defesa.", "en": "Studies disruptive technologies applied to defense.", "es": "Estudia tecnologías disruptivas aplicadas a la defensa." },
-            "lattes": "http://lattes.cnpq.br/0000000000000006",
-            "photo": ""
+            "name": "Lorena Marau da Silva Miranda",
+            "year": 2026,
+            "join_date": "2026-03-14",
+            "role": { "pt": "Pesquisador de IC", "en": "IC Researcher", "es": "Investigador de IC" },
+            "bio": { "pt": "A definir", "en": "To be defined", "es": "Por definir" },
+            "lattes": "http://lattes.cnpq.br/3915965417431523",
+            "photo": "lorena.png"
         }
     ]
 }
