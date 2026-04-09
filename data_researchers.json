@@ -280,14 +280,6 @@
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
-        "subarea_id": 4,
-        "name": "Lorena Marau da Silva Miranda", 
-        "lattes": "http://lattes.cnpq.br/3915965417431523", 
-        "photo": "./lorena.png?v=1",
-        "role": { "pt": "Pesquisador de Iniciação Científica", "en": "Undergraduate Researcher", "es": "Investigador de pregrado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
         "subarea_id": 1,
         "name": "Thiago José Bandeira Santos", 
         "lattes": "http://lattes.cnpq.br/1278346316869136", 
@@ -317,6 +309,14 @@
         "lattes": "http://lattes.cnpq.br/7361130169998522", 
         "photo": "./betat.png?v=1",
         "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
+        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
+    },
+    { 
+        "subarea_id": 4,
+        "name": "Mila Pereira Campbell ", 
+        "lattes": "http://lattes.cnpq.br/5994938625015909", 
+        "photo": "./mila.png?v=1",
+        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     }
 ]
