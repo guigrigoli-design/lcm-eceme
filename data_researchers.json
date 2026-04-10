@@ -4,7 +4,7 @@
         "name": "Mardônio Bezerra Silva", 
         "lattes": "http://lattes.cnpq.br/6330241765425435", 
         "photo": "./mardonio.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
     },
     { 
@@ -44,7 +44,7 @@
         "name": "Luis Felipe Comodo Seelig", 
         "lattes": "http://lattes.cnpq.br/3085772366493629", 
         "photo": "./seelig.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Graduado", "en": "Research Assistant", "es": "Investigador Graduado" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
     },
     { 
@@ -52,7 +52,7 @@
         "name": "Bianca Ariel Oliveira Santos", 
         "lattes": "http://lattes.cnpq.br/7186405772462489", 
         "photo": "./ariel.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Graduado", "en": "Research Assistant", "es": "Investigador Graduado" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -68,7 +68,7 @@
         "name": "Jarbas Alfeu de Paula Júnior", 
         "lattes": "http://lattes.cnpq.br/4748321647219435", 
         "photo": "./alfeu.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
     },
     { 
@@ -76,7 +76,7 @@
         "name": "Thiago Carneiro Mouta", 
         "lattes": "http://lattes.cnpq.br/7243133200075805", 
         "photo": "./thiago.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -108,7 +108,7 @@
         "name": "Marcelo Eduardo Deotti Júnior", 
         "lattes": "http://lattes.cnpq.br/4735244729676642", 
         "photo": "./deotti.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -124,7 +124,7 @@
         "name": "Alexandre Rhoden Barcellos", 
         "lattes": "http://lattes.cnpq.br/3316496921469115", 
         "photo": "./barcellos.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -140,7 +140,7 @@
         "name": "Nelcinei de Freitas Valente", 
         "lattes": "http://lattes.cnpq.br/5132650279600468", 
         "photo": "./valente.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -172,7 +172,7 @@
         "name": "Guilherme Aun de Barros Brasil de Paula", 
         "lattes": "http://lattes.cnpq.br/000000000000000", 
         "photo": "./brasil.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -188,7 +188,7 @@
         "name": "Leonardo da Silva Lima", 
         "lattes": "http://lattes.cnpq.br/7168205749530418", 
         "photo": "./silvalima.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -196,7 +196,7 @@
         "name": "Daniel Corrêa de Freitas", 
         "lattes": "http://lattes.cnpq.br/8268992118047481", 
         "photo": "./danielcorrea.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -204,7 +204,7 @@
         "name": "Celso Montenegro Justo", 
         "lattes": "http://lattes.cnpq.br/4775709225541354", 
         "photo": "./montenegro.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -228,7 +228,7 @@
         "name": "Darison Regis Teixeira", 
         "lattes": "http://lattes.cnpq.br/1272301536647465", 
         "photo": "./teixeira.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -252,7 +252,7 @@
         "name": "Diego Ébio de Sant'ana", 
         "lattes": "http://lattes.cnpq.br/7590034300388046", 
         "photo": "./ebio.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -268,7 +268,7 @@
         "name": "Márcio José Reis da Silva", 
         "lattes": "http://lattes.cnpq.br/4653576044265766", 
         "photo": "./reis.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -284,7 +284,7 @@
         "name": "Thiago José Bandeira Santos", 
         "lattes": "http://lattes.cnpq.br/1278346316869136", 
         "photo": "./tbandeira.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -292,7 +292,7 @@
         "name": "Israel Alves de Souza Júnior", 
         "lattes": "http://lattes.cnpq.br/9704343343549815", 
         "photo": "./israel.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
@@ -316,7 +316,7 @@
         "name": "Mila Pereira Campbell ", 
         "lattes": "http://lattes.cnpq.br/5994938625015909", 
         "photo": "./mila.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     }
 ]
