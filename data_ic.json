@@ -6,6 +6,27 @@
             "bio": { "pt": "Doutora em Educação", "en": "PhD in Education", "es": "Doctora en Educación" },
             "lattes": " http://lattes.cnpq.br/9968889721337705",
             "photo": "adriana.png"
+        },
+        {
+            "name": "Eduardo Xavier Ferreira Glaser Migon",
+            "role": { "pt": "Orientador de IC", "en": "IC Advisor", "es": "Asesor de IC" },
+            "bio": { "pt": "Doutor em Ciencias Militares", "en": "Doctor of Military Sciences", "es": "Doctor en Ciencias Militares" },
+            "lattes": " http://lattes.cnpq.br/0133876688289429",
+            "photo": "migon.png"
+        },
+        {
+            "name": "Guilherme de Araujo Grigoli",
+            "role": { "pt": "Orientador de IC", "en": "IC Advisor", "es": "Asesor de IC" },
+            "bio": { "pt": "Doutor em Ciencias Militares", "en": "Doctor of Military Sciences", "es": "Doctor en Ciencias Militares" },
+            "lattes": " http://lattes.cnpq.br/4082666910942025",
+            "photo": "grigoli.png"
+        },
+        {
+            "name": "Josias Marcos de Resende Silva ",
+            "role": { "pt": "Orientador de IC", "en": "IC Advisor", "es": "Asesor de IC" },
+            "bio": { "pt": "Doutor em Ciencias Militares", "en": "Doctor of Military Sciences", "es": "Doctor en Ciencias Militares" },
+            "lattes": " http://lattes.cnpq.br/9949858368400382",
+            "photo": "josias.png"
         }
     ],
     "docs": [
