@@ -156,7 +156,7 @@
         "name": "César Patricio Parra Molina", 
         "lattes": "http://lattes.cnpq.br/3988261420794058", 
         "photo": "./parra.png?v=1",
-        "role": { "pt": "Pesquisador Discente", "en": "Student Researcher", "es": "Investigador Estudiante" }, 
+        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
