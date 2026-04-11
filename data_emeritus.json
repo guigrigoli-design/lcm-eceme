@@ -1,35 +1,13 @@
 [
     {
-        "name": "Alberto Carlos Almeida",
+        "name": "Pesquisador Emerito",
         "year": 2023,
         "bio": {
-            "pt": "Pesquisador com mais de 30 anos de dedicação às Ciências Militares, com foco em geopolítica da América do Sul.",
-            "en": "Researcher with over 30 years dedicated to Military Sciences, focusing on South American geopolitics.",
-            "es": "Investigador con más de 30 años de dedicación a las Ciencias Militares, enfocado en la geopolítica sudamericana."
+            "pt": "Pesquisador com mais de 30 anos de dedicação às Ciências Militares",
+            "en": "Researcher with over 30 years dedicated to Military Sciences",
+            "es": "Investigador con más de 30 años de dedicación a las Ciencias Militares"
         },
         "lattes": "http://lattes.cnpq.br/0000000000000001",
-        "photo": ""
-    },
-    {
-        "name": "Zélia Maria de Magalhães",
-        "year": 2023,
-        "bio": {
-            "pt": "Pioneira nos estudos de mobilização nacional e logística estratégica no Exército Brasileiro.",
-            "en": "Pioneer in national mobilization and strategic logistics studies in the Brazilian Army.",
-            "es": "Pionera en los estudios de movilización nacional y logística estratégica en el Ejército Brasileño."
-        },
-        "lattes": "http://lattes.cnpq.br/0000000000000002",
-        "photo": ""
-    },
-    {
-        "name": "Carlos Eduardo Martins",
-        "year": 2024,
-        "bio": {
-            "pt": "Especialista em inteligência cibernética e operações multidomínio.",
-            "en": "Specialist in cyber intelligence and multi-domain operations.",
-            "es": "Especialista en inteligencia cibernética y operaciones multidominio."
-        },
-        "lattes": "http://lattes.cnpq.br/0000000000000003",
         "photo": ""
     }
 ]
