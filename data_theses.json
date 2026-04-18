@@ -9,12 +9,20 @@
     },
     {
         "type": "Tese",
+        "year": 2025,
+        "title": "Caminho ao Ciberpoder: Estratégias de governança cibernética implementadas pelos EUA, frente à escalada de ataques cibernéticos",
+        "researcher": "Eliezer de Souza Batista Junior",
+        "file_link": "https://drive.google.com/file/d/1n7bW1DFB00PMXKzxf7QLXCSzNOuhRlI8/view?usp=drive_link",
+        "downloads": 0
+    },
+    {
+        "type": "Tese",
         "year": 2023,
         "title": "A Proteção de Civis nas Operações de Paz Robustas das Nações Unidas: a Contribuição das Unidades de Operações Especiais",
         "researcher": "Josias Marcos de Resende Silva",
         "file_link": "https://drive.google.com/file/d/1b2FPNqhgVwwvBSor5L-yPORkeVIV6_1t/view?usp=sharing",
         "downloads": 0
-    },
+    }
     {
         "type": "Tese",
         "year": 2022,
