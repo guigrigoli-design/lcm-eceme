@@ -58,6 +58,15 @@
             "bio": { "pt": "A definir", "en": "To be defined", "es": "Por definir" },
             "lattes": "http://lattes.cnpq.br/3915965417431523",
             "photo": "lorena.png"
+        },
+         {
+            "name": "Guilherme Gonçalves dos Santos Diniz",
+            "year": 2026,
+            "join_date": "2026-04-19",
+            "role": { "pt": "Pesquisador de IC", "en": "IC Researcher", "es": "Investigador de IC" },
+            "bio": { "pt": "A definir", "en": "To be defined", "es": "Por definir" },
+            "lattes": "https://lattes.cnpq.br/9323631888885963",
+            "photo": "guilhermediniz.png"
         }
     ]
 }
