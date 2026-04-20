@@ -324,7 +324,7 @@
         "name": "Magda Gomes da Silva", 
         "lattes": "https://lattes.cnpq.br/2701410032191281", 
         "photo": "./magda.png?v=1",
-        "role": { "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
+        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     }
 ]
