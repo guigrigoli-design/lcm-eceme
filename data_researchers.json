@@ -144,14 +144,6 @@
         "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
     },
     { 
-        "subarea_id": 4,
-        "name": "Anselmo de Oliveira Rodrigues", 
-        "lattes": "http://lattes.cnpq.br/1956527622550449", 
-        "photo": "./anselmo.png?v=1",
-        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
         "subarea_id": 3,
         "name": "César Patricio Parra Molina", 
         "lattes": "http://lattes.cnpq.br/3988261420794058", 
