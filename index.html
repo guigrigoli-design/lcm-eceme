@@ -12,11 +12,8 @@
         .bg-eb-green { background-color: var(--eb-green); }
         .text-eb-green { color: var(--eb-green); }
         .text-eb-gold { color: var(--eb-gold); }
-        .border-eb-gold { border-color: var(--eb-gold); }
         body { font-family: 'Georgia', serif; }
         [x-cloak] { display: none !important; }
-        .tab-active { border-bottom: 4px solid var(--eb-gold); color: var(--eb-green); font-weight: bold; background-color: #f9fafb; }
-        /* Estilo para o ano das teses em preto conforme solicitado */
         .year-badge-black { border: 2px solid #000; color: #000; font-weight: bold; padding: 0.25rem 1rem; border-radius: 4px; background-color: transparent; }
     </style>
 </head>
@@ -30,11 +27,8 @@
             <h1 class="text-3xl font-bold uppercase mb-4 tracking-widest text-eb-gold">Site em Manutenção</h1>
             <p class="max-w-2xl text-lg italic mb-8">O portal do LCM encontra-se em fase de atualização e remodelagem de seus Domínios Analíticos.</p>
             <div class="bg-green-900 p-6 rounded shadow-xl border border-eb-gold">
-                <p class="text-xs uppercase mb-2">Acesso Administrativo</p>
-                <div class="flex">
-                    <input type="password" x-model="passInput" placeholder="Senha" class="bg-white text-gray-900 px-4 py-2 rounded-l focus:outline-none w-48">
-                    <button @click="unlock()" class="bg-eb-gold text-eb-green font-bold px-6 py-2 rounded-r hover:bg-yellow-600 transition">Entrar</button>
-                </div>
+                <input type="password" x-model="passInput" placeholder="Senha" class="bg-white text-gray-900 px-4 py-2 rounded focus:outline-none">
+                <button @click="unlock()" class="bg-eb-gold text-eb-green font-bold px-6 py-2 rounded ml-2">Entrar</button>
             </div>
             <p class="mt-12 text-xs opacity-50">© 2026 PPGCM / ECEME</p>
         </div>
@@ -52,118 +46,82 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <div class="flex space-x-2">
-                        <button @click="lang = 'pt'" class="opacity-70 hover:opacity-100 transition">PT</button>
-                        <button @click="lang = 'en'" class="opacity-70 hover:opacity-100 transition">EN</button>
-                    </div>
-                    <button @click="toggleMaintenance()" class="text-eb-gold hover:text-white transition px-2" title="Congelar Acesso"><i class="fa-solid fa-screwdriver-wrench"></i></button>
+                    <button @click="toggleMaintenance()" class="text-eb-gold hover:text-white transition px-2"><i class="fa-solid fa-lock"></i></button>
                     <button class="md:hidden text-2xl" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars"></i></button>
                 </div>
             </div>
             
             <div class="hidden md:flex justify-center mt-3 space-x-4 lg:space-x-5 text-[10px] lg:text-[11px] font-bold uppercase tracking-widest border-t border-green-800 pt-3">
-                <button @click="view = 'home'" class="hover:text-eb-gold transition" :class="view === 'home' ? 'text-eb-gold' : ''" x-text="t[lang].nav_home"></button>
-                <button @click="view = 'domains'" class="hover:text-eb-gold transition" :class="view === 'domains' ? 'text-eb-gold' : ''" x-text="t[lang].nav_domains"></button>
-                <button @click="view = 'events'" class="hover:text-eb-gold transition" :class="view === 'events' ? 'text-eb-gold' : ''" x-text="t[lang].nav_events"></button>
-                <button @click="view = 'emeritus'" class="hover:text-eb-gold transition" :class="view === 'emeritus' ? 'text-eb-gold' : ''" x-text="t[lang].nav_emeritus"></button>
-                <button @click="view = 'leadership'" class="hover:text-eb-gold transition" :class="view === 'leadership' ? 'text-eb-gold' : ''" x-text="t[lang].nav_leadership"></button>
-                <button @click="view = 'all_researchers'" class="hover:text-eb-gold transition" :class="view === 'all_researchers' ? 'text-eb-gold' : ''" x-text="t[lang].nav_researchers"></button>
-                <button @click="view = 'ncnp'" class="hover:text-eb-gold transition" :class="view === 'ncnp' ? 'text-eb-gold' : ''" x-text="t[lang].nav_ncnp"></button>
-                <button @click="view = 'theses'" class="hover:text-eb-gold transition" :class="view === 'theses' ? 'text-eb-gold' : ''" x-text="t[lang].nav_theses"></button>
-                <button @click="view = 'publications'" class="hover:text-eb-gold transition" :class="view === 'publications' ? 'text-eb-gold' : ''" x-text="t[lang].nav_pubs"></button>
-                <button @click="view = 'contact'" class="hover:text-eb-gold transition" :class="view === 'contact' ? 'text-eb-gold' : ''" x-text="t[lang].nav_contact"></button>
+                <button @click="view = 'home'" class="hover:text-eb-gold transition" :class="view === 'home' ? 'text-eb-gold' : ''">Início</button>
+                <button @click="view = 'domains'" class="hover:text-eb-gold transition" :class="view === 'domains' ? 'text-eb-gold' : ''">Domínios</button>
+                <button @click="view = 'emeritus'" class="hover:text-eb-gold transition" :class="view === 'emeritus' ? 'text-eb-gold' : ''">Eméritos</button>
+                <button @click="view = 'leadership'" class="hover:text-eb-gold transition" :class="view === 'leadership' ? 'text-eb-gold' : ''">Coordenação</button>
+                <button @click="view = 'all_researchers'" class="hover:text-eb-gold transition" :class="view === 'all_researchers' ? 'text-eb-gold' : ''">Pesquisadores</button>
+                <button @click="view = 'ncnp'" class="hover:text-eb-gold transition" :class="view === 'ncnp' ? 'text-eb-gold' : ''">NCNP</button>
+                <button @click="view = 'theses'" class="hover:text-eb-gold transition" :class="view === 'theses' ? 'text-eb-gold' : ''">Teses/Dissertações/TCC</button>
+                <button @click="view = 'publications'" class="hover:text-eb-gold transition" :class="view === 'publications' ? 'text-eb-gold' : ''">Produção</button>
+                <button @click="view = 'contact'" class="hover:text-eb-gold transition" :class="view === 'contact' ? 'text-eb-gold' : ''">Contato</button>
             </div>
         </div>
     </nav>
 
-    <!-- VISTA: HOME -->
-    <main x-show="view === 'home'" x-cloak class="flex-grow">
-        <section class="py-12 bg-white">
-            <div class="container mx-auto px-6 max-w-4xl text-center">
-                <h2 class="text-2xl font-bold text-eb-green uppercase mb-6 border-b-2 border-eb-gold inline-block pb-2" x-text="t[lang].about_lcm_title"></h2>
-                <p class="text-gray-700 text-lg leading-relaxed italic" x-html="introText[lang]"></p>
-            </div>
-        </section>
-    </main>
-
-    <!-- VISTA: DOMÍNIOS (ESTRUTURA ANALÍTICA) -->
-    <div x-show="view === 'domains'" x-cloak class="flex-grow bg-gray-100 pb-20">
-        <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
-            <h2 class="text-3xl font-bold uppercase" x-text="t[lang].nav_domains"></h2>
-        </header>
-        <div class="container mx-auto px-6 py-12 max-w-6xl space-y-12">
-            <template x-for="dom in domains" :key="dom.id">
-                <div class="bg-white p-8 rounded shadow-lg border-l-8 border-eb-gold">
-                    <h3 class="text-xl font-bold text-eb-green uppercase mb-4" x-text="dom.title[lang]"></h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 border-t border-gray-100 pt-6">
-                        <template x-for="r in getResearchersByDomain(dom.id)" :key="r.name">
-                            <div class="flex items-center p-3 bg-gray-50 rounded border border-gray-100">
-                                <i class="fa-solid fa-user-tie text-eb-gold mr-3"></i>
-                                <span class="text-sm font-bold" x-text="r.name"></span>
-                            </div>
-                        </template>
-                    </div>
-                    <!-- Botão para ver publicações do domínio -->
-                    <button @click="openDomainPublications(dom.id)" class="mt-8 text-xs font-bold text-blue-800 uppercase hover:underline">
-                        <i class="fa-solid fa-book-open mr-2"></i> Ver Produção Científica do Domínio
-                    </button>
-                </div>
-            </template>
-        </div>
-    </div>
-
     <!-- VISTA: PESQUISADORES (PLENOS VS PESQUISADORES) -->
     <div x-show="view === 'all_researchers'" x-cloak class="flex-grow bg-gray-50 pb-20">
         <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
-            <h2 class="text-3xl font-bold uppercase" x-text="t[lang].nav_researchers"></h2>
+            <h2 class="text-3xl font-bold uppercase">Pesquisadores</h2>
         </header>
         <div class="container mx-auto px-6 py-12 max-w-7xl">
-            <!-- PESQUISADORES PLENOS -->
+            <!-- SEÇÃO PLENOS -->
             <div class="mb-16">
-                <h3 class="text-2xl font-bold text-eb-green uppercase border-b-2 border-eb-gold pb-2 mb-8 flex items-center">
-                    <i class="fa-solid fa-star text-eb-gold mr-4"></i> Pesquisadores Plenos
-                </h3>
+                <h3 class="text-2xl font-bold text-eb-green uppercase border-b-2 border-eb-gold pb-2 mb-8">Pesquisadores Plenos</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <template x-for="r in getSortedResearchers('pleno')" :key="r.name">
-                        <div class="bg-white p-6 rounded shadow-sm border-t-4 border-eb-green flex flex-col items-center hover:shadow-md transition">
+                        <div class="bg-white p-6 rounded shadow-sm border-t-4 border-eb-green flex flex-col items-center">
                             <div class="w-24 h-24 bg-gray-200 rounded-full mb-4 overflow-hidden border-2 border-eb-green">
-                                <template x-if="r.photo"><img :src="r.photo" class="w-full h-full object-cover"></template>
-                                <template x-if="!r.photo"><div class="w-full h-full flex items-center justify-center bg-eb-green text-white font-bold" x-text="getInitials(r.name)"></div></template>
+                                <img x-show="r.photo" :src="r.photo" class="w-full h-full object-cover">
+                                <div x-show="!r.photo" class="w-full h-full flex items-center justify-center bg-eb-green text-white font-bold" x-text="getInitials(r.name)"></div>
                             </div>
                             <h4 class="font-bold text-eb-green text-center leading-tight mb-2" x-text="r.name"></h4>
-                            <p class="text-[10px] text-eb-gold font-bold uppercase text-center mb-4" x-text="r.role[lang]"></p>
-                            <a :href="r.lattes" target="_blank" class="text-[10px] font-bold text-blue-800 border border-blue-200 px-4 py-1 rounded-full">LATTES CV</a>
+                            <p class="text-[10px] text-eb-gold font-bold uppercase text-center mb-4" x-text="r.role.pt"></p>
+                            <a :href="r.lattes" target="_blank" class="text-[10px] font-bold text-blue-800 border px-4 py-1 rounded-full">LATTES</a>
                         </div>
                     </template>
                 </div>
             </div>
-
-            <!-- PESQUISADORES -->
+            <!-- SEÇÃO PESQUISADORES -->
             <div>
-                <h3 class="text-2xl font-bold text-gray-800 uppercase border-b-2 border-gray-300 pb-2 mb-8 flex items-center">
-                    <i class="fa-solid fa-users text-gray-400 mr-4"></i> Pesquisadores
-                </h3>
+                <h3 class="text-2xl font-bold text-gray-800 uppercase border-b-2 border-gray-300 pb-2 mb-8">Pesquisadores</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                     <template x-for="r in getSortedResearchers('pesquisador')" :key="r.name">
-                        <div class="bg-white p-6 rounded shadow-sm border-t-4 border-gray-400 flex flex-col items-center opacity-90">
+                        <div class="bg-white p-6 rounded shadow-sm border-t-4 border-gray-400 flex flex-col items-center">
                             <div class="w-24 h-24 bg-gray-200 rounded-full mb-4 overflow-hidden border-2 border-gray-400">
-                                <template x-if="r.photo"><img :src="r.photo" class="w-full h-full object-cover"></template>
-                                <template x-if="!r.photo"><div class="w-full h-full flex items-center justify-center bg-gray-400 text-white font-bold" x-text="getInitials(r.name)"></div></template>
+                                <img x-show="r.photo" :src="r.photo" class="w-full h-full object-cover">
+                                <div x-show="!r.photo" class="w-full h-full flex items-center justify-center bg-gray-400 text-white font-bold" x-text="getInitials(r.name)"></div>
                             </div>
                             <h4 class="font-bold text-gray-800 text-center leading-tight mb-2" x-text="r.name"></h4>
-                            <p class="text-[10px] text-gray-500 font-bold uppercase text-center mb-4" x-text="r.role[lang]"></p>
-                            <a :href="r.lattes" target="_blank" class="text-[10px] font-bold text-blue-800 border border-blue-200 px-4 py-1 rounded-full">LATTES CV</a>
+                            <p class="text-[10px] text-gray-500 font-bold uppercase text-center mb-4" x-text="r.role.pt"></p>
+                            <a :href="r.lattes" target="_blank" class="text-[10px] font-bold text-blue-800 border px-4 py-1 rounded-full">LATTES</a>
                         </div>
                     </template>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- VISTA: NCNP -->
+    <div x-show="view === 'ncnp'" x-cloak class="flex-grow bg-gray-50 pb-20">
+        <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
+            <h2 class="text-3xl font-bold uppercase">Núcleo de Capacitação de Novos Pesquisadores (NCNP)</h2>
+        </header>
+        <div class="container mx-auto px-6 py-12 text-center">
+            <p class="text-gray-600 italic">Estrutura do núcleo em transição e remodelagem.</p>
         </div>
     </div>
 
     <!-- VISTA: ACADÊMICO (TESES/DISSERTAÇÕES/TCC) -->
     <div x-show="view === 'theses'" x-cloak class="flex-grow bg-gray-50 pb-20">
         <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
-            <h2 class="text-3xl font-bold uppercase" x-text="t[lang].nav_theses"></h2>
+            <h2 class="text-3xl font-bold uppercase">Teses / Dissertações / TCC</h2>
         </header>
         <div class="container mx-auto px-6 py-12 max-w-5xl">
             <template x-for="group in getStructuredTheses()" :key="group.year">
@@ -174,13 +132,13 @@
                     </div>
                     <div class="grid gap-4">
                         <template x-for="doc in group.docs">
-                            <div class="bg-white p-6 rounded shadow-sm border border-gray-200 flex justify-between items-center hover:border-eb-green transition">
+                            <div class="bg-white p-6 rounded shadow-sm border border-gray-200 flex justify-between items-center">
                                 <div>
                                     <h4 class="font-bold text-eb-green" x-text="doc.title"></h4>
-                                    <p class="text-[10px] text-gray-500 font-bold uppercase mt-1" x-text="doc.type"></p>
+                                    <p class="text-[10px] text-gray-500 font-bold uppercase" x-text="doc.type"></p>
                                     <p class="text-sm text-gray-600 italic" x-text="doc.researcher"></p>
                                 </div>
-                                <a :href="doc.file_link" target="_blank" class="bg-eb-green text-white text-[10px] font-bold px-4 py-2 rounded">PDF</a>
+                                <a :href="doc.file_link" target="_blank" class="bg-eb-green text-white text-[10px] px-4 py-2 rounded">PDF</a>
                             </div>
                         </template>
                     </div>
@@ -189,93 +147,74 @@
         </div>
     </div>
 
-    <!-- FOOTER COM CONTADOR -->
+    <!-- VISTA: DOMÍNIOS -->
+    <div x-show="view === 'domains'" x-cloak class="flex-grow bg-gray-100 pb-20">
+        <header class="bg-eb-green py-12 text-white text-center border-b-4 border-eb-gold">
+            <h2 class="text-3xl font-bold uppercase">Domínios Analíticos</h2>
+        </header>
+        <div class="container mx-auto px-6 py-12 max-w-6xl space-y-12">
+            <template x-for="dom in domains" :key="dom.id">
+                <div class="bg-white p-8 rounded shadow border-l-8 border-eb-gold">
+                    <h3 class="text-xl font-bold text-eb-green uppercase mb-4" x-text="dom.title.pt"></h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <template x-for="r in getResearchersByDomain(dom.id)" :key="r.name">
+                            <div class="flex items-center p-2 bg-gray-50 rounded">
+                                <i class="fa-solid fa-user-check text-eb-gold mr-3"></i>
+                                <span class="text-sm font-bold" x-text="r.name"></span>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
     <footer class="bg-eb-green text-white py-10 border-t-8 border-eb-gold mt-auto" x-show="!maintenanceMode">
         <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-            <div class="text-center md:text-left mb-6 md:mb-0">
+            <div class="text-center md:text-left">
                 <h5 class="text-eb-gold font-bold uppercase mb-1">Laboratório de Ciências Militares</h5>
                 <p class="text-xs text-gray-400">Escola de Comando e Estado-Maior do Exército</p>
             </div>
-            <div class="flex flex-col items-center">
-                <img src="https://api.visitorbadge.io/api/visitors?path=lcm-eceme.github.io&label=VISITAS&labelColor=%231e3a2c&countColor=%23c5a059&style=flat" />
-                <p class="text-[10px] mt-2 opacity-50 tracking-widest">LCM © 2026</p>
-            </div>
+            <img src="https://api.visitorbadge.io/api/visitors?path=lcm-eceme.github.io&label=VISITAS&labelColor=%231e3a2c&countColor=%23c5a059&style=flat" />
         </div>
     </footer>
 
     <script>
         function appData() {
             return {
-                lang: 'pt', view: 'home', maintenanceMode: false, passInput: '',
+                view: 'home', maintenanceMode: false, passInput: '',
                 allResearchers: [], theses: [], introText: {}, 
                 domains: [
-                    { id: 1, title: { pt: "Ciência, Tecnologia e Inovação em Defesa", en: "Defense S&T and Innovation" } },
-                    { id: 2, title: { pt: "Preparo e Emprego do Poder Militar: Prontidão e Capacidades de Defesa", en: "Military Readiness" } },
-                    { id: 3, title: { pt: "Análise e Prospecção do Ambiente Estratégico em Apoio à Decisão em Defesa", en: "Strategic Prospecting" } }
+                    { id: 1, title: { pt: "Domínio 1 - Ciência, Tecnologia e Inovação em Defesa" } },
+                    { id: 2, title: { pt: "Domínio 2 - Preparo e Emprego do Poder Militar: Prontidão e Capacidades de Defesa" } },
+                    { id: 3, title: { pt: "Domínio 3 - Análise e Prospecção do Ambiente Estratégico em Apoio à Decisão em Defesa" } }
                 ],
-                
-                t: {
-                    pt: { 
-                        nav_home: 'Início', nav_domains: 'Domínios', nav_researchers: 'Pesquisadores', nav_ncnp: 'NCNP', 
-                        nav_theses: 'Teses/Dissertações/TCC', nav_events: 'Eventos', nav_emeritus: 'Eméritos', 
-                        nav_leadership: 'Coordenação', nav_pubs: 'Produção', nav_contact: 'Contato',
-                        about_lcm_title: 'Apresentação Institucional'
-                    },
-                    en: { 
-                        nav_home: 'Home', nav_domains: 'Domains', nav_researchers: 'Researchers', nav_ncnp: 'NCNP', 
-                        nav_theses: 'Academia', about_lcm_title: 'Institutional Presentation'
-                    }
-                },
-
                 async initApp() {
                     await this.loadAll();
-                    // Checa se o site foi deixado em manutenção no último acesso
                     if(localStorage.getItem('lcm_maint') === 'on') this.maintenanceMode = true;
                 },
-
-                // GESTÃO DE MANUTENÇÃO
-                unlock() { 
-                    if(this.passInput === 'LCM@2026') { 
-                        this.maintenanceMode = false; 
-                        localStorage.setItem('lcm_maint', 'off'); 
-                    } else {
-                        alert("Senha Incorreta");
-                    }
-                },
-                toggleMaintenance() { 
-                    this.maintenanceMode = true; 
-                    localStorage.setItem('lcm_maint', 'on'); 
-                },
-
+                unlock() { if(this.passInput === 'LCM@2026') { this.maintenanceMode = false; localStorage.setItem('lcm_maint', 'off'); } },
+                toggleMaintenance() { this.maintenanceMode = true; localStorage.setItem('lcm_maint', 'on'); },
                 async loadAll() {
-                    try {
-                        const r = await fetch('./data_researchers.json?v=' + Date.now()); this.allResearchers = await r.json();
-                        const th = await fetch('./data_theses.json?v=' + Date.now()); this.theses = await th.json();
-                        const it = await fetch('./data_intro.json?v=' + Date.now()); this.introText = await it.json();
-                    } catch(e) { console.error("Falha ao carregar dados", e); }
+                    const r = await fetch('./data_researchers.json?v=' + Date.now()); this.allResearchers = await r.json();
+                    const th = await fetch('./data_theses.json?v=' + Date.now()); this.theses = await th.json();
                 },
-
-                // LÓGICA DE CATEGORIZAÇÃO DE PESQUISADORES
                 getSortedResearchers(category) {
                     let filtered = this.allResearchers.filter(r => {
                         let role = (r.role.pt || "").toLowerCase();
-                        // Lógica: Doutor (mas não doutorando) é Pleno
-                        let isDr = (role.includes("doutor") || role.includes("phd")) && !role.includes("doutorando");
+                        let isDr = role.includes("doutor") && !role.includes("doutorando");
                         return category === 'pleno' ? isDr : !isDr;
                     });
                     return filtered.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
                 },
-
                 getResearchersByDomain(domId) {
-                    return this.allResearchers.filter(r => r.domain_id === domId)
-                           .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
+                    return this.allResearchers.filter(r => r.domain_id === domId).sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
                 },
-
                 getStructuredTheses() {
                     const years = [...new Set(this.theses.map(t => t.year))].sort((a, b) => b - a);
                     return years.map(y => ({ year: y, docs: this.theses.filter(t => t.year === y) }));
                 },
-
                 getInitials(name) { return name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase(); }
             }
         }
