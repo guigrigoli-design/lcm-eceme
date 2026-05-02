@@ -14,28 +14,27 @@
         .text-eb-gold { color: var(--eb-gold); }
         body { font-family: 'Georgia', serif; }
         [x-cloak] { display: none !important; }
-        .tab-active { border-bottom: 4px solid var(--eb-gold); color: var(--eb-green); font-weight: bold; background-color: #f9fafb; }
-        .year-badge-black { border: 2px solid #000; color: #000; font-weight: bold; padding: 0.2rem 0.8rem; border-radius: 4px; }
-        .map-container iframe { width: 100%; height: 350px; border: 0; }
+        .year-badge-black { border: 2px solid #000; color: #000; font-weight: bold; padding: 0.2rem 0.8rem; border-radius: 4px; display: inline-block; }
+        .map-container iframe { width: 100%; height: 400px; border: 0; border-radius: 8px; }
     </style>
 </head>
 
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen" x-data="appData()" x-init="initApp()">
 
-    <!-- MANUTENÇÃO -->
+    <!-- BLOQUEIO DE MANUTENÇÃO -->
     <template x-if="maintenanceMode">
         <div class="fixed inset-0 z-[100] bg-eb-green flex flex-col items-center justify-center text-white text-center p-6">
             <img src="brasao-lcm.png" class="h-20 mb-6 bg-white rounded-full p-2">
             <h1 class="text-2xl font-bold uppercase text-eb-gold mb-2">Portal em Atualização</h1>
-            <p class="italic mb-8 opacity-80">Remodelagem para Domínios Analíticos em curso.</p>
+            <p class="italic mb-8 opacity-80">Remodelagem estrutural para Domínios Analíticos.</p>
             <div class="bg-green-900 p-4 rounded border border-eb-gold">
-                <input type="password" x-model="passInput" placeholder="Senha" class="text-gray-900 px-3 py-1 rounded outline-none">
+                <input type="password" x-model="passInput" placeholder="Senha de Acesso" class="text-gray-900 px-3 py-1 rounded outline-none">
                 <button @click="unlock()" class="bg-eb-gold text-eb-green px-4 py-1 rounded font-bold ml-2">Entrar</button>
             </div>
         </div>
     </template>
 
-    <!-- HEADER & NAVEGAÇÃO -->
+    <!-- NAVEGAÇÃO SUPERIOR -->
     <nav class="bg-eb-green text-white border-b-2 border-eb-gold sticky top-0 z-50 shadow-lg" x-show="!maintenanceMode">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer" @click="view = 'home'">
@@ -47,113 +46,107 @@
             </div>
             
             <div class="flex items-center space-x-4">
-                <!-- Bandeiras de Idioma -->
+                <!-- Seletor de Idiomas com Bandeiras -->
                 <div class="flex space-x-2">
-                    <button @click="lang = 'pt'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm" alt="PT"></button>
-                    <button @click="lang = 'en'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm" alt="EN"></button>
-                    <button @click="lang = 'es'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm" alt="ES"></button>
+                    <button @click="lang = 'pt'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm" title="Português"></button>
+                    <button @click="lang = 'en'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm" title="English"></button>
+                    <button @click="lang = 'es'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm" title="Español"></button>
                 </div>
-                <button @click="toggleMaintenance()" class="text-eb-gold"><i class="fa-solid fa-lock text-sm"></i></button>
+                <button @click="toggleMaintenance()" class="text-eb-gold hover:text-white transition"><i class="fa-solid fa-lock"></i></button>
                 <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars text-xl"></i></button>
             </div>
         </div>
         
-        <!-- Menu Desktop -->
-        <div class="hidden md:flex justify-center bg-green-950/30 py-2 space-x-5 text-[10px] font-bold uppercase tracking-wider border-t border-green-800">
+        <!-- Menu Principal Desktop -->
+        <div class="hidden md:flex justify-center bg-green-950/40 py-2 space-x-5 text-[10px] font-bold uppercase tracking-wider border-t border-green-800">
             <template x-for="(label, key) in t[lang].menu" :key="key">
                 <button @click="view = key" class="hover:text-eb-gold transition" :class="view === key ? 'text-eb-gold' : ''" x-text="label"></button>
             </template>
         </div>
+
+        <!-- Menu Mobile -->
+        <div x-show="mobileMenuOpen" class="md:hidden bg-eb-green border-t border-green-800 p-4" x-transition x-cloak>
+            <template x-for="(label, key) in t[lang].menu" :key="key">
+                <button @click="view = key; mobileMenuOpen = false" class="block w-full text-left py-2 border-b border-green-900" x-text="label"></button>
+            </template>
+        </div>
     </nav>
 
-    <!-- CONTEÚDO -->
+    <!-- ÁREAS DE CONTEÚDO -->
     <main x-show="!maintenanceMode" class="flex-grow">
         
-        <!-- HOME -->
-        <section x-show="view === 'home'" x-cloak>
-            <div class="bg-gray-200 h-[350px] relative overflow-hidden">
-                <template x-for="(n, index) in news" :key="index">
-                    <div x-show="activeSlide === index" class="absolute inset-0 bg-cover bg-center" :style="`background-image: url('${n.image}')`">
-                        <div class="absolute inset-0 bg-black/40 flex flex-col justify-end p-10 text-white">
-                            <h2 class="text-2xl font-bold uppercase" x-text="n.title[lang]"></h2>
-                            <p class="max-w-xl text-sm" x-text="n.desc[lang]"></p>
-                        </div>
-                    </div>
-                </template>
-            </div>
-            <div class="container mx-auto px-6 py-12 max-w-4xl text-center">
-                <h2 class="text-xl font-bold text-eb-green uppercase border-b-2 border-eb-gold inline-block pb-1 mb-6">Apresentação</h2>
-                <div class="text-gray-700 leading-relaxed italic text-base" x-html="introText[lang]"></div>
-            </div>
-        </section>
-
-        <!-- DOMÍNIOS (GRID DE CARDS COMPLETOS) -->
-        <section x-show="view === 'domains'" x-cloak class="py-10">
-            <div class="container mx-auto px-4 max-w-7xl">
-                <template x-for="dom in domains" :key="dom.id">
-                    <div class="mb-16">
-                        <h3 class="text-lg font-bold text-eb-green uppercase border-l-4 border-eb-gold pl-3 mb-8" x-text="dom.title[lang]"></h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                            <template x-for="r in getResearchersByDomain(dom.id)" :key="r.name">
-                                <div class="bg-white p-5 rounded shadow-sm border-t-4 border-eb-green flex flex-col items-center">
-                                    <div class="w-20 h-20 bg-gray-100 rounded-full mb-3 overflow-hidden border">
-                                        <img x-show="r.photo" :src="r.photo" class="w-full h-full object-cover">
-                                        <div x-show="!r.photo" class="w-full h-full flex items-center justify-center bg-eb-green text-white font-bold" x-text="getInitials(r.name)"></div>
-                                    </div>
-                                    <h4 class="font-bold text-eb-green text-sm text-center leading-tight mb-1" x-text="r.name"></h4>
-                                    <p class="text-[9px] text-eb-gold font-bold uppercase mb-4" x-text="r.role[lang]"></p>
-                                    <div class="flex space-x-2">
-                                        <a :href="r.lattes" target="_blank" class="text-[9px] font-bold border px-3 py-1 rounded-full">LATTES</a>
-                                        <button @click="selectedBio = r; showBio = true" class="text-[9px] font-bold border px-3 py-1 rounded-full">BIO</button>
-                                    </div>
+        <!-- PESQUISADORES (RESTAURADA) -->
+        <section x-show="view === 'all_researchers'" x-cloak class="py-12 bg-gray-50">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <!-- PLENOS -->
+                <div class="mb-16">
+                    <h3 class="text-2xl font-bold text-eb-green uppercase border-b-2 border-eb-gold pb-2 mb-10 flex items-center">
+                        <i class="fa-solid fa-graduation-cap text-eb-gold mr-4"></i> <span x-text="t[lang].cat_plenos"></span>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <template x-for="r in getSortedResearchers('pleno')" :key="r.name">
+                            <div class="bg-white p-6 rounded shadow-sm border-t-4 border-eb-green flex flex-col items-center">
+                                <div class="w-24 h-24 bg-gray-100 rounded-full mb-4 overflow-hidden border-2 border-eb-green">
+                                    <img x-show="r.photo" :src="r.photo" class="w-full h-full object-cover">
+                                    <div x-show="!r.photo" class="w-full h-full flex items-center justify-center bg-eb-green text-white font-bold text-xl" x-text="getInitials(r.name)"></div>
                                 </div>
-                            </template>
-                        </div>
+                                <h4 class="font-bold text-eb-green text-center text-lg leading-tight mb-1" x-text="r.name"></h4>
+                                <p class="text-[10px] text-eb-gold font-bold uppercase text-center mb-4 tracking-widest" x-text="r.role[lang]"></p>
+                                <div class="flex space-x-2 mt-auto">
+                                    <a :href="r.lattes" target="_blank" class="text-[10px] font-bold text-blue-800 border border-blue-200 px-3 py-1 rounded-full hover:bg-blue-50">LATTES CV</a>
+                                    <button @click="selectedBio = r; showBio = true" class="text-[10px] font-bold text-gray-600 border border-gray-200 px-3 py-1 rounded-full hover:bg-gray-50">BIO</button>
+                                </div>
+                            </div>
+                        </template>
                     </div>
-                </template>
-            </div>
-        </section>
-
-        <!-- COORDENAÇÃO (ORDEM ESPECÍFICA) -->
-        <section x-show="view === 'leadership'" x-cloak class="py-10">
-            <div class="container mx-auto px-4 max-w-7xl">
-                <h2 class="text-2xl font-bold text-center text-eb-green uppercase mb-10">Corpo de Coordenação</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
-                    <template x-for="c in coordinators" :key="c.name">
-                        <div class="bg-white p-6 rounded shadow-sm border-t-4 border-eb-gold flex flex-col items-center">
-                            <div class="w-24 h-24 bg-gray-100 rounded-full mb-4 overflow-hidden border-2 border-eb-gold">
-                                <img :src="c.photo" class="w-full h-full object-cover">
+                </div>
+                <!-- PESQUISADORES -->
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-700 uppercase border-b-2 border-gray-300 pb-2 mb-10 flex items-center">
+                        <i class="fa-solid fa-users text-gray-400 mr-4"></i> <span x-text="t[lang].cat_researchers"></span>
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <template x-for="r in getSortedResearchers('pesquisador')" :key="r.name">
+                            <div class="bg-white p-6 rounded shadow-sm border-t-4 border-gray-300 flex flex-col items-center opacity-90">
+                                <div class="w-24 h-24 bg-gray-100 rounded-full mb-4 overflow-hidden border-2 border-gray-300">
+                                    <img x-show="r.photo" :src="r.photo" class="w-full h-full object-cover">
+                                    <div x-show="!r.photo" class="w-full h-full flex items-center justify-center bg-gray-300 text-white font-bold" x-text="getInitials(r.name)"></div>
+                                </div>
+                                <h4 class="font-bold text-gray-800 text-center leading-tight mb-1" x-text="r.name"></h4>
+                                <p class="text-[10px] text-gray-500 font-bold uppercase text-center mb-4 tracking-widest" x-text="r.role[lang]"></p>
+                                <div class="flex space-x-2 mt-auto">
+                                    <a :href="r.lattes" target="_blank" class="text-[10px] font-bold text-blue-800 border border-blue-200 px-3 py-1 rounded-full">LATTES CV</a>
+                                    <button @click="selectedBio = r; showBio = true" class="text-[10px] font-bold text-gray-600 border border-gray-200 px-3 py-1 rounded-full">BIO</button>
+                                </div>
                             </div>
-                            <h4 class="font-bold text-eb-green text-lg text-center" x-text="c.name"></h4>
-                            <p class="text-xs text-eb-gold font-bold uppercase mt-1 mb-4" x-text="c.role[lang]"></p>
-                            <div class="flex space-x-2">
-                                <a :href="c.lattes" target="_blank" class="text-[10px] font-bold border px-4 py-1 rounded-full">LATTES CV</a>
-                                <button @click="selectedBio = c; showBio = true" class="text-[10px] font-bold border px-4 py-1 rounded-full">BIO</button>
-                            </div>
-                        </div>
-                    </template>
+                        </template>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- PRODUÇÃO CIENTÍFICA (LISTAGEM POR ANO) -->
-        <section x-show="view === 'publications'" x-cloak class="py-10 bg-white">
-            <div class="container mx-auto px-4 max-w-5xl">
-                <template x-for="group in getStructuredPubs()" :key="group.year">
-                    <div class="mb-10">
+        <!-- ACADÊMICO (RESTAURADA) -->
+        <section x-show="view === 'theses'" x-cloak class="py-12 bg-gray-50">
+            <div class="container mx-auto px-6 max-w-5xl">
+                <header class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-eb-green uppercase">Teses, Dissertações e TCC</h2>
+                    <div class="h-1 w-20 bg-eb-gold mx-auto mt-2"></div>
+                </header>
+                <template x-for="group in getStructuredTheses()" :key="group.year">
+                    <div class="mb-12">
                         <div class="flex items-center mb-6">
                             <span class="year-badge-black" x-text="group.year"></span>
-                            <div class="h-px bg-gray-200 flex-grow ml-4"></div>
+                            <div class="h-px bg-gray-300 flex-grow ml-4"></div>
                         </div>
-                        <div class="space-y-4">
-                            <template x-for="p in group.docs" :key="p.title">
-                                <div class="p-4 border rounded hover:shadow-md transition">
-                                    <div class="flex justify-between items-start">
-                                        <h4 class="font-bold text-eb-green text-base leading-tight pr-4" x-text="p.title"></h4>
-                                        <a :href="p.link" target="_blank" class="text-red-600 text-xl"><i class="fa-solid fa-file-pdf"></i></a>
+                        <div class="grid gap-4">
+                            <template x-for="doc in group.docs">
+                                <div class="bg-white p-6 rounded shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center hover:border-eb-green transition">
+                                    <div>
+                                        <h4 class="font-bold text-eb-green text-lg leading-tight" x-text="doc.title"></h4>
+                                        <p class="text-[10px] text-gray-500 font-bold uppercase mt-1" x-text="doc.type"></p>
+                                        <p class="text-sm text-gray-600 italic mt-1"><i class="fa-solid fa-user-graduate mr-2 text-eb-gold"></i><span x-text="doc.researcher"></span></p>
                                     </div>
-                                    <p class="text-xs text-gray-600 mt-2"><span class="font-bold">Autores:</span> <span x-text="p.authors"></span></p>
-                                    <p class="text-[10px] text-gray-400 italic mt-1" x-text="p.journal"></p>
+                                    <a :href="doc.file_link" target="_blank" class="bg-eb-green text-white text-[10px] font-bold px-5 py-2 rounded mt-4 md:mt-0 hover:bg-green-800">ACESSAR PDF</a>
                                 </div>
                             </template>
                         </div>
@@ -162,31 +155,54 @@
             </div>
         </section>
 
-        <!-- NCNP (FUNCIONALIDADE IC COMPLETA) -->
-        <section x-show="view === 'ncnp'" x-cloak class="py-10">
-            <div class="container mx-auto px-4 max-w-6xl">
-                <div class="flex justify-center space-x-2 mb-8">
-                    <button @click="ncnpTab = 'coords'" class="px-4 py-2 text-[10px] font-bold uppercase border" :class="ncnpTab === 'coords' ? 'bg-eb-green text-white' : ''">Coordenação</button>
-                    <button @click="ncnpTab = 'docs'" class="px-4 py-2 text-[10px] font-bold uppercase border" :class="ncnpTab === 'docs' ? 'bg-eb-green text-white' : ''">Documentos</button>
-                    <button @click="ncnpTab = 'students'" class="px-4 py-2 text-[10px] font-bold uppercase border" :class="ncnpTab === 'students' ? 'bg-eb-green text-white' : ''">Integrantes</button>
+        <!-- NCNP (COORDENAÇÃO E INTEGRANTES RESTAURADOS) -->
+        <section x-show="view === 'ncnp'" x-cloak class="py-12 bg-white">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <header class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-eb-green uppercase">Núcleo de Capacitação de Novos Pesquisadores (NCNP)</h2>
+                    <p class="text-gray-500 italic mt-2">Desenvolvimento científico para a Defesa Nacional</p>
+                </header>
+                <div class="flex justify-center space-x-2 mb-10">
+                    <button @click="ncnpTab = 'coords'" class="px-5 py-2 rounded text-[10px] font-bold uppercase border transition" :class="ncnpTab === 'coords' ? 'bg-eb-green text-white' : 'bg-gray-100'">Coordenação</button>
+                    <button @click="ncnpTab = 'docs'" class="px-5 py-2 rounded text-[10px] font-bold uppercase border transition" :class="ncnpTab === 'docs' ? 'bg-eb-green text-white' : 'bg-gray-100'">Documentos</button>
+                    <button @click="ncnpTab = 'students'" class="px-5 py-2 rounded text-[10px] font-bold uppercase border transition" :class="ncnpTab === 'students' ? 'bg-eb-green text-white' : 'bg-gray-100'">Integrantes</button>
                 </div>
-                <div class="bg-white p-6 rounded border shadow-inner min-h-[300px]">
+                
+                <div class="bg-gray-50 p-8 rounded border min-h-[400px]">
+                    <!-- Coordenação do NCNP -->
                     <template x-if="ncnpTab === 'coords'">
                         <div class="grid md:grid-cols-3 gap-6">
                             <template x-for="c in ic.coords" :key="c.name">
-                                <div class="text-center p-4 border rounded bg-gray-50">
+                                <div class="bg-white p-6 rounded shadow-sm text-center border-t-4 border-blue-800">
+                                    <div class="w-16 h-16 bg-gray-100 rounded-full mx-auto mb-3 overflow-hidden border">
+                                        <img x-show="c.photo" :src="c.photo" class="w-full h-full object-cover">
+                                    </div>
                                     <h4 class="font-bold text-eb-green" x-text="c.name"></h4>
-                                    <p class="text-[10px] text-eb-gold font-bold uppercase" x-text="c.role[lang]"></p>
+                                    <p class="text-[9px] text-eb-gold font-bold uppercase mt-1" x-text="c.role[lang]"></p>
+                                    <a :href="c.lattes" target="_blank" class="text-[9px] text-blue-700 font-bold mt-3 block">LATTES CV</a>
                                 </div>
                             </template>
                         </div>
                     </template>
-                    <template x-if="ncnpTab === 'docs'">
-                        <div class="space-y-3">
-                            <template x-for="d in ic.docs" :key="d.title">
-                                <div class="flex justify-between items-center p-3 border-b">
-                                    <span class="text-sm font-bold text-eb-green" x-text="d.title"></span>
-                                    <a :href="d.link" class="text-xs bg-eb-gold text-eb-green px-3 py-1 rounded font-bold">PDF</a>
+                    <!-- Integrantes (Ex-alunos e Atuais) -->
+                    <template x-if="ncnpTab === 'students'">
+                        <div class="space-y-12">
+                            <template x-for="group in getStructuredIcStudents()" :key="group.year">
+                                <div>
+                                    <h5 class="text-sm font-bold text-eb-green border-b border-gray-200 pb-2 mb-6" x-text="'Turma ' + group.year"></h5>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        <template x-for="s in group.students" :key="s.name">
+                                            <div class="bg-white p-5 rounded shadow-sm border-t-4 border-gray-300 flex flex-col items-center">
+                                                <div class="w-20 h-20 bg-gray-100 rounded-full mb-3 overflow-hidden border">
+                                                    <img x-show="s.photo" :src="s.photo" class="w-full h-full object-cover">
+                                                    <div x-show="!s.photo" class="w-full h-full flex items-center justify-center bg-gray-300 text-white font-bold" x-text="getInitials(s.name)"></div>
+                                                </div>
+                                                <h4 class="font-bold text-eb-green text-xs text-center" x-text="s.name"></h4>
+                                                <p class="text-[9px] text-gray-500 font-bold uppercase text-center mt-1 mb-3" x-text="s.role[lang]"></p>
+                                                <a :href="s.lattes" target="_blank" class="text-[9px] font-bold text-blue-800 border px-3 py-1 rounded-full">LATTES CV</a>
+                                            </div>
+                                        </template>
+                                    </div>
                                 </div>
                             </template>
                         </div>
@@ -195,108 +211,113 @@
             </div>
         </section>
 
-        <!-- EVENTOS (RESTAURADO) -->
-        <section x-show="view === 'events'" x-cloak class="py-10">
-            <div class="container mx-auto px-4 max-w-4xl">
-                <template x-for="e in events" :key="e.id">
-                    <div class="flex mb-8 bg-white rounded border overflow-hidden">
-                        <div class="bg-eb-green text-white p-4 flex flex-col items-center justify-center w-24">
-                            <span class="text-2xl font-bold" x-text="e.day"></span>
-                            <span class="text-[10px] uppercase font-bold" x-text="e.month[lang]"></span>
+        <!-- CONTATO (RESTAURADA) -->
+        <section x-show="view === 'contact'" x-cloak class="py-16 bg-white">
+            <div class="container mx-auto px-6 max-w-6xl">
+                <div class="grid md:grid-cols-2 gap-12 items-start">
+                    <div class="space-y-8">
+                        <h2 class="text-3xl font-bold text-eb-green uppercase">Fale Conosco</h2>
+                        <div class="space-y-6 text-gray-700">
+                            <div class="flex items-start">
+                                <i class="fa-solid fa-location-dot mt-1 mr-4 text-eb-gold text-xl"></i>
+                                <span><strong>Escola de Comando e Estado-Maior do Exército (ECEME)</strong><br>Praça Gen. Tibúrcio, 125<br>Urca, Rio de Janeiro - RJ<br>CEP: 22290-270</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-envelope mr-4 text-eb-gold text-xl"></i>
+                                <span class="font-bold">lcmeceme@gmail.com</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fa-solid fa-phone mr-4 text-eb-gold text-xl"></i>
+                                <span class="font-bold">(21) 3543-3456</span>
+                            </div>
                         </div>
-                        <div class="p-4 flex-grow">
-                            <h4 class="font-bold text-eb-green uppercase" x-text="e.title[lang]"></h4>
-                            <p class="text-xs text-gray-600 mt-1" x-text="e.desc[lang]"></p>
-                            <div class="mt-3 flex justify-between items-center">
-                                <span class="text-[10px] font-bold text-eb-gold" x-text="e.time"></span>
-                                <span class="text-[9px] border px-2 py-0.5 rounded font-bold uppercase" :class="e.active ? 'text-green-600' : 'text-red-600'" x-text="e.active ? 'Aberto' : 'Encerrado'"></span>
+                        <div class="pt-6 border-t border-gray-100">
+                            <h4 class="font-bold text-eb-green uppercase mb-4">Siga-nos nas redes</h4>
+                            <div class="flex space-x-6 text-3xl">
+                                <a href="https://www.linkedin.com/company/lcmeceme/" target="_blank" class="text-eb-green hover:text-eb-gold"><i class="fa-brands fa-linkedin"></i></a>
+                                <a href="https://www.instagram.com/lcmeceme/" target="_blank" class="text-eb-green hover:text-eb-gold"><i class="fa-brands fa-instagram"></i></a>
+                                <a href="https://www.youtube.com/@Laborat%C3%B3riodeCi%C3%AAnciasMilitares" target="_blank" class="text-eb-green hover:text-eb-gold"><i class="fa-brands fa-youtube"></i></a>
                             </div>
                         </div>
                     </div>
-                </template>
-            </div>
-        </section>
-
-        <!-- EMÉRITOS (RESTAURADO) -->
-        <section x-show="view === 'emeritus'" x-cloak class="py-10">
-            <div class="container mx-auto px-4 max-w-5xl">
-                <template x-for="group in getStructuredEmeritus()" :key="group.year">
-                    <div class="mb-10">
-                        <div class="flex items-center mb-6"><span class="bg-eb-gold px-3 py-1 text-xs font-bold rounded" x-text="group.year"></span><div class="h-px bg-gray-200 flex-grow ml-4"></div></div>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <template x-for="r in group.researchers" :key="r.name">
-                                <div class="bg-white p-4 rounded border flex items-center">
-                                    <div class="w-12 h-12 bg-gray-100 rounded-full mr-4 flex-shrink-0 border"></div>
-                                    <div><h4 class="font-bold text-eb-green text-sm" x-text="r.name"></h4><p class="text-[10px] italic text-gray-500" x-text="r.bio[lang]"></p></div>
-                                </div>
-                            </template>
-                        </div>
+                    <div class="map-container shadow-2xl border border-gray-200">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3674.56214556942!2d-43.1670984!3d-22.9550302!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997ff479429599%3A0x66c888371302868c!2sECEME!5e0!3m2!1spt-BR!2sbr!4v1714594245600!5m2!1spt-BR!2sbr" allowfullscreen="" loading="lazy"></iframe>
                     </div>
-                </template>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-eb-green text-white py-8 border-t-4 border-eb-gold mt-auto" x-show="!maintenanceMode">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-            <div class="text-center md:text-left text-[10px] opacity-60">
-                <p class="font-bold">LCM © 2026 - PPGCM / ECEME</p>
-                <p>Escola de Comando e Estado-Maior do Exército</p>
+    <!-- MODAL DE BIOGRAFIA -->
+    <div x-show="showBio" class="fixed inset-0 z-[110] bg-black/80 flex items-center justify-center p-4" x-cloak x-transition>
+        <div class="bg-white rounded-lg max-w-2xl w-full p-8 shadow-2xl relative">
+            <button @click="showBio = false" class="absolute top-4 right-4 text-3xl text-gray-400 hover:text-eb-green">&times;</button>
+            <div class="flex items-center mb-6">
+                <div class="w-20 h-20 bg-gray-100 rounded-full overflow-hidden border-2 border-eb-gold mr-4">
+                    <img x-show="selectedBio.photo" :src="selectedBio.photo" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-eb-green" x-text="selectedBio.name"></h3>
+                    <p class="text-[10px] text-eb-gold font-bold uppercase tracking-widest" x-text="selectedBio.role ? selectedBio.role[lang] : ''"></p>
+                </div>
             </div>
-            <div class="flex space-x-4 my-4 md:my-0">
-                <a href="https://www.linkedin.com/company/lcmeceme/" class="hover:text-eb-gold"><i class="fa-brands fa-linkedin text-xl"></i></a>
-                <a href="https://www.instagram.com/lcmeceme/" class="hover:text-eb-gold"><i class="fa-brands fa-instagram text-xl"></i></a>
-                <a href="http://dgp.cnpq.br/dgp/espelhogrupo/1550449480693956" class="text-[10px] border px-2 py-1 rounded font-bold hover:bg-white hover:text-eb-green transition">CNPQ</a>
-            </div>
-            <img src="https://api.visitorbadge.io/api/visitors?path=lcm-eceme.github.io&label=VISITAS&labelColor=%231e3a2c&countColor=%23c5a059&style=flat" />
-        </div>
-    </footer>
-
-    <!-- MODAL BIO -->
-    <div x-show="showBio" class="fixed inset-0 z-[110] bg-black/70 flex items-center justify-center p-4" x-cloak>
-        <div class="bg-white rounded-lg max-w-xl w-full p-6 shadow-2xl relative">
-            <button @click="showBio = false" class="absolute top-2 right-2 text-xl">&times;</button>
-            <h3 class="font-bold text-eb-green text-lg mb-4" x-text="selectedBio.name"></h3>
-            <p class="text-sm italic text-gray-700 leading-relaxed" x-text="selectedBio.bio ? selectedBio.bio[lang] : ''"></p>
+            <div class="text-gray-700 leading-relaxed text-sm italic border-l-4 border-eb-gold pl-6" x-text="selectedBio.bio ? selectedBio.bio[lang] : 'Membro do Laboratório de Ciências Militares.'"></div>
         </div>
     </div>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-eb-green text-white py-12 border-t-8 border-eb-gold mt-auto" x-show="!maintenanceMode">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="text-center md:text-left text-[10px] opacity-70">
+                <p class="font-bold mb-1 uppercase">LCM - Laboratório de Ciências Militares</p>
+                <p>Escola de Comando e Estado-Maior do Exército</p>
+                <p class="mt-4">© 2026 PPGCM / ECEME</p>
+            </div>
+            <div class="my-8 md:my-0 flex flex-col items-center">
+                <img src="https://api.visitorbadge.io/api/visitors?path=lcm-eceme.github.io&label=VISITAS&labelColor=%231e3a2c&countColor=%23c5a059&style=flat" alt="Visitas" />
+            </div>
+            <div class="text-center md:text-right">
+                <a href="http://dgp.cnpq.br/dgp/espelhogrupo/1550449480693956" target="_blank" class="text-[10px] border border-eb-gold px-4 py-2 rounded font-bold hover:bg-white hover:text-eb-green transition inline-block">ACESSO CNPQ</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         function appData() {
             return {
                 lang: 'pt', view: 'home', maintenanceMode: false, passInput: '',
-                activeSlide: 0, mobileMenuOpen: false, showBio: false, selectedBio: {},
-                ncnpTab: 'coords', allResearchers: [], theses: [], publications: [], 
-                news: [], ic: {}, introText: {}, events: [], emeritus: [], coordinators: [],
+                mobileMenuOpen: false, activeSlide: 0, showBio: false, selectedBio: {},
+                ncnpTab: 'coords', allResearchers: [], theses: [], ic: { coords: [], docs: [], students: [] },
                 domains: [
-                    { id: 1, title: { pt: "Domínio 1 - Ciência, Tecnologia e Inovação em Defesa", en: "Domain 1 - Defense S&T", es: "Dominio 1 - CT&I" } },
-                    { id: 2, title: { pt: "Domínio 2 - Preparo e Emprego do Poder Militar", en: "Domain 2 - Readiness", es: "Dominio 2 - Preparación" } },
-                    { id: 3, title: { pt: "Domínio 3 - Análise e Prospecção do Ambiente Estratégico", en: "Domain 3 - Analysis", es: "Dominio 3 - Análisis" } }
+                    { id: 1, title: { pt: "Domínio 1 - Ciência, Tecnologia e Inovação em Defesa", en: "Defense S&T", es: "Dominio 1 - CT&I" } },
+                    { id: 2, title: { pt: "Domínio 2 - Preparo e Emprego do Poder Militar", en: "Readiness", es: "Dominio 2 - Preparación" } },
+                    { id: 3, title: { pt: "Domínio 3 - Análise e Prospecção do Ambiente Estratégico", en: "Analysis", es: "Dominio 3 - Análisis" } }
                 ],
                 t: {
-                    pt: { menu: { home: 'Início', domains: 'Domínios', emeritus: 'Eméritos', leadership: 'Coordenação', all_researchers: 'Pesquisadores', ncnp: 'NCNP', theses: 'Acadêmico', publications: 'Produção', contact: 'Contato', events: 'Eventos' } },
-                    en: { menu: { home: 'Home', domains: 'Domains', emeritus: 'Emeritus', leadership: 'Leadership', all_researchers: 'Researchers', ncnp: 'NCNP', theses: 'Thesis', publications: 'Production', contact: 'Contact', events: 'Events' } },
-                    es: { menu: { home: 'Inicio', domains: 'Dominios', emeritus: 'Eméritos', leadership: 'Coordinación', all_researchers: 'Investigadores', ncnp: 'NCNP', theses: 'Tesis', publications: 'Producción', contact: 'Contacto', events: 'Eventos' } }
+                    pt: { 
+                        cat_plenos: 'Pesquisadores Plenos', cat_researchers: 'Pesquisadores',
+                        menu: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Pesquisadores', ncnp: 'NCNP', theses: 'Acadêmico', publications: 'Produção', emeritus: 'Eméritos', events: 'Eventos', contact: 'Contato' }
+                    },
+                    en: { 
+                        cat_plenos: 'Senior Researchers', cat_researchers: 'Researchers',
+                        menu: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', ncnp: 'NCNP', theses: 'Thesis', publications: 'Publications', emeritus: 'Emeritus', events: 'Events', contact: 'Contact' }
+                    },
+                    es: { 
+                        cat_plenos: 'Investigadores Plenos', cat_researchers: 'Investigadores',
+                        menu: { home: 'Inicio', domains: 'Dominios', leadership: 'Coordinación', all_researchers: 'Investigadores', ncnp: 'NCNP', theses: 'Tesis', publications: 'Producción', emeritus: 'Eméritos', events: 'Eventos', contact: 'Contacto' }
+                    }
                 },
                 async initApp() {
                     await this.loadAll();
                     if(localStorage.getItem('lcm_maint') === 'on') this.maintenanceMode = true;
-                    setInterval(() => { this.activeSlide = (this.activeSlide + 1) % (this.news.length || 1); }, 6000);
                 },
                 async loadAll() {
-                    const endpoints = [
-                        ['allResearchers', './data_researchers.json'], ['theses', './data_theses.json'],
-                        ['publications', './data_publications.json'], ['news', './data_news.json'],
-                        ['ic', './data_ic.json'], ['introText', './data_intro.json'],
-                        ['events', './data_events.json'], ['emeritus', './data_emeritus.json'],
-                        ['coordinators', './data_coordinators.json']
-                    ];
-                    for(let [key, url] of endpoints) {
-                        try { const r = await fetch(url + '?v=' + Date.now()); this[key] = await r.json(); } catch(e) {}
-                    }
-                    this.coordinators.sort((a,b) => a.order - b.order);
+                    try {
+                        const r = await fetch('./data_researchers.json?v=' + Date.now()); this.allResearchers = await r.json();
+                        const th = await fetch('./data_theses.json?v=' + Date.now()); this.theses = await th.json();
+                        const icData = await fetch('./data_ic.json?v=' + Date.now()); this.ic = await icData.json();
+                    } catch(e) { console.error("Erro no carregamento", e); }
                 },
                 unlock() { if(this.passInput === 'LCM@2026') { this.maintenanceMode = false; localStorage.setItem('lcm_maint', 'off'); } },
                 toggleMaintenance() { this.maintenanceMode = true; localStorage.setItem('lcm_maint', 'on'); },
@@ -307,18 +328,13 @@
                         return category === 'pleno' ? isDr : !isDr;
                     }).sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
                 },
-                getResearchersByDomain(domId) { return this.allResearchers.filter(r => r.domain_id === domId).sort((a, b) => a.name.localeCompare(b.name, 'pt-BR')); },
-                getStructuredPubs() {
-                    const years = [...new Set(this.publications.map(p => p.year))].sort((a, b) => b - a);
-                    return years.map(y => ({ year: y, docs: this.publications.filter(p => p.year === y) }));
-                },
                 getStructuredTheses() {
                     const years = [...new Set(this.theses.map(t => t.year))].sort((a, b) => b - a);
                     return years.map(y => ({ year: y, docs: this.theses.filter(t => t.year === y) }));
                 },
-                getStructuredEmeritus() {
-                    const years = [...new Set(this.emeritus.map(t => t.year))].sort((a, b) => b - a);
-                    return years.map(y => ({ year: y, researchers: this.emeritus.filter(t => t.year === y) }));
+                getStructuredIcStudents() {
+                    const years = [...new Set(this.ic.students.map(s => s.year))].sort((a, b) => b - a);
+                    return years.map(y => ({ year: y, students: this.ic.students.filter(s => s.year === y) }));
                 },
                 getInitials(name) { return name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase(); }
             }
