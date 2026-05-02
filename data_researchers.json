@@ -1,330 +1,43 @@
 [
-   { 
-        "subarea_id": 2,
-        "name": "Mardônio Bezerra Silva", 
-        "lattes": "http://lattes.cnpq.br/6330241765425435", 
-        "photo": "./mardonio.png?v=1",
-        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Henrique de Oliveira Mendonça", 
-        "lattes": "http://lattes.cnpq.br/9207642455474797", 
-        "photo": "./henrique.png?v=1",
-        "role": { "pt": "Coordenador", "en": "Coordinator", "es": "Coordinador" }, 
-        "bio": { "pt": "Coordenador de Subárea no LCM.", "en": "Subarea Coordinator at LCM.", "es": "Coordinador de Subárea en el LCM." } 
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Eliezer de Souza Batista Junior", 
-        "lattes": "https://lattes.cnpq.br/1454270652578057", 
-        "photo": "./eliezer.png?v=1",
-        "role": { "pt": "Subcoordenador", "en": "Sub-coordinator", "es": "Subcoordinador" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Ronay Souza Diniz", 
-        "lattes": "http://lattes.cnpq.br/2109315083731050", 
-        "photo": "./diniz.png?v=1",
-        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
-    },
-    { 
-        "subarea_id": 2,
-        "name": "Rafael Costa Marinho", 
-        "lattes": "http://lattes.cnpq.br/5826132709272497", 
-        "photo": "./marinho.png?v=1",
-        "role": { "pt": "Coordenador", "en": "Coordinator", "es": "Coordinador" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Luis Felipe Comodo Seelig", 
-        "lattes": "http://lattes.cnpq.br/3085772366493629", 
-        "photo": "./seelig.png?v=1",
-        "role": { "pt": "Pesquisador Graduado", "en": "Research Assistant", "es": "Investigador Graduado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Bianca Ariel Oliveira Santos", 
-        "lattes": "http://lattes.cnpq.br/7186405772462489", 
-        "photo": "./ariel.png?v=1",
-        "role": { "pt": "Pesquisador Graduado", "en": "Research Assistant", "es": "Investigador Graduado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Luiz Eugenio Cardoso Rangel Serra", 
-        "lattes": "http://lattes.cnpq.br/9447457299601003", 
-        "photo": "./serra.png?v=1",
-        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Jarbas Alfeu de Paula Júnior", 
-        "lattes": "http://lattes.cnpq.br/4748321647219435", 
-        "photo": "./alfeu.png?v=1",
-        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." } 
-    },
-    { 
-        "subarea_id": 2,
-        "name": "Thiago Carneiro Mouta", 
-        "lattes": "http://lattes.cnpq.br/7243133200075805", 
-        "photo": "./thiago.png?v=1",
-        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Carlos Henrique Arantes de Moraes", 
-        "lattes": "http://lattes.cnpq.br/9662825202211880", 
-        "photo": "./carloshenrique.png?v=1",
-        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 1,
-        "name": "Marco Aurélio Vasques Silva", 
-        "lattes": "http://lattes.cnpq.br/1829721176713221", 
-        "photo": "./vasques.png?v=1",
-        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Rafael Soares Pinheiro da Cunha", 
-        "lattes": "http://lattes.cnpq.br/8115814743833200", 
-        "photo": "./rafaelpinheiro.png?v=1",
-        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-   { 
-        "subarea_id": 1,
-        "name": "Marcelo Eduardo Deotti Júnior", 
-        "lattes": "http://lattes.cnpq.br/4735244729676642", 
-        "photo": "./deotti.png?v=1",
-        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Alexandre Shoji", 
-        "lattes": "http://lattes.cnpq.br/2866737103543425", 
-        "photo": "./shoji.png?v=1",
-        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Alexandre Rhoden Barcellos", 
-        "lattes": "http://lattes.cnpq.br/3316496921469115", 
-        "photo": "./barcellos.png?v=1",
-        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Frederico Chaves Salóes do Amor", 
-        "lattes": "http://lattes.cnpq.br/2780129115650221", 
-        "photo": "./saloes.png?v=1",
-        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 1,
-        "name": "Nelcinei de Freitas Valente", 
-        "lattes": "http://lattes.cnpq.br/5132650279600468", 
-        "photo": "./valente.png?v=1",
-        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 3,
-        "name": "César Patricio Parra Molina", 
-        "lattes": "http://lattes.cnpq.br/3988261420794058", 
-        "photo": "./parra.png?v=1",
-        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Miguel Fiuza Neto", 
-        "lattes": "http://lattes.cnpq.br/5970478650994089", 
-        "photo": "./fiuzaneto.png?v=1",
-        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Guilherme Aun de Barros Brasil de Paula", 
-        "lattes": "http://lattes.cnpq.br/000000000000000", 
-        "photo": "./brasil.png?v=1",
-        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 2,
-        "name": "Bruno Costa Marinho", 
-        "lattes": "http://lattes.cnpq.br/7794103602087811", 
-        "photo": "./marinho2.png?v=1",
-        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 2,
-        "name": "Leonardo da Silva Lima", 
-        "lattes": "http://lattes.cnpq.br/7168205749530418", 
-        "photo": "./silvalima.png?v=1",
-        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Daniel Corrêa de Freitas", 
-        "lattes": "http://lattes.cnpq.br/8268992118047481", 
-        "photo": "./danielcorrea.png?v=1",
-        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Celso Montenegro Justo", 
-        "lattes": "http://lattes.cnpq.br/4775709225541354", 
-        "photo": "./montenegro.png?v=1",
-        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 2,
-        "name": "Lenilton Duran Pinto Corrêa", 
-        "lattes": "http://lattes.cnpq.br/0819099995994050", 
-        "photo": "./duran.png?v=1",
-        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Júlio César Lacerda Martins", 
-        "lattes": "http://lattes.cnpq.br/6845412710307350", 
-        "photo": "./juliocesar.png?v=1",
-        "role": { "pt": "Subcoordenador", "en": "Sub-coordinator", "es": "Subcoordinador" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Darison Regis Teixeira", 
-        "lattes": "http://lattes.cnpq.br/1272301536647465", 
-        "photo": "./teixeira.png?v=1",
-        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 1,
-        "name": "Tarso de Souza Ramalho", 
-        "lattes": "http://lattes.cnpq.br/6654057100121354", 
-        "photo": "./tarso.png?v=1",
-        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Thiago Henrique Barros Cardoso", 
-        "lattes": "http://lattes.cnpq.br/4265722112198095", 
-        "photo": "./thiagocardoso.png?v=1",
-        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 1,
-        "name": "Diego Ébio de Sant'ana", 
-        "lattes": "http://lattes.cnpq.br/7590034300388046", 
-        "photo": "./ebio.png?v=1",
-        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Jairo Luiz Fremdling Farias Junior", 
-        "lattes": "http://lattes.cnpq.br/0138887203104344", 
-        "photo": "./jairo.png?v=1",
-        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 1,
-        "name": "Márcio José Reis da Silva", 
-        "lattes": "http://lattes.cnpq.br/4653576044265766", 
-        "photo": "./reis.png?v=1",
-        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Elany Almeida de Souza", 
-        "lattes": "http://lattes.cnpq.br/7996952631283123", 
-        "photo": "./elany.png?v=1",
-        "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 1,
-        "name": "Thiago José Bandeira Santos", 
-        "lattes": "http://lattes.cnpq.br/1278346316869136", 
-        "photo": "./tbandeira.png?v=1",
-        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 3,
-        "name": "Israel Alves de Souza Júnior", 
-        "lattes": "http://lattes.cnpq.br/9704343343549815", 
-        "photo": "./israel.png?v=1",
-        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Pablo Ahedo Cordón", 
-        "lattes": "http://lattes.cnpq.br/0", 
-        "photo": "./pabloahedo.png?v=1",
-        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 2,
-        "name": "Erick Cozzo Betat de Souza", 
-        "lattes": "http://lattes.cnpq.br/7361130169998522", 
-        "photo": "./betat.png?v=1",
-        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Mila Pereira Campbell", 
-        "lattes": "http://lattes.cnpq.br/5994938625015909", 
-        "photo": "./mila.png?v=1",
-        "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 4,
-        "name": "Magda Gomes da Silva", 
-        "lattes": "https://lattes.cnpq.br/2701410032191281", 
-        "photo": "./magda.png?v=1",
-        "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    },
-    { 
-        "subarea_id": 1,
-        "name": "Gustavo Henrique Rodrigues Moleiro", 
-        "lattes": "http://lattes.cnpq.br/9391112723920137", 
-        "photo": "./moleiro.png?v=1",
-        "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" }, 
-        "bio": { "pt": "Membro do Laboratório de Ciências Militares.", "en": "Member of the Military Sciences Laboratory.", "es": "Miembro del Laboratorio de Ciencias Militares." }
-    }
+    { "domain_id": 1, "name": "Mardônio Bezerra Silva", "lattes": "http://lattes.cnpq.br/6330241765425435", "photo": "./mardonio.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 2, "name": "Henrique de Oliveira Mendonça", "lattes": "http://lattes.cnpq.br/9207642455474797", "photo": "./henrique.png?v=1", "role": { "pt": "Coordenador", "en": "Coordinator", "es": "Coordinador" } },
+    { "domain_id": 2, "name": "Eliezer de Souza Batista Junior", "lattes": "https://lattes.cnpq.br/1454270652578057", "photo": "./eliezer.png?v=1", "role": { "pt": "Subcoordenador", "en": "Sub-coordinator", "es": "Subcoordinador" } },
+    { "domain_id": 2, "name": "Ronay Souza Diniz", "lattes": "http://lattes.cnpq.br/2109315083731050", "photo": "./diniz.png?v=1", "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" } },
+    { "domain_id": 1, "name": "Rafael Costa Marinho", "lattes": "http://lattes.cnpq.br/5826132709272497", "photo": "./marinho.png?v=1", "role": { "pt": "Coordenador", "en": "Coordinator", "es": "Coordinador" } },
+    { "domain_id": 2, "name": "Luis Felipe Comodo Seelig", "lattes": "http://lattes.cnpq.br/3085772366493629", "photo": "./seelig.png?v=1", "role": { "pt": "Pesquisador Graduado", "en": "Research Assistant", "es": "Investigador Graduado" } },
+    { "domain_id": 2, "name": "Bianca Ariel Oliveira Santos", "lattes": "http://lattes.cnpq.br/7186405772462489", "photo": "./ariel.png?v=1", "role": { "pt": "Pesquisador Graduado", "en": "Research Assistant", "es": "Investigador Graduado" } },
+    { "domain_id": 3, "name": "Luiz Eugenio Cardoso Rangel Serra", "lattes": "http://lattes.cnpq.br/9447457299601003", "photo": "./serra.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
+    { "domain_id": 2, "name": "Jarbas Alfeu de Paula Júnior", "lattes": "http://lattes.cnpq.br/4748321647219435", "photo": "./alfeu.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 1, "name": "Thiago Carneiro Mouta", "lattes": "http://lattes.cnpq.br/7243133200075805", "photo": "./thiago.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } },
+    { "domain_id": 3, "name": "Carlos Henrique Arantes de Moraes", "lattes": "http://lattes.cnpq.br/9662825202211880", "photo": "./carloshenrique.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
+    { "domain_id": 1, "name": "Marco Aurélio Vasques Silva", "lattes": "http://lattes.cnpq.br/1829721176713221", "photo": "./vasques.png?v=1", "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" } },
+    { "domain_id": 3, "name": "Rafael Soares Pinheiro da Cunha", "lattes": "http://lattes.cnpq.br/8115814743833200", "photo": "./rafaelpinheiro.png?v=1", "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" } },
+    { "domain_id": 1, "name": "Marcelo Eduardo Deotti Júnior", "lattes": "http://lattes.cnpq.br/4735244729676642", "photo": "./deotti.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } },
+    { "domain_id": 2, "name": "Alexandre Shoji", "lattes": "http://lattes.cnpq.br/2866737103543425", "photo": "./shoji.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
+    { "domain_id": 2, "name": "Alexandre Rhoden Barcellos", "lattes": "http://lattes.cnpq.br/3316496921469115", "photo": "./barcellos.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } },
+    { "domain_id": 2, "name": "Frederico Chaves Salóes do Amor", "lattes": "http://lattes.cnpq.br/2780129115650221", "photo": "./saloes.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
+    { "domain_id": 1, "name": "Nelcinei de Freitas Valente", "lattes": "http://lattes.cnpq.br/5132650279600468", "photo": "./valente.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } },
+    { "domain_id": 2, "name": "César Patricio Parra Molina", "lattes": "http://lattes.cnpq.br/3988261420794058", "photo": "./parra.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 2, "name": "Miguel Fiuza Neto", "lattes": "http://lattes.cnpq.br/5970478650994089", "photo": "./fiuzaneto.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
+    { "domain_id": 3, "name": "Guilherme Aun de Barros Brasil de Paula", "lattes": "http://lattes.cnpq.br/000000000000000", "photo": "./brasil.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } },
+    { "domain_id": 1, "name": "Bruno Costa Marinho", "lattes": "http://lattes.cnpq.br/7794103602087811", "photo": "./marinho2.png?v=1", "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" } },
+    { "domain_id": 1, "name": "Leonardo da Silva Lima", "lattes": "http://lattes.cnpq.br/7168205749530418", "photo": "./silvalima.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 3, "name": "Daniel Corrêa de Freitas", "lattes": "http://lattes.cnpq.br/8268992118047481", "photo": "./danielcorrea.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } },
+    { "domain_id": 2, "name": "Celso Montenegro Justo", "lattes": "http://lattes.cnpq.br/4775709225541354", "photo": "./montenegro.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } },
+    { "domain_id": 1, "name": "Lenilton Duran Pinto Corrêa", "lattes": "http://lattes.cnpq.br/0819099995994050", "photo": "./duran.png?v=1", "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" } },
+    { "domain_id": 3, "name": "Júlio César Lacerda Martins", "lattes": "http://lattes.cnpq.br/6845412710307350", "photo": "./juliocesar.png?v=1", "role": { "pt": "Subcoordenador", "en": "Sub-coordinator", "es": "Subcoordinador" } },
+    { "domain_id": 3, "name": "Darison Regis Teixeira", "lattes": "http://lattes.cnpq.br/1272301536647465", "photo": "./teixeira.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 1, "name": "Tarso de Souza Ramalho", "lattes": "http://lattes.cnpq.br/6654057100121354", "photo": "./tarso.png?v=1", "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" } },
+    { "domain_id": 3, "name": "Thiago Henrique Barros Cardoso", "lattes": "http://lattes.cnpq.br/4265722112198095", "photo": "./thiagocardoso.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
+    { "domain_id": 1, "name": "Diego Ébio de Sant'ana", "lattes": "http://lattes.cnpq.br/7590034300388046", "photo": "./ebio.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 2, "name": "Jairo Luiz Fremdling Farias Junior", "lattes": "http://lattes.cnpq.br/0138887203104344", "photo": "./jairo.png?v=1", "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" } },
+    { "domain_id": 1, "name": "Márcio José Reis da Silva", "lattes": "http://lattes.cnpq.br/4653576044265766", "photo": "./reis.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } },
+    { "domain_id": 3, "name": "Elany Almeida de Souza", "lattes": "http://lattes.cnpq.br/7996952631283123", "photo": "./elany.png?v=1", "role": { "pt": "Pesquisador Doutor", "en": "PhD Researcher", "es": "Investigador de doctorado" } },
+    { "domain_id": 1, "name": "Thiago José Bandeira Santos", "lattes": "http://lattes.cnpq.br/1278346316869136", "photo": "./tbandeira.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 2, "name": "Israel Alves de Souza Júnior", "lattes": "http://lattes.cnpq.br/9704343343549815", "photo": "./israel.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 3, "name": "Pablo Ahedo Cordón", "lattes": "http://lattes.cnpq.br/0", "photo": "./pabloahedo.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
+    { "domain_id": 1, "name": "Erick Cozzo Betat de Souza", "lattes": "http://lattes.cnpq.br/7361130169998522", "photo": "./betat.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
+    { "domain_id": 3, "name": "Mila Pereira Campbell", "lattes": "http://lattes.cnpq.br/5994938625015909", "photo": "./mila.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 3, "name": "Magda Gomes da Silva", "lattes": "https://lattes.cnpq.br/2701410032191281", "photo": "./magda.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
+    { "domain_id": 1, "name": "Gustavo Henrique Rodrigues Moleiro", "lattes": "http://lattes.cnpq.br/9391112723920137", "photo": "./moleiro.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } }
 ]
