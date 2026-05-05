@@ -7,55 +7,68 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css"> <!-- Estilos consolidados -->
+    <style>
+        :root { --eb-green: #1e3a2c; --eb-gold: #c5a059; }
+        [x-cloak] { display: none !important; }
+        body { font-family: 'Georgia', serif; }
+        .circle-container { width: 7rem; height: 7rem; border-radius: 9999px; overflow: hidden; border: 3px solid var(--eb-gold); display: flex; align-items: center; justify-content: center; background-color: #f3f4f6; margin-bottom: 1rem; }
+        .circle-img { width: 100%; height: 100%; object-fit: cover; }
+        /* Cores dos Domínios - Área do Pesquisador */
+        .bg-dom-1 { background-color: #e0f2fe; } /* Azul - Sustentação */
+        .bg-dom-2 { background-color: #f0fdf4; } /* Verde - Preparo */
+        .bg-dom-3 { background-color: #fff7ed; } /* Laranja - Prospecção */
+    </style>
 </head>
 
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen" x-data="lcmApp()" x-init="init()">
 
-    <!-- NAVEGAÇÃO SUPERIOR -->
-    <nav class="bg-[#1e3a2c] text-white border-b-2 border-[#c5a059] sticky top-0 z-50 shadow-lg">
+    <!-- HEADER E NAVEGAÇÃO -->
+    <nav class="bg-[#1e3a2c] text-white border-b-2 border-[#c5a059] sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3 cursor-pointer" @click="setView('home')">
+            <div class="flex items-center space-x-3 cursor-pointer" @click="view = 'home'">
                 <img src="brasao-lcm.png" class="h-10 bg-white rounded-full p-0.5 shadow-md">
-                <div class="hidden lg:block leading-none">
-                    <span class="block font-bold text-xs uppercase">Laboratório de Ciências Militares</span>
-                    <span class="text-[9px] text-[#c5a059] uppercase tracking-tighter">Escola de Comando e Estado-Maior do Exército</span>
-                </div>
+                <span class="hidden md:block font-bold text-xs uppercase tracking-tight">Laboratório de Ciências Militares</span>
             </div>
             
-            <div class="flex items-center space-x-4">
+            <div class="flex space-x-4 items-center">
                 <div class="flex space-x-2">
-                    <button @click="lang = 'pt'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded"></button>
-                    <button @click="lang = 'en'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded"></button>
+                    <button @click="lang = 'pt'" class="hover:opacity-80"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm"></button>
+                    <button @click="lang = 'en'" class="hover:opacity-80"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm"></button>
                 </div>
-                <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars text-xl"></i></button>
+                <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars"></i></button>
             </div>
         </div>
-        
-        <!-- LINKS DE MENU (Conectados às Views) -->
+
+        <!-- MENU MODULAR -->
         <div class="hidden md:flex justify-center bg-black/20 py-2 space-x-2 text-[8px] lg:text-[9.5px] font-bold uppercase tracking-wider border-t border-green-800">
             <template x-for="(label, key) in menuLabels[lang]" :key="key">
-                <button @click="setView(key)" class="hover:text-[#c5a059] transition px-2 py-1" :class="view === key ? 'text-[#c5a059] border-b border-[#c5a059]' : ''" x-text="label"></button>
+                <button @click="view = key" class="px-2 py-1 transition" :class="view === key ? 'text-[#c5a059] border-b border-[#c5a059]' : 'hover:text-[#c5a059]'" x-text="label"></button>
             </template>
-            <button @click="handleResearcherAreaAccess()" class="bg-[#c5a059] text-[#1e3a2c] px-3 py-1 rounded ml-2 hover:bg-yellow-600 transition" x-text="isLoggedIn ? 'Minha Área' : 'Área do Pesquisador'"></button>
+            <button @click="isLoggedIn ? view = 'researcher_area' : view = 'researcher_login'" class="bg-[#c5a059] text-[#1e3a2c] px-3 py-1 rounded ml-2 font-bold" x-text="isLoggedIn ? 'Minha Área' : 'Área do Pesquisador'"></button>
         </div>
     </nav>
 
-    <!-- CONTEÚDO DINÂMICO (Injetado via JavaScript) -->
+    <!-- CONTEÚDO PRINCIPAL (INJEÇÃO REATIVA)[cite: 1] -->
     <main class="flex-grow">
-        <div id="main-content" x-html="renderView()"></div>
+        <!-- Renderiza a view baseada no estado atual -->
+        <div x-html="renderCurrentView()" x-cloak></div>
+        
+        <!-- Mensagem de carregamento caso os dados demorem -->
+        <div x-show="loading" class="flex flex-col items-center justify-center p-20">
+            <i class="fa-solid fa-spinner fa-spin text-3xl text-[#1e3a2c] mb-4"></i>
+            <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Processando Informações do Portal...</p>
+        </div>
     </main>
 
-    <!-- RODAPÉ -->
-    <footer class="bg-[#1e3a2c] text-white py-10 border-t-4 border-[#c5a059]">
+    <footer class="bg-[#1e3a2c] text-white py-12 border-t-8 border-[#c5a059]">
         <div class="container mx-auto px-4 text-center opacity-60 text-[10px] uppercase tracking-widest">
-            Laboratório de Ciências Militares - ECEME | 2026
+            Laboratório de Ciências Militares - ECEME | 2026[cite: 1]
         </div>
     </footer>
 
-    <!-- Scripts Modulares -->
-    <script src="js/views.js"></script>
-    <script src="js/researcher_area.js"></script>
-    <script src="js/main.js"></script>
+    <!-- CARREGAMENTO DOS MÓDULOS[cite: 1] -->
+    <script src="js/menu_views.js"></script>
+    <script src="js/researcher_logic.js"></script>
+    <script src="js/app_core.js"></script>
 </body>
 </html>
