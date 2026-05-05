@@ -14,36 +14,20 @@
         .text-eb-gold { color: var(--eb-gold); }
         body { font-family: 'Georgia', serif; }
         [x-cloak] { display: none !important; }
-        .year-badge-black { border: 2px solid #000; color: #000; font-weight: bold; padding: 0.2rem 0.8rem; border-radius: 4px; font-size: 0.7rem; }
-        .year-badge-gold { background-color: var(--eb-gold); color: var(--eb-green); font-weight: bold; padding: 0.2rem 0.8rem; border-radius: 4px; font-size: 0.7rem; }
+        /* Padronização Circular de Pesquisadores */
         .circle-container { width: 7.5rem; height: 7.5rem; border-radius: 9999px; overflow: hidden; border: 3px solid var(--eb-gold); display: flex; align-items: center; justify-content: center; background-color: #f3f4f6; margin-bottom: 1rem; transition: transform 0.3s; }
-        .circle-container:hover { transform: scale(1.05); }
         .circle-img { width: 100%; height: 100%; object-fit: cover; }
+        /* Padronização de Listas de Documentos */
         .doc-list-item { border-left: 4px solid var(--eb-green); background: white; padding: 1.25rem; border-radius: 0 4px 4px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: all 0.2s; }
         .doc-list-item:hover { border-left-color: var(--eb-gold); background-color: #f9fafb; }
-        .social-link { transition: all 0.3s; color: var(--eb-green); }
-        .social-link:hover { color: var(--eb-gold); transform: translateY(-3px); }
+        .year-badge { font-weight: bold; padding: 0.2rem 0.8rem; border-radius: 4px; font-size: 0.7rem; }
     </style>
 </head>
 
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen" x-data="appData()" x-init="initApp()">
 
-    <!-- TELA DE MANUTENÇÃO (BLOQUEIO TOTAL) -->
-    <template x-if="maintenanceMode">
-        <div class="fixed inset-0 z-[200] bg-eb-green flex flex-col items-center justify-center text-white text-center p-6">
-            <img src="brasao-lcm.png" class="h-24 mb-6 bg-white rounded-full p-2 shadow-2xl">
-            <h1 class="text-3xl font-bold uppercase text-eb-gold mb-2 tracking-widest">Acesso Restrito</h1>
-            <p class="italic mb-10 opacity-70 max-w-md">O portal do Laboratório de Ciências Militares está passando por uma atualização estrutural.</p>
-            <div class="bg-green-950 p-6 rounded-lg border border-eb-gold shadow-2xl">
-                <input type="password" x-model="passInput" placeholder="Chave de Acesso" class="text-gray-900 px-4 py-2 rounded outline-none w-56 text-sm">
-                <button @click="unlock()" class="bg-eb-gold text-eb-green px-6 py-2 rounded font-bold ml-2 text-sm hover:bg-yellow-600 transition">Entrar</button>
-            </div>
-            <p class="mt-12 text-[10px] opacity-40 uppercase tracking-widest">© 2026 LCM - Escola de Comando e Estado-Maior do Exército</p>
-        </div>
-    </template>
-
-    <!-- NAVEGAÇÃO -->
-    <nav class="bg-eb-green text-white border-b-2 border-eb-gold sticky top-0 z-50 shadow-lg" x-show="!maintenanceMode">
+    <!-- NAVEGAÇÃO SUPERIOR -->
+    <nav class="bg-eb-green text-white border-b-2 border-eb-gold sticky top-0 z-50 shadow-lg">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer" @click="view = 'home'">
                 <img src="brasao-lcm.png" class="h-10 bg-white rounded-full p-0.5 shadow-md">
@@ -59,119 +43,73 @@
                     <button @click="lang = 'en'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm"></button>
                     <button @click="lang = 'es'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm"></button>
                 </div>
-                <button @click="toggleMaintenance()" class="text-eb-gold hover:text-white transition"><i class="fa-solid fa-screwdriver-wrench"></i></button>
                 <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars text-xl"></i></button>
             </div>
         </div>
         
-        <!-- Menu Principal -->
-        <div class="hidden md:flex justify-center bg-green-950/50 py-2 space-x-2 text-[8px] lg:text-[10px] font-bold uppercase tracking-wider border-t border-green-800">
+        <!-- Menu Principal Integrado -->
+        <div class="hidden md:flex justify-center bg-green-950/50 py-2 space-x-1 lg:space-x-2 text-[7.5px] lg:text-[9.5px] font-bold uppercase tracking-wider border-t border-green-800 overflow-x-auto">
             <template x-for="(label, key) in t[lang].menu" :key="key">
-                <button @click="view = key" class="hover:text-eb-gold transition px-2 py-1" :class="view === key ? 'text-eb-gold border-b border-eb-gold' : ''" x-text="label"></button>
+                <button @click="view = key" class="hover:text-eb-gold transition px-2 py-1 whitespace-nowrap" :class="view === key ? 'text-eb-gold border-b border-eb-gold' : ''" x-text="label"></button>
             </template>
+            <button @click="isLoggedIn ? view = 'researcher_area' : view = 'researcher_login'" class="bg-eb-gold text-eb-green px-3 py-1 rounded ml-2 hover:bg-yellow-600 transition whitespace-nowrap" x-text="isLoggedIn ? 'Minha Área' : 'Área do Pesquisador'"></button>
         </div>
     </nav>
 
-    <main x-show="!maintenanceMode" class="flex-grow overflow-hidden">
+    <main class="flex-grow">
         
-        <!-- HOME -->
+        <!-- 1. HOME -->
         <section x-show="view === 'home'" x-cloak>
-            <div class="bg-gray-200 h-[400px] relative overflow-hidden">
+            <div class="bg-gray-200 h-[380px] relative overflow-hidden">
                 <template x-for="(n, index) in news" :key="index">
                     <div x-show="activeSlide === index" class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000" :style="`background-image: url('${n.image}')`">
                         <div class="absolute inset-0 bg-black/40 flex flex-col justify-end p-12 text-white">
-                            <h2 class="text-3xl font-bold uppercase mb-2" x-text="n.title[lang]"></h2>
+                            <h2 class="text-2xl font-bold uppercase mb-2" x-text="n.title[lang]"></h2>
                             <p class="max-w-2xl text-sm italic opacity-80" x-text="n.desc[lang]"></p>
                         </div>
                     </div>
                 </template>
             </div>
             <div class="container mx-auto px-6 py-16 max-w-4xl text-center">
-                <h2 class="text-2xl font-bold text-eb-green uppercase mb-8 border-b-2 border-eb-gold inline-block pb-1">Apresentação</h2>
-                <div class="text-gray-700 text-lg leading-relaxed italic mb-12" x-html="introText[lang]"></div>
+                <h2 class="text-xl font-bold text-eb-green uppercase mb-8 border-b-2 border-eb-gold inline-block pb-1">Apresentação Institucional</h2>
+                <div class="text-gray-700 text-base leading-relaxed italic mb-12" x-html="introText[lang]"></div>
                 
-                <!-- Redes Sociais Home -->
+                <!-- Redes Sociais e CNPq na Home -->
                 <div class="flex justify-center space-x-8 pt-8 border-t border-gray-100">
-                    <a href="https://www.instagram.com/lcmeceme/" target="_blank" class="social-link text-3xl"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.youtube.com/@Laborat%C3%B3riodeCi%C3%AAnciasMilitares" target="_blank" class="social-link text-3xl"><i class="fa-brands fa-youtube"></i></a>
-                    <a href="https://www.linkedin.com/company/lcmeceme/" target="_blank" class="social-link text-3xl"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="http://dgp.cnpq.br/dgp/espelhogrupo/1550449480693956" target="_blank" class="social-link flex flex-col items-center">
-                        <span class="text-[10px] font-bold border-2 border-eb-green px-2 py-0.5 rounded leading-none mb-1">CNPq</span>
+                    <a href="https://www.instagram.com/lcmeceme/" target="_blank" class="text-eb-green hover:text-eb-gold text-3xl"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.youtube.com/@Laborat%C3%B3riodeCi%C3%AAnciasMilitares" target="_blank" class="text-eb-green hover:text-eb-gold text-3xl"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.linkedin.com/company/lcmeceme/" target="_blank" class="text-eb-green hover:text-eb-gold text-3xl"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="http://dgp.cnpq.br/dgp/espelhogrupo/1550449480693956" target="_blank" class="flex flex-col items-center text-eb-green hover:text-eb-gold">
+                        <span class="text-[10px] font-bold border-2 border-eb-green px-2 py-0.5 rounded mb-1">CNPq</span>
                         <span class="text-[8px] uppercase font-bold">Diretório</span>
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- COORDENAÇÃO -->
-        <section x-show="view === 'leadership'" x-cloak class="py-16">
+        <!-- 2. COORDENAÇÃO -->
+        <section x-show="view === 'leadership'" x-cloak class="py-16 bg-white">
             <div class="container mx-auto px-4 max-w-7xl text-center">
-                <h2 class="text-3xl font-bold text-eb-green uppercase mb-16">Corpo de Coordenação</h2>
+                <h2 class="text-3xl font-bold text-eb-green uppercase mb-16">Coordenação do LCM</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-12 justify-items-center">
                     <template x-for="c in coordinators" :key="c.name">
                         <div class="flex flex-col items-center">
-                            <div class="circle-container border-eb-gold shadow-xl">
-                                <img :src="c.photo" class="circle-img">
-                            </div>
+                            <div class="circle-container shadow-xl"><img :src="c.photo" class="circle-img"></div>
                             <h4 class="font-bold text-eb-green text-lg mb-1" x-text="c.name"></h4>
-                            <p class="text-[10px] text-eb-gold font-bold uppercase mb-6 tracking-widest" x-text="c.role[lang]"></p>
-                            <a :href="c.lattes" target="_blank" class="text-[10px] font-bold bg-eb-green text-white px-8 py-2 rounded-full shadow-md">LATTES CV</a>
+                            <p class="text-[10px] text-eb-gold font-bold uppercase mb-6" x-text="c.role[lang]"></p>
+                            <a :href="c.lattes" target="_blank" class="text-[10px] font-bold bg-eb-green text-white px-8 py-2 rounded-full hover:bg-green-800 transition shadow-md">LATTES CV</a>
                         </div>
                     </template>
                 </div>
             </div>
         </section>
 
-        <!-- PESQUISADORES (PLENOS E PESQUISADORES PADRONIZADOS) -->
-        <section x-show="view === 'all_researchers'" x-cloak class="py-12 bg-gray-50">
-            <div class="container mx-auto px-6 max-w-7xl">
-                <!-- SEÇÃO PLENOS -->
-                <div class="mb-24">
-                    <h3 class="text-2xl font-bold text-eb-green uppercase border-b-4 border-eb-gold pb-2 mb-12 flex items-center">
-                        <i class="fa-solid fa-award text-eb-gold mr-4"></i> <span x-text="t[lang].cat_plenos"></span>
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-                        <template x-for="r in getSortedResearchers('pleno')" :key="r.name">
-                            <div class="flex flex-col items-center">
-                                <div class="circle-container shadow-lg">
-                                    <img x-show="r.photo" :src="r.photo" class="circle-img">
-                                    <div x-show="!r.photo" class="text-eb-green font-bold text-2xl" x-text="getInitials(r.name)"></div>
-                                </div>
-                                <h4 class="font-bold text-eb-green text-center text-sm" x-text="r.name"></h4>
-                                <p class="text-[9px] text-eb-gold font-bold uppercase mt-1 mb-4" x-text="r.role[lang]"></p>
-                                <a :href="r.lattes" target="_blank" class="text-[9px] font-bold border-2 border-eb-green px-6 py-1 rounded-full">LATTES CV</a>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-                <!-- SEÇÃO PESQUISADORES -->
-                <div>
-                    <h3 class="text-2xl font-bold text-eb-green uppercase border-b-4 border-eb-gold pb-2 mb-12 flex items-center">
-                        <i class="fa-solid fa-users text-eb-gold mr-4"></i> <span x-text="t[lang].cat_researchers"></span>
-                    </h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
-                        <template x-for="r in getSortedResearchers('pesquisador')" :key="r.name">
-                            <div class="flex flex-col items-center">
-                                <div class="circle-container shadow-lg">
-                                    <img x-show="r.photo" :src="r.photo" class="circle-img">
-                                    <div x-show="!r.photo" class="text-eb-green font-bold text-2xl" x-text="getInitials(r.name)"></div>
-                                </div>
-                                <h4 class="font-bold text-eb-green text-center text-sm" x-text="r.name"></h4>
-                                <p class="text-[9px] text-eb-gold font-bold uppercase mt-1 mb-4" x-text="r.role[lang]"></p>
-                                <a :href="r.lattes" target="_blank" class="text-[9px] font-bold border-2 border-eb-green px-6 py-1 rounded-full">LATTES CV</a>
-                            </div>
-                        </template>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- DOMÍNIOS -->
-        <section x-show="view === 'domains'" x-cloak class="py-12">
+        <!-- 3. DOMÍNIOS ANALÍTICOS -->
+        <section x-show="view === 'domains'" x-cloak class="py-12 bg-gray-50">
             <div class="container mx-auto px-4 max-w-7xl">
                 <template x-for="dom in domains" :key="dom.id">
                     <div class="mb-20">
-                        <h3 class="text-xl font-bold text-eb-green uppercase border-l-8 border-eb-gold pl-5 mb-12" x-text="dom.title[lang]"></h3>
+                        <h3 class="text-lg font-bold text-eb-green uppercase border-l-8 border-eb-gold pl-5 mb-12" x-text="dom.title[lang]"></h3>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
                             <template x-for="r in getResearchersByDomain(dom.id)" :key="r.name">
                                 <div class="flex flex-col items-center">
@@ -190,42 +128,65 @@
             </div>
         </section>
 
-        <!-- NCNP -->
-        <section x-show="view === 'ncnp'" x-cloak class="py-12 bg-white">
+        <!-- 4. PESQUISADORES (Padronizados Plenos/Pesquisadores) -->
+        <section x-show="view === 'all_researchers'" x-cloak class="py-12">
+            <div class="container mx-auto px-6 max-w-7xl">
+                <template x-for="cat in ['pleno', 'pesquisador']" :key="cat">
+                    <div class="mb-24">
+                        <h3 class="text-2xl font-bold text-eb-green uppercase border-b-4 border-eb-gold pb-2 mb-12 flex items-center">
+                            <i class="fa-solid mr-4" :class="cat === 'pleno' ? 'fa-award text-eb-gold' : 'fa-users text-gray-400'"></i> 
+                            <span x-text="cat === 'pleno' ? t[lang].cat_plenos : t[lang].cat_researchers"></span>
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+                            <template x-for="r in getSortedResearchers(cat)" :key="r.name">
+                                <div class="flex flex-col items-center">
+                                    <div class="circle-container shadow-lg">
+                                        <img x-show="r.photo" :src="r.photo" class="circle-img">
+                                        <div x-show="!r.photo" class="text-eb-green font-bold text-2xl" x-text="getInitials(r.name)"></div>
+                                    </div>
+                                    <h4 class="font-bold text-eb-green text-center text-sm" x-text="r.name"></h4>
+                                    <p class="text-[9px] text-eb-gold font-bold uppercase mt-1 mb-4" x-text="r.role[lang]"></p>
+                                    <a :href="r.lattes" target="_blank" class="text-[9px] font-bold border-2 border-eb-green px-6 py-1 rounded-full">LATTES CV</a>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </section>
+
+        <!-- 5. CAPACITAÇÃO DE NOVOS PESQUISADORES (CNP) -->
+        <section x-show="view === 'cnp'" x-cloak class="py-12 bg-gray-50">
             <div class="container mx-auto px-4 max-w-6xl">
-                <div class="flex justify-center space-x-4 mb-16">
-                    <button @click="ncnpTab = 'coords'" class="px-8 py-2 rounded text-[10px] font-bold uppercase border shadow-sm transition" :class="ncnpTab === 'coords' ? 'bg-eb-green text-white' : 'bg-gray-50'">Coordenação</button>
-                    <button @click="ncnpTab = 'students'" class="px-8 py-2 rounded text-[10px] font-bold uppercase border shadow-sm transition" :class="ncnpTab === 'students' ? 'bg-eb-green text-white' : 'bg-gray-50'">Integrantes</button>
+                <h2 class="text-2xl font-bold text-eb-green uppercase text-center mb-16">Capacitação de Novos Pesquisadores</h2>
+                <div class="flex justify-center space-x-4 mb-12">
+                    <button @click="cnpTab = 'coords'" class="px-8 py-2 rounded text-[10px] font-bold border" :class="cnpTab === 'coords' ? 'bg-eb-green text-white' : 'bg-white'">Coordenação</button>
+                    <button @click="cnpTab = 'students'" class="px-8 py-2 rounded text-[10px] font-bold border" :class="cnpTab === 'students' ? 'bg-eb-green text-white' : 'bg-white'">Integrantes</button>
                 </div>
-                
-                <div class="bg-gray-50 p-12 rounded-xl border shadow-inner">
-                    <template x-if="ncnpTab === 'coords'">
+                <div class="bg-white p-12 rounded border shadow-sm">
+                    <template x-if="cnpTab === 'coords'">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 justify-items-center">
                             <template x-for="c in ic.coords" :key="c.name">
                                 <div class="flex flex-col items-center">
-                                    <div class="circle-container border-eb-gold bg-white">
-                                        <img x-show="c.photo" :src="c.photo" class="circle-img">
-                                    </div>
-                                    <h4 class="font-bold text-eb-green text-sm text-center" x-text="c.name"></h4>
+                                    <div class="circle-container border-eb-gold"><img :src="c.photo" class="circle-img"></div>
+                                    <h4 class="font-bold text-eb-green text-sm" x-text="c.name"></h4>
                                     <p class="text-[9px] text-eb-gold font-bold uppercase mt-1 mb-4" x-text="c.role[lang]"></p>
-                                    <a :href="c.lattes" target="_blank" class="text-[9px] font-bold border-2 border-eb-green px-6 py-1 rounded-full">LATTES CV</a>
+                                    <a :href="c.lattes" target="_blank" class="text-[9px] border px-4 py-1 rounded-full">LATTES CV</a>
                                 </div>
                             </template>
                         </div>
                     </template>
-                    <template x-if="ncnpTab === 'students'">
+                    <template x-if="cnpTab === 'students'">
                         <div>
                             <template x-for="group in getStructuredIcStudents()" :key="group.year">
-                                <div class="mb-16">
+                                <div class="mb-12">
                                     <h5 class="text-xs font-bold text-eb-green border-b-2 border-eb-gold pb-2 mb-10" x-text="'Turma ' + group.year"></h5>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 justify-items-center">
                                         <template x-for="s in group.students" :key="s.name">
                                             <div class="flex flex-col items-center">
-                                                <div class="circle-container border-eb-gold bg-white scale-90">
-                                                    <img x-show="s.photo" :src="s.photo" class="circle-img">
-                                                </div>
+                                                <div class="circle-container border-gray-200 scale-90"><img :src="s.photo" class="circle-img"></div>
                                                 <h4 class="font-bold text-eb-green text-[11px] text-center" x-text="s.name"></h4>
-                                                <a :href="s.lattes" target="_blank" class="text-[8px] font-bold text-blue-800 mt-3 hover:underline">LATTES CV</a>
+                                                <a :href="s.lattes" target="_blank" class="text-[8px] font-bold text-blue-800 mt-2">LATTES CV</a>
                                             </div>
                                         </template>
                                     </div>
@@ -237,118 +198,190 @@
             </div>
         </section>
 
-        <!-- DOCUMENTOS (TESES E PRODUÇÃO ACADÊMICA) -->
+        <!-- 6. DOCUMENTOS (TESES E PRODUÇÃO ACADÊMICA PADRONIZADOS) -->
         <section x-show="['theses', 'publications'].includes(view)" x-cloak class="py-12 bg-gray-50">
             <div class="container mx-auto px-4 max-w-5xl">
-                <h2 class="text-3xl font-bold text-eb-green uppercase text-center mb-16" x-text="t[lang].menu[view]"></h2>
-                
-                <template x-if="view === 'theses'">
-                    <template x-for="group in getStructuredTheses()" :key="group.year">
-                        <div class="mb-16">
-                            <div class="flex items-center mb-8">
-                                <span class="year-badge-black" x-text="group.year"></span>
-                                <div class="h-px bg-gray-300 flex-grow ml-5"></div>
-                            </div>
-                            <div class="space-y-5">
-                                <template x-for="doc in group.docs">
-                                    <div class="doc-list-item flex flex-col md:flex-row justify-between items-start md:items-center">
-                                        <div class="flex-grow pr-10">
-                                            <h4 class="font-bold text-eb-green text-sm leading-tight" x-text="doc.title"></h4>
-                                            <p class="text-[10px] text-gray-500 font-bold uppercase mt-1" x-text="doc.type"></p>
-                                            <p class="text-[11px] text-gray-600 italic mt-1" x-text="doc.researcher"></p>
-                                        </div>
-                                        <a :href="doc.file_link" target="_blank" class="bg-eb-green text-white text-[10px] font-bold px-8 py-2 rounded-sm mt-4 md:mt-0">BAIXAR PDF</a>
-                                    </div>
-                                </template>
-                            </div>
+                <h2 class="text-2xl font-bold text-eb-green uppercase text-center mb-16" x-text="t[lang].menu[view]"></h2>
+                <template x-for="group in (view === 'theses' ? getStructuredTheses() : getStructuredPubs())" :key="group.year">
+                    <div class="mb-16">
+                        <div class="flex items-center mb-8">
+                            <span :class="view === 'theses' ? 'bg-black text-white' : 'bg-eb-gold text-eb-green'" class="year-badge" x-text="group.year"></span>
+                            <div class="h-px bg-gray-300 flex-grow ml-5"></div>
                         </div>
-                    </template>
-                </template>
-
-                <template x-if="view === 'publications'">
-                    <template x-for="group in getStructuredPubs()" :key="group.year">
-                        <div class="mb-16">
-                            <div class="flex items-center mb-8">
-                                <span class="year-badge-gold" x-text="group.year"></span>
-                                <div class="h-px bg-gray-300 flex-grow ml-5"></div>
-                            </div>
-                            <div class="space-y-5">
-                                <template x-for="p in group.docs" :key="p.title">
-                                    <div class="doc-list-item flex flex-col md:flex-row justify-between items-start md:items-center">
-                                        <div class="flex-grow pr-10">
-                                            <h4 class="font-bold text-eb-green text-sm leading-tight" x-text="p.title"></h4>
-                                            <p class="text-[10px] text-gray-600 mt-1 font-bold" x-text="p.authors"></p>
-                                            <p class="text-[9px] text-gray-400 italic mt-1" x-text="p.journal"></p>
-                                        </div>
-                                        <a :href="p.link" target="_blank" class="bg-red-800 text-white text-[10px] font-bold px-8 py-2 rounded-sm mt-4 md:mt-0">VER ARTIGO</a>
+                        <div class="space-y-5">
+                            <template x-for="doc in group.docs">
+                                <div class="doc-list-item flex flex-col md:flex-row justify-between items-start md:items-center">
+                                    <div class="flex-grow pr-10">
+                                        <h4 class="font-bold text-eb-green text-sm leading-tight" x-text="doc.title"></h4>
+                                        <p class="text-[10px] text-gray-500 font-bold uppercase mt-1" x-text="doc.type || doc.authors"></p>
+                                        <p class="text-[11px] text-gray-600 italic mt-1" x-text="doc.researcher || doc.journal"></p>
                                     </div>
-                                </template>
-                            </div>
+                                    <a :href="doc.file_link || doc.link" target="_blank" class="bg-eb-green text-white text-[10px] font-bold px-8 py-2 rounded-sm mt-4 md:mt-0 shadow-md">ACESSAR PDF</a>
+                                </div>
+                            </template>
                         </div>
-                    </template>
+                    </div>
                 </template>
             </div>
         </section>
 
-        <!-- CONTATO -->
-        <section x-show="view === 'contact'" x-cloak class="py-16 bg-white">
-            <div class="container mx-auto px-6 max-w-6xl">
-                <div class="grid md:grid-cols-2 gap-16">
-                    <div class="space-y-10">
-                        <h2 class="text-3xl font-bold text-eb-green uppercase">Canais de Contato</h2>
-                        <div class="space-y-8 text-gray-700">
-                            <div class="flex items-start">
-                                <i class="fa-solid fa-location-dot mt-1 mr-5 text-eb-gold text-2xl"></i>
-                                <span><strong>ECEME</strong><br>Praça General Tibúrcio, 125<br>Urca, Rio de Janeiro - RJ<br>CEP: 22290-270</span>
+        <!-- 7. ÁREA DO PESQUISADOR (LOGIN E DASHBOARD) -->
+        <section x-show="view === 'researcher_login'" x-cloak class="py-20 flex justify-center bg-gray-100">
+            <div class="bg-white p-10 rounded-lg shadow-2xl border-t-8 border-eb-gold w-full max-w-md">
+                <h2 class="text-xl font-bold text-eb-green uppercase mb-6 text-center">Login - Área do Pesquisador</h2>
+                <div class="space-y-4">
+                    <input type="email" x-model="loginEmail" placeholder="E-mail funcional" class="w-full border p-2 rounded outline-none text-sm">
+                    <input type="password" x-model="loginPass" placeholder="Senha" class="w-full border p-2 rounded outline-none text-sm">
+                    <button @click="handleLogin()" class="w-full bg-eb-green text-white font-bold py-3 rounded hover:bg-green-900 transition">ENTRAR</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD DE PESQUISAS -->
+        <section x-show="view === 'researcher_area'" x-cloak class="py-12 bg-white min-h-screen">
+            <div class="container mx-auto px-4 max-w-6xl">
+                <div class="flex justify-between items-center mb-10 border-b pb-4">
+                    <h2 class="text-2xl font-bold text-eb-green uppercase">Meus Projetos e Colaborações</h2>
+                    <button @click="isLoggedIn = false; view = 'home'" class="text-red-700 font-bold text-xs uppercase tracking-widest">Sair <i class="fa-solid fa-power-off ml-1"></i></button>
+                </div>
+                
+                <button @click="showProjectForm = true" class="bg-eb-gold text-eb-green font-bold px-6 py-3 rounded shadow-lg hover:scale-105 transition mb-12">
+                    <i class="fa-solid fa-plus mr-2"></i> PUBLICAR PROJETO PARA APOIO
+                </button>
+
+                <div class="grid grid-cols-1 gap-8">
+                    <template x-for="proj in projects" :key="proj.id">
+                        <div class="bg-gray-50 p-8 rounded-lg border-l-8 border-eb-gold shadow-sm">
+                            <div class="flex justify-between mb-4">
+                                <h4 class="text-xl font-bold text-eb-green" x-text="proj.title"></h4>
+                                <span class="text-[10px] bg-eb-green text-white px-3 py-1 rounded" x-text="getDomainTitle(proj.domainId)"></span>
+                            </div>
+                            <p class="text-gray-600 text-sm italic mb-6" x-text="proj.description"></p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t pt-4">
+                                <div>
+                                    <h5 class="text-[10px] font-bold text-eb-gold uppercase mb-2">Funções de Apoio Solicitadas:</h5>
+                                    <div class="flex flex-wrap gap-2">
+                                        <template x-for="role in proj.roles" :key="role">
+                                            <span class="bg-white text-eb-green text-[9px] px-2 py-1 border rounded" x-text="role"></span>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[10px] text-gray-400 mb-4">Autor: <strong x-text="proj.author"></strong></p>
+                                    <button @click="manifestInterest(proj)" class="bg-eb-green text-white text-[10px] font-bold px-6 py-2 rounded">MANIFESTAR INTERESSE</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="flex space-x-6 pt-10 border-t border-gray-100">
-                            <a href="https://www.instagram.com/lcmeceme/" target="_blank" class="social-link text-3xl"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="https://www.youtube.com/@Laborat%C3%B3riodeCi%C3%AAnciasMilitares" target="_blank" class="social-link text-3xl"><i class="fa-brands fa-youtube"></i></a>
-                            <a href="https://www.linkedin.com/company/lcmeceme/" target="_blank" class="social-link text-3xl"><i class="fa-brands fa-linkedin"></i></a>
-                            <a href="http://dgp.cnpq.br/dgp/espelhogrupo/1550449480693956" target="_blank" class="social-link text-xl font-bold border-2 border-eb-green px-2 rounded">CNPq</a>
+                    </template>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. EVENTOS E CONTATO (Restaurados) -->
+        <section x-show="view === 'events'" x-cloak class="py-12 bg-white">
+            <div class="container mx-auto px-4 max-w-4xl">
+                <template x-for="e in events" :key="e.id">
+                    <div class="flex mb-8 border rounded overflow-hidden shadow-sm">
+                        <div class="bg-eb-green text-white p-6 w-24 flex flex-col items-center justify-center shrink-0">
+                            <span class="text-2xl font-bold" x-text="e.day"></span>
+                            <span class="text-[10px] uppercase font-bold" x-text="e.month[lang]"></span>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="font-bold text-eb-green uppercase" x-text="e.title[lang]"></h4>
+                            <p class="text-xs text-gray-600 mt-2" x-text="e.desc[lang]"></p>
                         </div>
                     </div>
+                </template>
+            </div>
+        </section>
+
+        <section x-show="view === 'contact'" x-cloak class="py-16 bg-white border-t">
+            <div class="container mx-auto px-6 max-w-6xl grid md:grid-cols-2 gap-16">
+                <div>
+                    <h2 class="text-3xl font-bold text-eb-green uppercase mb-8">Canais de Contato</h2>
+                    <div class="space-y-6 text-sm text-gray-700">
+                        <p><i class="fa-solid fa-location-dot text-eb-gold mr-3"></i> <strong>ECEME:</strong> Praça Gen. Tibúrcio, 125, Urca, RJ</p>
+                        <p><i class="fa-solid fa-envelope text-eb-gold mr-3"></i> lcmeceme@gmail.com</p>
+                        <p><i class="fa-solid fa-phone text-eb-gold mr-3"></i> +55 (21) 3543-3456</p>
+                    </div>
+                    <div class="flex space-x-6 mt-10">
+                        <a href="https://www.instagram.com/lcmeceme/" target="_blank" class="text-eb-green hover:text-eb-gold text-2xl"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/company/lcmeceme/" target="_blank" class="text-eb-green hover:text-eb-gold text-2xl"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="http://dgp.cnpq.br/dgp/espelhogrupo/1550449480693956" target="_blank" class="text-eb-green font-bold text-xl border-2 px-2 border-eb-green rounded hover:text-eb-gold hover:border-eb-gold">CNPq</a>
+                    </div>
+                </div>
+                <div class="rounded-xl overflow-hidden border-2 border-gray-100 shadow-xl">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3674.562!2d-43.167!3d-22.955!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x997ff479429599%3A0x66c888371302868c!2sECEME!5e0!3m2!1spt-BR!2sbr!4v1714594245600!5m2!1spt-BR!2sbr" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-eb-green text-white py-12 border-t-8 border-eb-gold mt-auto" x-show="!maintenanceMode">
+    <!-- MODAL DE CADASTRO DE PESQUISA -->
+    <div x-show="showProjectForm" class="fixed inset-0 z-[200] bg-black/80 flex items-center justify-center p-4" x-cloak>
+        <div class="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto p-8 relative">
+            <button @click="showProjectForm = false" class="absolute top-4 right-4 text-2xl text-gray-400">&times;</button>
+            <h3 class="text-xl font-bold text-eb-green uppercase border-b pb-4 mb-6">Nova Proposta de Colaboração</h3>
+            <div class="space-y-6">
+                <input type="text" x-model="newProj.title" placeholder="Título do Projeto" class="w-full border p-2 rounded text-sm">
+                <select x-model="newProj.domainId" class="w-full border p-2 rounded text-sm">
+                    <template x-for="dom in domains" :key="dom.id">
+                        <option :value="dom.id" x-text="dom.title[lang]"></option>
+                    </template>
+                </select>
+                <textarea x-model="newProj.description" placeholder="Breve descrição dos objetivos..." class="w-full border p-2 rounded text-sm h-32"></textarea>
+                <div>
+                    <p class="text-[10px] font-bold uppercase text-eb-gold mb-3">Selecione as funções para as quais solicita apoio:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-[10px]">
+                        <template x-for="f in creditFunctions" :key="f.id">
+                            <label class="flex items-center space-x-2 border p-2 rounded hover:bg-gray-50 cursor-pointer">
+                                <input type="checkbox" :value="f.name" x-model="newProj.roles">
+                                <span x-text="f.id + '. ' + f.name"></span>
+                            </label>
+                        </template>
+                    </div>
+                </div>
+                <button @click="submitProject()" class="w-full bg-eb-gold text-eb-green font-bold py-3 rounded shadow-md hover:bg-yellow-600 transition">PUBLICAR PROPOSTA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RODAPÉ -->
+    <footer class="bg-eb-green text-white py-12 border-t-8 border-eb-gold mt-auto">
         <div class="container mx-auto px-4 text-center">
-            <p class="text-[10px] opacity-60 uppercase tracking-widest">© 2026 LCM - Escola de Comando e Estado-Maior do Exército</p>
+            <p class="text-[10px] opacity-60 uppercase tracking-widest mb-2">Laboratório de Ciências Militares - ECEME</p>
+            <p class="text-[10px] opacity-40 uppercase">© 2026 PPGCM | Rio de Janeiro, Brasil</p>
         </div>
     </footer>
 
     <script>
         function appData() {
             return {
-                lang: 'pt', view: 'home', maintenanceMode: false, passInput: '',
-                activeSlide: 0, mobileMenuOpen: false, ncnpTab: 'coords',
-                allResearchers: [], theses: [], publications: [], news: [], ic: {}, coordinators: [], introText: [], events: [],
+                lang: 'pt', view: 'home', activeSlide: 0, mobileMenuOpen: false, isLoggedIn: false, loginEmail: '', loginPass: '',
+                showProjectForm: false, ncnpTab: 'coords', cnpTab: 'coords', allResearchers: [], news: [], ic: {}, coordinators: [], introText: {}, events: [], theses: [], publications: [],
+                newProj: { title: '', domainId: 1, description: '', roles: [] },
+                projects: [
+                    { id: 1, title: 'IA Generativa e Operações Psicológicas', author: 'TC Guilherme Grigoli', domainId: 1, description: 'Pesquisa sobre o impacto de LLMs no ambiente estratégico.', roles: ['Conceitualização', 'Metodologia', 'Análise Formal'] }
+                ],
+                creditFunctions: [
+                    { id: 1, name: 'Conceitualização' }, { id: 2, name: 'Curadoria de Dados' }, { id: 3, name: 'Análise Formal' },
+                    { id: 4, name: 'Obtenção de Financiamento' }, { id: 5, name: 'Investigação' }, { id: 6, name: 'Metodologia' },
+                    { id: 7, name: 'Administração do Projeto' }, { id: 8, name: 'Recursos' }, { id: 9, name: 'Programação de Software' },
+                    { id: 10, name: 'Supervisão' }, { id: 11, name: 'Validação' }, { id: 12, name: 'Visualização' },
+                    { id: 13, name: 'Redação – rascunho original' }, { id: 14, name: 'Redação – revisão e edição' }
+                ],
                 domains: [
-                    { id: 1, title: { pt: "Domínio 1 - Ciência, Tecnologia e Inovação em Defesa", en: "Domain 1 - Defense S&T", es: "Dominio 1 - CT&I" } },
+                    { id: 1, title: { pt: "Domínio 1 - Ciência, Tecnologia, Inovação e Sustentação em Defesa", en: "Domain 1 - Defense S&T, Innovation & Sustainment", es: "Dominio 1 - CT&I y Sustentación" } },
                     { id: 2, title: { pt: "Domínio 2 - Preparo e Emprego do Poder Militar", en: "Domain 2 - Readiness", es: "Dominio 2 - Preparación" } },
                     { id: 3, title: { pt: "Domínio 3 - Análise e Prospecção do Ambiente Estratégico", en: "Domain 3 - Analysis", es: "Dominio 3 - Análisis" } }
                 ],
                 t: {
-                    pt: { 
-                        cat_plenos: 'Pesquisadores Plenos', cat_researchers: 'Pesquisadores',
-                        menu: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Pesquisadores', ncnp: 'NCNP', theses: 'Teses/Dissertações/TCC', publications: 'Produção Acadêmica', events: 'Eventos', contact: 'Contato' } 
-                    },
-                    en: { 
-                        cat_plenos: 'Senior Researchers', cat_researchers: 'Researchers',
-                        menu: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', ncnp: 'NCNP', theses: 'Theses/Dissert./TCC', publications: 'Academic Production', events: 'Events', contact: 'Contact' } 
-                    },
-                    es: { 
-                        cat_plenos: 'Investigadores Plenos', cat_researchers: 'Investigadores',
-                        menu: { home: 'Inicio', domains: 'Dominios', leadership: 'Coordinación', all_researchers: 'Investigadores', ncnp: 'NCNP', theses: 'Tesis/Dissert./TCC', publications: 'Producción Académica', events: 'Events', contact: 'Contacto' } 
-                    }
+                    pt: { cat_plenos: 'Pesquisadores Plenos', cat_researchers: 'Pesquisadores', menu: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Pesquisadores', cnp: 'Capacitação', theses: 'Teses/Dissertações/TCC', publications: 'Produção Acadêmica', events: 'Eventos', contact: 'Contato' } },
+                    en: { cat_plenos: 'Senior Researchers', cat_researchers: 'Researchers', menu: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', cnp: 'Training', theses: 'Teses/Dissert./TCC', publications: 'Academic Production', events: 'Events', contact: 'Contact' } },
+                    es: { cat_plenos: 'Investigadores Plenos', cat_researchers: 'Investigadores', menu: { home: 'Inicio', domains: 'Dominios', leadership: 'Coordinación', all_researchers: 'Investigadores', cnp: 'Capacitación', theses: 'Teses/Dissert./TCC', publications: 'Producción Académica', events: 'Events', contact: 'Contacto' } }
                 },
                 async initApp() {
-                    if(localStorage.getItem('lcm_maint') === 'on') this.maintenanceMode = true;
                     await this.loadAll();
                     setInterval(() => { this.activeSlide = (this.activeSlide + 1) % (this.news.length || 1); }, 7000);
                 },
@@ -358,41 +391,20 @@
                         try { const r = await fetch(url + '?v=' + Date.now()); this[key] = await r.json(); } catch(e) {}
                     }
                 },
-                unlock() { 
-                    if(this.passInput === 'LCM@2026') { 
-                        this.maintenanceMode = false; 
-                        localStorage.setItem('lcm_maint', 'off'); 
-                        this.passInput = '';
-                    } 
-                },
-                toggleMaintenance() { 
-                    this.maintenanceMode = true; 
-                    localStorage.setItem('lcm_maint', 'on'); 
-                },
-                getSortedResearchers(cat) { 
-                    return this.allResearchers.filter(r => {
-                        let role = (r.role.pt || "").toLowerCase();
-                        let isDr = (role.includes("doutor") || role.includes("phd")) && !role.includes("doutorando");
-                        return cat === 'pleno' ? isDr : !isDr;
-                    }).sort((a,b) => a.name.localeCompare(b.name, 'pt-BR')); 
-                },
-                getResearchersByDomain(id) { 
-                    return this.allResearchers.filter(r => r.domain_id === id).sort((a,b) => a.name.localeCompare(b.name, 'pt-BR')); 
-                },
-                getStructuredPubs() {
-                    const years = [...new Set(this.publications.map(p => p.year))].sort((a,b) => b - a);
-                    return years.map(y => ({ year: y, docs: this.publications.filter(p => p.year === y) }));
-                },
-                getStructuredTheses() {
-                    const years = [...new Set(this.theses.map(t => t.year))].sort((a,b) => b - a);
-                    return years.map(y => ({ year: y, docs: this.theses.filter(t => t.year === y) }));
-                },
-                getStructuredIcStudents() {
-                    if(!this.ic.students) return [];
-                    const years = [...new Set(this.ic.students.map(s => s.year))].sort((a,b) => b - a);
-                    return years.map(y => ({ year: y, students: this.ic.students.filter(s => s.year === y) }));
-                },
-                getInitials(name) { return name.split(' ').map(n => n[0]).join('').substring(0,2).toUpperCase(); }
+                handleLogin() { if(this.loginPass === 'LCM@2026') { this.isLoggedIn = true; this.view = 'researcher_area'; } else { alert('Acesso negado.'); } },
+                submitProject() { if(this.newProj.title) { this.projects.push({...this.newProj, id: Date.now(), author: 'Pesquisador Logado'}); this.newProj = { title: '', domainId: 1, description: '', roles: [] }; this.showProjectForm = false; } },
+                manifestInterest(p) { alert('Seu interesse no projeto "' + p.title + '" foi registrado. O autor será notificado para iniciar o diálogo colaborativo.'); },
+                getDomainTitle(id) { const d = this.domains.find(dom => dom.id == id); return d ? d.title[this.lang] : ''; },
+                getSortedResearchers(cat) { return this.allResearchers.filter(r => {
+                    let role = (r.role.pt || "").toLowerCase();
+                    let isDr = (role.includes("doutor") || role.includes("phd")) && !role.includes("doutorando");
+                    return cat === 'pleno' ? isDr : !isDr;
+                }).sort((a,b) => a.name.localeCompare(b.name, 'pt-BR')); },
+                getResearchersByDomain(id) { return this.allResearchers.filter(r => r.domain_id === id).sort((a,b) => a.name.localeCompare(b.name, 'pt-BR')); },
+                getStructuredPubs() { const years = [...new Set(this.publications.map(p => p.year))].sort((a,b) => b - a); return years.map(y => ({ year: y, docs: this.publications.filter(p => p.year === y) })); },
+                getStructuredTheses() { const years = [...new Set(this.theses.map(t => t.year))].sort((a,b) => b - a); return years.map(y => ({ year: y, docs: this.theses.filter(t => t.year === y) })); },
+                getStructuredIcStudents() { if(!this.ic.students) return []; const years = [...new Set(this.ic.students.map(s => s.year))].sort((a,b) => b - a); return years.map(y => ({ year: y, students: this.ic.students.filter(s => s.year === y) })); },
+                getInitials(n) { return n.split(' ').map(x => x[0]).join('').substring(0,2).toUpperCase(); }
             }
         }
     </script>
