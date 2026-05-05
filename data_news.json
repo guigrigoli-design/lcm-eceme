@@ -11,9 +11,9 @@
     {
         "title": { "pt": "Novas Publicações sobre Ciberdefesa", "en": "New Publications on Cyberdefense", "es": "Nuevas Publicaciones sobre Ciberdefensa" },
         "desc": { 
-            "pt": "Confira os últimos artigos produzidos pelos pesquisadores da Subárea 3, abordando a resiliência de infraestruturas críticas.",
-            "en": "Check out the latest articles produced by Subarea 3 researchers, addressing critical infrastructure resilience.",
-            "es": "Vea los últimos artículos producidos por investigadores de la Subárea 3, abordando la resiliencia de infraestructuras críticas."
+            "pt": "Confira os últimos artigos produzidos pelos pesquisadores do Domínio 1, abordando a resiliência de infraestruturas críticas.",
+            "en": "Check out the latest articles produced by the researchers at Domain 1, addressing critical infrastructure resilience.",
+            "es": "Consulta los últimos artículos elaborados por los investigadores de Domain 1, abordando la resiliencia de infraestructuras críticas."
         },
         "image": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
     }
