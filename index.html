@@ -15,14 +15,14 @@
         .circle-img { width: 100%; height: 100%; object-fit: cover; }
         /* Cores dos Domínios - Área do Pesquisador */
         .bg-dom-1 { background-color: #e0f2fe; } /* Azul - Sustentação */
-        .bg-dom-2 { background-color: #f0fdf4; } /* Verde - Preparo */
-        .bg-dom-3 { background-color: #fff7ed; } /* Laranja - Prospecção */
+        .bg-dom-2 { background-color: #f0fdf4; } /* Verde */
+        .bg-dom-3 { background-color: #fff7ed; } /* Laranja */
+        .year-badge { font-weight: bold; padding: 0.2rem 0.8rem; border-radius: 4px; font-size: 0.7rem; }
     </style>
 </head>
 
 <body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen" x-data="lcmApp()" x-init="init()">
 
-    <!-- HEADER E NAVEGAÇÃO -->
     <nav class="bg-[#1e3a2c] text-white border-b-2 border-[#c5a059] sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer" @click="view = 'home'">
@@ -32,28 +32,25 @@
             
             <div class="flex space-x-4 items-center">
                 <div class="flex space-x-2">
-                    <button @click="lang = 'pt'" class="hover:opacity-80"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm"></button>
-                    <button @click="lang = 'en'" class="hover:opacity-80"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm"></button>
+                    <button @click="lang = 'pt'" class="hover:opacity-80"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm" title="Português"></button>
+                    <button @click="lang = 'en'" class="hover:opacity-80"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm" title="English"></button>
+                    <button @click="lang = 'es'" class="hover:opacity-80"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm" title="Español"></button>
                 </div>
                 <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars"></i></button>
             </div>
         </div>
 
-        <!-- MENU MODULAR -->
-        <div class="hidden md:flex justify-center bg-black/20 py-2 space-x-2 text-[8px] lg:text-[9.5px] font-bold uppercase tracking-wider border-t border-green-800">
+        <div class="hidden md:flex justify-center bg-black/20 py-2 space-x-2 text-[8px] lg:text-[9.2px] font-bold uppercase tracking-wider border-t border-green-800 overflow-x-auto">
             <template x-for="(label, key) in menuLabels[lang]" :key="key">
-                <button @click="view = key" class="px-2 py-1 transition" :class="view === key ? 'text-[#c5a059] border-b border-[#c5a059]' : 'hover:text-[#c5a059]'" x-text="label"></button>
+                <button @click="view = key" class="px-2 py-1 transition whitespace-nowrap" :class="view === key ? 'text-[#c5a059] border-b border-[#c5a059]' : 'hover:text-[#c5a059]'" x-text="label"></button>
             </template>
-            <button @click="isLoggedIn ? view = 'researcher_area' : view = 'researcher_login'" class="bg-[#c5a059] text-[#1e3a2c] px-3 py-1 rounded ml-2 font-bold" x-text="isLoggedIn ? 'Minha Área' : 'Área do Pesquisador'"></button>
+            <button @click="isLoggedIn ? view = 'researcher_area' : view = 'researcher_login'" class="bg-[#c5a059] text-[#1e3a2c] px-3 py-1 rounded ml-2 font-bold whitespace-nowrap" x-text="isLoggedIn ? (lang === 'pt' ? 'Minha Área' : 'My Area') : (lang === 'pt' ? 'Área do Pesquisador' : 'Researcher Area')"></button>
         </div>
     </nav>
 
-    <!-- CONTEÚDO PRINCIPAL (INJEÇÃO REATIVA)[cite: 1] -->
     <main class="flex-grow">
-        <!-- Renderiza a view baseada no estado atual -->
         <div x-html="renderCurrentView()" x-cloak></div>
         
-        <!-- Mensagem de carregamento caso os dados demorem -->
         <div x-show="loading" class="flex flex-col items-center justify-center p-20">
             <i class="fa-solid fa-spinner fa-spin text-3xl text-[#1e3a2c] mb-4"></i>
             <p class="text-xs font-bold uppercase tracking-widest text-gray-400">Processando Informações do Portal...</p>
@@ -62,11 +59,10 @@
 
     <footer class="bg-[#1e3a2c] text-white py-12 border-t-8 border-[#c5a059]">
         <div class="container mx-auto px-4 text-center opacity-60 text-[10px] uppercase tracking-widest">
-            Laboratório de Ciências Militares - ECEME | 2026[cite: 1]
+            Laboratório de Ciências Militares - ECEME | 2026
         </div>
     </footer>
 
-    <!-- CARREGAMENTO DOS MÓDULOS[cite: 1] -->
     <script src="js/menu_views.js"></script>
     <script src="js/researcher_logic.js"></script>
     <script src="js/app_core.js"></script>
