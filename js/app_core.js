@@ -2,28 +2,18 @@ function lcmApp() {
     return {
         view: 'home', lang: 'pt', loading: true, isLoggedIn: false,
         currentUser: null, activeSlide: 0, loginEmail: '', loginPass: '',
-        
-        // Estados da Área do Pesquisador
-        researcherSubView: 'andamento', 
-        showProjectForm: false,
-        showInterestModal: false,
-        selectedProject: null,
-        
-        // Formulários
+        cnpSubView: 'coords', // Submenu da Capacitação
+        researcherSubView: 'andamento', // Submenu da Área Restrita
+        showProjectForm: false, showInterestModal: false, selectedProject: null,
         newProj: { title: '', link: '', domainId: 1, description: '', status: 'andamento' },
         manifestForm: { text: '', role: 'Conceitualização' },
+        data: {}, 
         
-        // Banco de Dados Local de Projetos (Exemplo Inicial)
+        // Projetos locais para demonstração de funcionalidades (serão alimentados pela rede)
         projects: [
-            { 
-                id: 1, title: 'IA Generativa em Logística Militar', link: 'https://lcm.eb.mil.br/resumo-ia', 
-                domainId: 1, description: 'Estudo sobre automação de inventários táticos.', 
-                status: 'andamento', author: 'TC Guilherme Grigoli',
-                manifests: [] 
-            }
+            { id: 1, title: 'IA e Sustentação Logística', link: '#', domainId: 1, description: 'Pesquisa sobre algoritmos preditivos.', status: 'andamento', author: 'TC Grigoli', manifests: [] }
         ],
 
-        // Taxonomia CRediT (14 Opções)
         creditOptions: [
             "Conceitualização", "Curadoria de Dados", "Análise Formal", "Obtenção de Financiamento",
             "Investigação", "Metodologia", "Administração do Projeto", "Recursos",
@@ -31,26 +21,28 @@ function lcmApp() {
             "Redação – rascunho original", "Redação – revisão e edição"
         ],
 
-        data: {}, 
-        
         async init() {
             await this.loadAllData();
             this.loading = false;
+            setInterval(() => {
+                if(this.data.news && this.data.news.length > 0) {
+                    this.activeSlide = (this.activeSlide + 1) % this.data.news.length;
+                }
+            }, 7000);
         },
 
         async loadAllData() {
             const files = [
-                ['researchers', './data_researchers.json'], ['ic', './data_ic.json'],
-                ['coordinators', './data_coordinators.json'], ['intro', './data_intro.json'],
-                ['access', './data_access.json'], ['news', './data_news.json'],
-                ['theses', './data_theses.json'], ['publications', './data_publications.json'],
-                ['events', './data_events.json']
+                ['researchers', './data_researchers.json'], ['theses', './data_theses.json'],
+                ['publications', './data_publications.json'], ['news', './data_news.json'],
+                ['ic', './data_ic.json'], ['coordinators', './data_coordinators.json'],
+                ['intro', './data_intro.json'], ['events', './data_events.json'], ['access', './data_access.json']
             ];
             await Promise.all(files.map(async ([key, url]) => {
                 try {
                     const r = await fetch(url + '?v=' + Date.now());
                     this.data[key] = await r.json();
-                } catch (e) { console.warn(`Falha: ${key}`); }
+                } catch (e) { console.warn(`Falha na carga: ${key}`); }
             }));
         },
 
@@ -58,16 +50,19 @@ function lcmApp() {
             const user = (this.data.access || []).find(x => x.email === this.loginEmail && x.pass === this.loginPass);
             if (user) {
                 this.isLoggedIn = true; this.view = 'researcher_area'; this.currentUser = user.email;
-            } else { alert("Credenciais Inválidas."); }
+            } else { alert("Acesso Negado: Verifique suas credenciais."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
         renderCurrentView() {
             if (this.loading) return '';
+            // Separação estrita: Área do Pesquisador vs Menus Públicos
             if (this.view.includes('researcher')) return renderResearcherModule(this);
             return renderMenuModule(this);
         },
+
+        setCnpSubView(sub) { this.cnpSubView = sub; },
 
         menuLabels: {
             pt: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Pesquisadores', cnp: 'Capacitação', theses: 'Acadêmico', publications: 'Produção', events: 'Eventos', contact: 'Contato' },
