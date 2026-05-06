@@ -1,14 +1,8 @@
 function lcmApp() {
     return {
-        view: 'home', 
-        lang: 'pt', 
-        loading: true, 
-        isLoggedIn: false, 
-        currentUser: null, 
-        activeSlide: 0,
-        loginEmail: '', 
-        loginPass: '', 
-        cnpSubView: 'coords', // Estado inicial da subnavegação CNP
+        view: 'home', lang: 'pt', loading: true, isLoggedIn: false,
+        currentUser: null, activeSlide: 0, loginEmail: '', loginPass: '',
+        cnpSubView: 'coords', // Estado inicial dos submenus da Capacitação
         data: {}, 
         
         async init() {
@@ -50,6 +44,8 @@ function lcmApp() {
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
+        setCnpSubView(sub) { this.cnpSubView = sub; },
+
         renderCurrentView() {
             if (this.loading) return '';
             if (this.view === 'researcher_area' || this.view === 'researcher_login') {
@@ -58,15 +54,9 @@ function lcmApp() {
             return renderMenuModule(this);
         },
 
-        // Função global para mudar sub-abas do CNP
-        setCnpSubView(sub) {
-            this.cnpSubView = sub;
-            window.scrollTo(0, 400); // Rola para o conteúdo
-        },
-
         menuLabels: {
             pt: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Pesquisadores', cnp: 'Capacitação', theses: 'Teses/Dissertações/TCC', publications: 'Produção Acadêmica', events: 'Eventos', contact: 'Contato' },
-            en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', cnp: 'Training', theses: 'Theses/TCC', publications: 'Publications', events: 'Events', contact: 'Contact' },
+            en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', cnp: 'Training', theses: 'Academic Works', publications: 'Publications', events: 'Events', contact: 'Contact' },
             es: { home: 'Inicio', domains: 'Dominios', leadership: 'Coordinación', all_researchers: 'Investigadores', cnp: 'Capacitación', theses: 'Tesis/TCC', publications: 'Producción', events: 'Eventos', contact: 'Contacto' }
         }
     }
