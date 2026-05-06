@@ -5,7 +5,7 @@
 function renderMenuModule(app) {
     const { view, lang, data, activeSlide, cnpSubView } = app;
 
-    // 1. INÍCIO (Carrossel + Intro + Mídias)
+    // 1. INÍCIO
     if (view === 'home') {
         const carousel = data.news && data.news.length > 0 ? `
             <div class="bg-gray-200 h-[400px] relative overflow-hidden shadow-inner">
@@ -23,15 +23,15 @@ function renderMenuModule(app) {
                 <h2 class="text-xl font-bold text-[#1e3a2c] uppercase border-b-2 border-[#c5a059] inline-block pb-1 mb-8">${app.menuLabels[lang].home}</h2>
                 <div class="text-gray-700 text-base leading-relaxed italic mb-12">${data.intro ? data.intro[lang] : ''}</div>
                 <div class="flex justify-center items-center space-x-10 pt-8 border-t border-gray-100">
-                    <a href="https://www.instagram.com/lcmeceme/" target="_blank" class="text-2xl text-[#1e3a2c] hover:text-[#c5a059]"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.linkedin.com/company/lcmeceme/" target="_blank" class="text-2xl text-[#1e3a2c] hover:text-[#c5a059]"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="https://www.youtube.com/@Laborat%C3%B3riodeCi%C3%AAnciasMilitares" target="_blank" class="text-2xl text-[#1e3a2c] hover:text-[#c5a059]"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="https://www.instagram.com/lcmeceme/" target="_blank" class="text-2xl text-[#1e3a2c] hover:text-[#c5a059] transition"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/lcmeceme/" target="_blank" class="text-2xl text-[#1e3a2c] hover:text-[#c5a059] transition"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://www.youtube.com/@Laborat%C3%B3riodeCi%C3%AAnciasMilitares" target="_blank" class="text-2xl text-[#1e3a2c] hover:text-[#c5a059] transition"><i class="fa-brands fa-youtube"></i></a>
                     <a href="http://dgp.cnpq.br/dgp/espelhogrupo/1550449480693956" target="_blank" class="hover:scale-110 transition"><img src="https://espelhogrupo.cnpq.br/dgp/img/logo_cnpq.png" class="h-8 grayscale hover:grayscale-0"></a>
                 </div>
             </div>`;
     }
 
-    // 2. INTEGRANTES (Público e Circular)
+    // 2. INTEGRANTES (Público - Fotos Circulares)
     if (view === 'all_researchers') {
         const getGroup = (senior) => (data.researchers || []).filter(r => {
             let role = (r.role.pt || "").toLowerCase();
@@ -60,7 +60,7 @@ function renderMenuModule(app) {
         return `<div class="container mx-auto px-6 py-12"><h2 class="text-2xl font-bold text-[#1e3a2c] uppercase text-center mb-10">Capacitação (NCNP)</h2>${subMenuNav}<div>${subContent}</div></div>`;
     }
 
-    // 4. DEMAIS ABAS (Liderança, Domínios, Acadêmico, Produção, Eventos, Contato)
+    // 4. DEMAIS ABAS (Coordenação, Domínios, Acadêmico, Produção, Eventos, Contato)
     if (view === 'leadership') return `<div class="container mx-auto px-6 py-12 text-center"><h2 class="text-2xl font-bold text-[#1e3a2c] uppercase mb-12">${app.menuLabels[lang].leadership}</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-10">${(data.coordinators || []).map(c => renderResearcherCard(c, lang)).join('')}</div></div>`;
     
     if (view === 'domains') {
@@ -93,7 +93,6 @@ function renderMenuModule(app) {
     return `<div class="p-20 text-center italic">Conteúdo carregando...</div>`;
 }
 
-/** HELPERS **/
 function renderResearcherCard(r, lang) {
     return `<div class="flex flex-col items-center">
         <div class="circle-container shadow-md"><img src="${r.photo}" class="circle-img" onerror="this.src='https://via.placeholder.com/150'"></div>
