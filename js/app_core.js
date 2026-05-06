@@ -1,13 +1,18 @@
+/**
+ * APP CORE - LCM Portal v37.0
+ * Gestão de Dados, Idiomas e Autenticação
+ */
 function lcmApp() {
     return {
         view: 'home', lang: 'pt', loading: true, mobileMenuOpen: false,
         isLoggedIn: false, currentUser: null, activeSlide: 0,
         loginEmail: '', loginPass: '', 
         data: {}, 
-        
+
         async init() {
             await this.loadAllData();
             this.loading = false;
+            // Carrossel Automático
             setInterval(() => {
                 if(this.data.news && this.data.news.length > 0) {
                     this.activeSlide = (this.activeSlide + 1) % this.data.news.length;
@@ -27,25 +32,26 @@ function lcmApp() {
                 try {
                     const r = await fetch(url + '?v=' + Date.now());
                     this.data[key] = await r.json();
-                } catch (e) { console.warn(`Falha no carregamento: ${key}`); }
+                } catch (e) { console.warn(`Falha na carga de dados: ${key}`); }
             }));
         },
 
         handleLogin() {
-            if (!this.data.access) { alert("Base de dados inacessível."); return; }
+            if (!this.data.access) { alert("Erro de rede: base de acesso offline."); return; }
             const user = this.data.access.find(x => x.email === this.loginEmail && x.pass === this.loginPass);
             if (user) {
                 this.isLoggedIn = true;
                 this.view = 'researcher_area';
                 this.currentUser = user.email;
                 this.loginPass = ''; 
-            } else { alert("Acesso Negado: Credenciais inválidas."); }
+            } else { alert("Acesso Negado. Credenciais incorretas."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
         renderCurrentView() {
             if (this.loading) return '';
+            // Roteamento Modularizado
             if (this.view === 'researcher_area' || this.view === 'researcher_login') {
                 return renderResearcherModule(this);
             }
@@ -54,7 +60,7 @@ function lcmApp() {
 
         menuLabels: {
             pt: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Pesquisadores', cnp: 'Capacitação', theses: 'Teses/Dissertações/TCC', publications: 'Produção Acadêmica', events: 'Eventos', contact: 'Contato' },
-            en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', cnp: 'Training', theses: 'Theses/TCC', publications: 'Publications', events: 'Events', contact: 'Contact' },
+            en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', cnp: 'Training', theses: 'Academic Works', publications: 'Publications', events: 'Events', contact: 'Contact' },
             es: { home: 'Inicio', domains: 'Dominios', leadership: 'Coordinación', all_researchers: 'Investigadores', cnp: 'Capacitación', theses: 'Tesis/TCC', publications: 'Producción', events: 'Eventos', contact: 'Contacto' }
         }
     }
