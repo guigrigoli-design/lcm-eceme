@@ -1,52 +1,173 @@
 /**
- * RESEARCHER LOGIC - Colaboração CRediT e Cores de Domínio
+ * RESEARCHER MODULE - Versão 40.0
+ * Gestão de Projetos e Colaboração CRediT
  */
 function renderResearcherModule(app) {
-    if (!app.isLoggedIn) return renderLogin(app);
+    if (!app.isLoggedIn) return renderResearcherLogin(app);
 
-    const getDomClass = (id) => id == 1 ? 'bg-dom-1' : (id == 2 ? 'bg-dom-2' : 'bg-dom-3');
+    // Filtragem por Status (Andamento ou Futuro)
+    const filteredProjects = app.projects.filter(p => p.status === app.researcherSubView);
 
     return `
         <div class="container mx-auto px-4 py-12">
-            <div class="flex justify-between items-center mb-10 border-b pb-4">
-                <h2 class="text-2xl font-bold text-[#1e3a2c] uppercase">Rede de Colaboração LCM</h2>
-                <button @click="logout()" class="text-red-700 font-bold text-xs uppercase">Sair <i class="fa-solid fa-power-off"></i></button>
+            <div class="flex justify-between items-center mb-10 border-b pb-6">
+                <div>
+                    <h2 class="text-2xl font-bold text-[#1e3a2c] uppercase">Painel do Pesquisador</h2>
+                    <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest mt-1">Conectado: ${app.currentUser}</p>
+                </div>
+                <button @click="logout()" class="bg-red-700 text-white px-4 py-2 rounded text-[10px] font-bold uppercase">Sair <i class="fa-solid fa-power-off ml-2"></i></button>
             </div>
 
-            <div class="space-y-8">
-                ${(app.projects || []).map(p => `
-                    <div class="p-8 rounded-lg shadow-md border-l-8 ${getDomClass(p.domainId)}">
-                        <div class="flex justify-between mb-2">
-                            <h4 class="text-xl font-bold text-[#1e3a2c]">${p.title}</h4>
-                            <span class="text-[9px] font-bold uppercase opacity-60">Domínio ${p.domainId}</span>
+            <!-- Submenus de Projetos -->
+            <div class="flex justify-center space-x-8 mb-12 border-b">
+                <button @click="researcherSubView = 'andamento'" class="pb-3 text-xs font-bold uppercase tracking-widest ${app.researcherSubView === 'andamento' ? 'tab-active' : 'text-gray-400'}">Pesquisas em Andamento</button>
+                <button @click="researcherSubView = 'futuro'" class="pb-3 text-xs font-bold uppercase tracking-widest ${app.researcherSubView === 'futuro' ? 'tab-active' : 'text-gray-400'}">Projetos Futuros</button>
+            </div>
+
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-lg font-bold text-[#1e3a2c] uppercase">${app.researcherSubView === 'andamento' ? 'Pesquisas em Curso' : 'Novas Iniciativas'}</h3>
+                <button @click="showProjectForm = true; newProj.status = researcherSubView" class="bg-[#c5a059] text-[#1e3a2c] px-6 py-2 rounded font-bold text-[10px] uppercase shadow-lg hover:scale-105 transition">
+                    <i class="fa-solid fa-plus mr-2"></i> Publicar Projeto
+                </button>
+            </div>
+
+            <!-- Listagem de Projetos com Cores por Domínio -->
+            <div class="grid grid-cols-1 gap-8">
+                ${filteredProjects.map(p => `
+                    <div class="p-8 rounded-lg shadow-md bg-white ${p.domainId == 1 ? 'bg-dom-1' : (p.domainId == 2 ? 'bg-dom-2' : 'bg-dom-3')}">
+                        <div class="flex justify-between items-start mb-4">
+                            <h4 class="text-xl font-bold text-[#1e3a2c] uppercase">${p.title}</h4>
+                            <span class="text-[9px] font-bold bg-[#1e3a2c] text-white px-3 py-1 rounded">Domínio ${p.domainId}</span>
                         </div>
-                        <a href="${p.link}" target="_blank" class="text-blue-700 text-xs underline mb-4 block italic">Acessar Link da Pesquisa</a>
-                        <p class="text-sm text-gray-700 mb-6">${p.description}</p>
                         
-                        <div class="mt-4 pt-4 border-t border-black/10">
-                            <h5 class="text-[10px] font-bold uppercase text-[#1e3a2c] mb-3">Manifestações CRediT:</h5>
-                            ${(p.manifests || []).map(m => `
-                                <div class="bg-white/50 p-3 rounded mb-2 text-[10px] border">
-                                    <span class="font-bold">${m.author}</span> [${m.creditRole}]: ${m.text}
-                                </div>
-                            `).join('')}
+                        <!-- Link da Pesquisa -->
+                        <div class="mb-4">
+                            <a href="${p.link}" target="_blank" class="text-blue-800 text-xs font-bold underline italic hover:text-blue-600 transition">
+                                <i class="fa-solid fa-link mr-2"></i>Acessar Link da Pesquisa
+                            </a>
                         </div>
-                        <button onclick="alert('Funcionalidade de Registro CRediT Ativa')" class="mt-6 bg-[#1e3a2c] text-white px-6 py-2 rounded text-[10px] font-bold">COLABORAR NESTA PESQUISA</button>
+
+                        <p class="text-sm text-gray-700 leading-relaxed italic mb-8 border-t border-black/5 pt-4">${p.description}</p>
+                        
+                        <!-- Log de Manifestações de Interesse -->
+                        <div class="bg-white/50 p-6 rounded-md border border-black/5 mb-6">
+                            <h5 class="text-[10px] font-bold uppercase text-[#1e3a2c] mb-4 border-b pb-2">Manifestações de Colaboração (CRediT):</h5>
+                            <div class="space-y-4">
+                                ${p.manifests && p.manifests.length > 0 ? p.manifests.map(m => `
+                                    <div class="text-[11px] border-b border-black/5 pb-2">
+                                        <div class="flex justify-between font-bold text-eb-green mb-1">
+                                            <span>${m.author}</span>
+                                            <span class="bg-eb-gold text-[8px] px-2 rounded-full uppercase">${m.role}</span>
+                                        </div>
+                                        <p class="text-gray-600">${m.text}</p>
+                                    </div>
+                                `).join('') : '<p class="text-[10px] text-gray-400 italic">Nenhuma manifestação registrada ainda.</p>'}
+                            </div>
+                        </div>
+
+                        <div class="text-right">
+                            <button @click="selectedProject = ${p.id}; showInterestModal = true" class="bg-[#1e3a2c] text-white px-8 py-2 rounded text-[10px] font-bold uppercase hover:bg-black transition">
+                                <i class="fa-solid fa-handshake mr-2"></i>Manifestar Interesse
+                            </button>
+                        </div>
                     </div>
                 `).join('')}
+                ${filteredProjects.length === 0 ? '<p class="text-center text-gray-400 py-12 italic">Nenhum registro encontrado nesta categoria.</p>' : ''}
+            </div>
+
+            <!-- MODAL: PUBLICAR PROJETO -->
+            <div x-show="showProjectForm" class="fixed inset-0 z-[100] bg-black/80 flex items-center justify-center p-4" x-cloak>
+                <div class="bg-white rounded-lg w-full max-w-2xl p-8 shadow-2xl relative">
+                    <button @click="showProjectForm = false" class="absolute top-4 right-4 text-2xl text-gray-400 hover:text-red-600">&times;</button>
+                    <h3 class="text-xl font-bold text-eb-green uppercase border-b pb-4 mb-6">Nova Publicação: ${app.researcherSubView === 'andamento' ? 'Pesquisa' : 'Projeto'}</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Título</label>
+                            <input type="text" x-model="newProj.title" class="w-full border p-2 rounded text-sm outline-none focus:ring-1 focus:ring-eb-gold">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Link de Acesso</label>
+                            <input type="url" x-model="newProj.link" placeholder="Ex: http://pesquisa.eb.mil.br" class="w-full border p-2 rounded text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Domínio Analítico</label>
+                            <select x-model="newProj.domainId" class="w-full border p-2 rounded text-sm outline-none">
+                                <option value="1">Domínio 1 - Sustentação</option>
+                                <option value="2">Domínio 2 - Preparo</option>
+                                <option value="3">Domínio 3 - Prospecção</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-1">Breve Descrição</label>
+                            <textarea x-model="newProj.description" class="w-full border p-2 rounded text-sm h-32 outline-none"></textarea>
+                        </div>
+                        <button @click="publishProject(app)" class="w-full bg-[#1e3a2c] text-white font-bold py-3 rounded hover:bg-black transition uppercase text-xs">Publicar Agora</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODAL: MANIFESTAR INTERESSE (CRediT) -->
+            <div x-show="showInterestModal" class="fixed inset-0 z-[110] bg-black/90 flex items-center justify-center p-4" x-cloak>
+                <div class="bg-white rounded-lg w-full max-w-lg p-8 relative shadow-2xl">
+                    <button @click="showInterestModal = false" class="absolute top-4 right-4 text-2xl text-gray-400">&times;</button>
+                    <h3 class="text-xl font-bold text-eb-green uppercase border-b pb-4 mb-6">Proposta de Colaboração</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-2">Descreva seu interesse na pesquisa:</label>
+                            <textarea x-model="manifestForm.text" class="w-full border p-4 rounded text-sm h-32 outline-none" placeholder="Como você pode colaborar..."></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase text-gray-500 mb-2">Tipo de Contribuição (Taxonomia CRediT):</label>
+                            <select x-model="manifestForm.role" class="w-full border p-2 rounded text-sm outline-none">
+                                <template x-for="role in app.creditOptions" :key="role">
+                                    <option :value="role" x-text="role"></option>
+                                </template>
+                            </select>
+                        </div>
+                        <button @click="submitManifest(app)" class="w-full bg-[#c5a059] text-[#1e3a2c] font-bold py-3 rounded hover:bg-yellow-600 transition uppercase text-xs tracking-widest">Registrar Manifestação</button>
+                    </div>
+                </div>
             </div>
         </div>`;
 }
 
-function renderLogin(app) {
-    return `<div class="py-20 flex justify-center">
-        <div class="bg-white p-10 rounded shadow-xl border-t-8 border-[#c5a059] w-full max-w-md">
-            <h3 class="font-bold uppercase text-[#1e3a2c] mb-6 text-center">Acesso Área do Pesquisador</h3>
-            <div class="space-y-4">
-                <input type="email" x-model="loginEmail" placeholder="E-mail" class="w-full border p-2 rounded text-sm outline-none">
-                <input type="password" x-model="loginPass" placeholder="Senha" class="w-full border p-2 rounded text-sm outline-none">
-                <button @click="handleLogin()" class="w-full bg-[#1e3a2c] text-white font-bold py-2 rounded">ENTRAR</button>
-            </div>
+// Funções de Interação
+function publishProject(app) {
+    if (!app.newProj.title) return;
+    const project = { 
+        ...app.newProj, 
+        id: Date.now(), 
+        author: app.currentUser, 
+        manifests: [] 
+    };
+    app.projects.push(project);
+    app.showProjectForm = false;
+    app.newProj = { title: '', link: '', domainId: 1, description: '', status: app.researcherSubView };
+}
+
+function submitManifest(app) {
+    const proj = app.projects.find(p => p.id === app.selectedProject);
+    if (proj && app.manifestForm.text) {
+        proj.manifests.push({
+            id: Date.now(),
+            author: app.currentUser,
+            text: app.manifestForm.text,
+            role: app.manifestForm.role
+        });
+        app.showInterestModal = false;
+        app.manifestForm = { text: '', role: 'Conceitualização' };
+    }
+}
+
+function renderResearcherLogin(app) {
+    return `<div class="py-20 flex justify-center"><div class="bg-white p-10 rounded shadow-2xl border-t-8 border-[#c5a059] w-full max-w-md">
+        <h3 class="font-bold uppercase text-[#1e3a2c] mb-6 text-center">Login Área do Pesquisador</h3>
+        <div class="space-y-4">
+            <input type="email" x-model="loginEmail" placeholder="E-mail funcional" class="w-full border p-2 rounded text-sm outline-none">
+            <input type="password" x-model="loginPass" placeholder="Senha" class="w-full border p-2 rounded text-sm outline-none">
+            <button @click="handleLogin()" class="w-full bg-[#1e3a2c] text-white font-bold py-2 rounded uppercase text-xs">Entrar</button>
         </div>
-    </div>`;
+    </div></div>`;
 }
