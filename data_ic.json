@@ -2,28 +2,28 @@
     "coords": [
         {
             "name": "Adriana Correia de Almeida",
-            "role": { "pt": "Coordenadora de IC", "en": "IC Coordinator", "es": "Coordinadora de IC" },
+            "role": { "pt": "Coordenadora da CNP", "en": "NRC Coordinator", "es": "Coordinadora de CNP" },
             "bio": { "pt": "Doutora em Educação", "en": "PhD in Education", "es": "Doctora en Educación" },
             "lattes": " http://lattes.cnpq.br/9968889721337705",
             "photo": "adriana.png"
         },
         {
             "name": "Eduardo Xavier Ferreira Glaser Migon",
-            "role": { "pt": "Orientador de IC", "en": "IC Advisor", "es": "Asesor de IC" },
+            "role": { "pt": "Orientador de CNP", "en": "NRC Advisor", "es": "Asesor de CNP" },
             "bio": { "pt": "Doutor em Ciencias Militares", "en": "Doctor of Military Sciences", "es": "Doctor en Ciencias Militares" },
             "lattes": " http://lattes.cnpq.br/0133876688289429",
             "photo": "migon.png"
         },
         {
             "name": "Guilherme de Araujo Grigoli",
-            "role": { "pt": "Orientador de IC", "en": "IC Advisor", "es": "Asesor de IC" },
+            "role": { "pt": "Orientador de CNP", "en": "NRC Advisor", "es": "Asesor de CNP" },
             "bio": { "pt": "Doutor em Ciencias Militares", "en": "Doctor of Military Sciences", "es": "Doctor en Ciencias Militares" },
             "lattes": " http://lattes.cnpq.br/4082666910942025",
             "photo": "grigoli.png"
         },
         {
             "name": "Josias Marcos de Resende Silva ",
-            "role": { "pt": "Orientador de IC", "en": "IC Advisor", "es": "Asesor de IC" },
+            "role": { "pt": "Orientador de CNP", "en": "NRC Advisor", "es": "Asesor de CNP" },
             "bio": { "pt": "Doutor em Ciencias Militares", "en": "Doctor of Military Sciences", "es": "Doctor en Ciencias Militares" },
             "lattes": " http://lattes.cnpq.br/9949858368400382",
             "photo": "josias.png"
@@ -31,7 +31,7 @@
     ],
     "docs": [
         {
-            "title": "Edital de Seleção IC 2024",
+            "title": "Edital de Capacitaçao de Novos Pesquisadores 2026",
             "year": 2024,
             "date": "2024-01-15",
             "link": "https://www.google.com"
@@ -43,7 +43,7 @@
             "link": "https://www.google.com"
         },
         {
-            "title": "Edital de Seleção IC 2023",
+            "title": "Edital de Seleção Capacitaçao de Novos Pesquisadores 2026",
             "year": 2023,
             "date": "2023-01-20",
             "link": "https://www.google.com"
@@ -54,7 +54,7 @@
             "name": "Lorena Marau da Silva Miranda",
             "year": 2026,
             "join_date": "2026-03-14",
-            "role": { "pt": "Pesquisador de IC", "en": "IC Researcher", "es": "Investigador de IC" },
+            "role": { "pt": "Pesquisador", "en": "Researcher", "es": "Investigador" },
             "bio": { "pt": "A definir", "en": "To be defined", "es": "Por definir" },
             "lattes": "http://lattes.cnpq.br/3915965417431523",
             "photo": "lorena.png"
@@ -63,7 +63,7 @@
             "name": "Guilherme Gonçalves dos Santos Diniz",
             "year": 2026,
             "join_date": "2026-04-19",
-            "role": { "pt": "Pesquisador de IC", "en": "IC Researcher", "es": "Investigador de IC" },
+            "role": { "pt": "Pesquisador", "en": "Researcher", "es": "Investigador" },
             "bio": { "pt": "A definir", "en": "To be defined", "es": "Por definir" },
             "lattes": "https://lattes.cnpq.br/9323631888885963",
             "photo": "guilhermediniz.png"
