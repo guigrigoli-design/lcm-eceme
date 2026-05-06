@@ -2,16 +2,15 @@ function lcmApp() {
     return {
         view: 'home', lang: 'pt', loading: true, isLoggedIn: false,
         currentUser: null, activeSlide: 0, loginEmail: '', loginPass: '',
-        cnpSubView: 'coords', // Submenu da Capacitação
-        researcherSubView: 'andamento', // Submenu da Área Restrita
+        cnpSubView: 'coords', researcherSubView: 'andamento', 
         showProjectForm: false, showInterestModal: false, selectedProject: null,
+        
         newProj: { title: '', link: '', domainId: 1, description: '', status: 'andamento' },
         manifestForm: { text: '', role: 'Conceitualização' },
-        data: {}, 
         
-        // Projetos locais para demonstração de funcionalidades (serão alimentados pela rede)
+        data: {}, 
         projects: [
-            { id: 1, title: 'IA e Sustentação Logística', link: '#', domainId: 1, description: 'Pesquisa sobre algoritmos preditivos.', status: 'andamento', author: 'TC Grigoli', manifests: [] }
+            { id: 1, title: 'IA Generativa em Logística Militar', link: '#', domainId: 1, description: 'Estudo sobre automação de inventários.', status: 'andamento', author: 'TC Grigoli', manifests: [] }
         ],
 
         creditOptions: [
@@ -36,7 +35,8 @@ function lcmApp() {
                 ['researchers', './data_researchers.json'], ['theses', './data_theses.json'],
                 ['publications', './data_publications.json'], ['news', './data_news.json'],
                 ['ic', './data_ic.json'], ['coordinators', './data_coordinators.json'],
-                ['intro', './data_intro.json'], ['events', './data_events.json'], ['access', './data_access.json']
+                ['intro', './data_intro.json'], ['events', './data_events.json'], 
+                ['access', './data_access.json']
             ];
             await Promise.all(files.map(async ([key, url]) => {
                 try {
@@ -50,23 +50,23 @@ function lcmApp() {
             const user = (this.data.access || []).find(x => x.email === this.loginEmail && x.pass === this.loginPass);
             if (user) {
                 this.isLoggedIn = true; this.view = 'researcher_area'; this.currentUser = user.email;
+                this.loginPass = '';
             } else { alert("Acesso Negado: Verifique suas credenciais."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
+        setCnpSubView(sub) { this.cnpSubView = sub; },
+
         renderCurrentView() {
             if (this.loading) return '';
-            // Separação estrita: Área do Pesquisador vs Menus Públicos
             if (this.view.includes('researcher')) return renderResearcherModule(this);
             return renderMenuModule(this);
         },
 
-        setCnpSubView(sub) { this.cnpSubView = sub; },
-
         menuLabels: {
             pt: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Pesquisadores', cnp: 'Capacitação', theses: 'Acadêmico', publications: 'Produção', events: 'Eventos', contact: 'Contato' },
-            en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', cnp: 'Training', theses: 'Theses', publications: 'Publications', events: 'Events', contact: 'Contact' },
+            en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', cnp: 'Training', theses: 'Academic works', publications: 'Publications', events: 'Events', contact: 'Contact' },
             es: { home: 'Inicio', domains: 'Dominios', leadership: 'Coordinación', all_researchers: 'Investigadores', cnp: 'Capacitación', theses: 'Tesis', publications: 'Producción', events: 'Eventos', contact: 'Contacto' }
         }
     }
