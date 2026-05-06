@@ -10,7 +10,7 @@ function lcmApp() {
         
         data: {}, 
         projects: [
-            { id: 1, title: 'IA Generativa em Logística Militar', link: 'https://lcm.eb.mil.br/pesquisa-ia', domainId: 1, description: 'Estudo avançado sobre automação de processos logísticos.', status: 'andamento', author: 'TC Grigoli', manifests: [] }
+            { id: 1, title: 'IA e Sustentação Logística', link: 'https://lcm.eb.mil.br', domainId: 1, description: 'Pesquisa estratégica.', status: 'andamento', author: 'TC Grigoli', manifests: [] }
         ],
 
         creditOptions: ["Conceitualização", "Curadoria de Dados", "Análise Formal", "Obtenção de Financiamento", "Investigação", "Metodologia", "Administração do Projeto", "Recursos", "Programação de Software", "Supervisão", "Validação", "Visualização", "Redação – rascunho original", "Redação – revisão e edição"],
@@ -22,34 +22,20 @@ function lcmApp() {
         },
 
         async loadAllData() {
-            const files = [
-                ['researchers', './data_researchers.json'], ['theses', './data_theses.json'],
-                ['publications', './data_publications.json'], ['news', './data_news.json'],
-                ['ic', './data_ic.json'], ['coordinators', './data_coordinators.json'],
-                ['intro', './data_intro.json'], ['events', './data_events.json'], 
-                ['access', './data_access.json']
-            ];
-            await Promise.all(files.map(async ([key, url]) => {
-                try {
-                    const r = await fetch(url + '?v=' + Date.now());
-                    this.data[key] = await r.json();
-                } catch (e) { console.warn(`Falha na carga: ${key}`); }
-            }));
+            const files = [['researchers', './data_researchers.json'], ['theses', './data_theses.json'], ['publications', './data_publications.json'], ['news', './data_news.json'], ['ic', './data_ic.json'], ['coordinators', './data_coordinators.json'], ['intro', './data_intro.json'], ['events', './data_events.json'], ['access', './data_access.json']];
+            await Promise.all(files.map(async ([key, url]) => { try { const r = await fetch(url + '?v=' + Date.now()); this.data[key] = await r.json(); } catch(e){} }));
         },
 
         handleLogin() {
             const user = (this.data.access || []).find(x => x.email === this.loginEmail && x.pass === this.loginPass);
-            if (user) {
-                this.isLoggedIn = true; this.view = 'researcher_area'; this.currentUser = user.email;
-                this.loginPass = '';
-            } else { alert("Acesso Negado: Credenciais inválidas."); }
+            if (user) { this.isLoggedIn = true; this.view = 'researcher_area'; this.currentUser = user.email; this.loginPass = ''; } 
+            else { alert("Credenciais inválidas."); }
         },
 
-        logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
-
+        logout() { this.isLoggedIn = false; this.view = 'home'; },
         setCnpSubView(sub) { this.cnpSubView = sub; },
 
-        // Roteamento Blindado: Separa Integrantes (all_researchers) da Área do Pesquisador
+        // Roteamento Blindado: 'all_researchers' (Integrantes) é tratado como menu público
         renderCurrentView() {
             if (this.loading) return '';
             const restrictedViews = ['researcher_area', 'researcher_login'];
