@@ -65,9 +65,9 @@ function lcmApp() {
         },
 
         menuLabels: {
-            pt: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Pesquisadores', cnp: 'Capacitação', theses: 'Acadêmico', publications: 'Produção', events: 'Eventos', contact: 'Contato' },
-            en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Researchers', cnp: 'Training', theses: 'Academic works', publications: 'Publications', events: 'Events', contact: 'Contact' },
-            es: { home: 'Inicio', domains: 'Dominios', leadership: 'Coordinación', all_researchers: 'Investigadores', cnp: 'Capacitación', theses: 'Tesis', publications: 'Producción', events: 'Eventos', contact: 'Contacto' }
+            pt: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Integrantes', cnp: 'Capacitação', theses: 'Acadêmico', publications: 'Produção', events: 'Eventos', contact: 'Contato' },
+            en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Members', cnp: 'Training', theses: 'Academic works', publications: 'Publications', events: 'Events', contact: 'Contact' },
+            es: { home: 'Inicio', domains: 'Dominios', leadership: 'Coordinación', all_researchers: 'Integrantes', cnp: 'Capacitación', theses: 'Tesis', publications: 'Producción', events: 'Eventos', contact: 'Contacto' }
         }
     }
 }
