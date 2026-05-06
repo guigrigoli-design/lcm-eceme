@@ -11,8 +11,10 @@
         :root { --eb-green: #1e3a2c; --eb-gold: #c5a059; }
         [x-cloak] { display: none !important; }
         body { font-family: 'Georgia', serif; scroll-behavior: smooth; }
+        /* Estilo Circular dos Integrantes */
         .circle-container { width: 7rem; height: 7rem; border-radius: 9999px; overflow: hidden; border: 3px solid var(--eb-gold); display: flex; align-items: center; justify-content: center; background-color: #f3f4f6; margin-bottom: 1rem; }
         .circle-img { width: 100%; height: 100%; object-fit: cover; }
+        /* Cores dos Projetos por Domínio na Área Restrita */
         .bg-dom-1 { background-color: #e0f2fe !important; border-left: 8px solid #0369a1; }
         .bg-dom-2 { background-color: #f0fdf4 !important; border-left: 8px solid #15803d; }
         .bg-dom-3 { background-color: #fff7ed !important; border-left: 8px solid #c2410c; }
@@ -32,14 +34,15 @@
             
             <div class="flex space-x-4 items-center">
                 <div class="flex space-x-2">
-                    <button @click="lang = 'pt'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm" title="PT"></button>
-                    <button @click="lang = 'en'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm" title="EN"></button>
-                    <button @click="lang = 'es'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm" title="ES"></button>
+                    <button @click="lang = 'pt'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm"></button>
+                    <button @click="lang = 'en'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm"></button>
+                    <button @click="lang = 'es'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm"></button>
                 </div>
                 <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars text-xl"></i></button>
             </div>
         </div>
 
+        <!-- Menu de Navegação Atualizado -->
         <div class="hidden md:flex justify-center bg-black/20 py-2 space-x-1 lg:space-x-2 text-[7.5px] lg:text-[9.2px] font-bold uppercase tracking-wider border-t border-green-800 overflow-x-auto">
             <template x-for="(label, key) in menuLabels[lang]" :key="key">
                 <button @click="view = key" class="px-2 py-1 transition whitespace-nowrap" :class="view === key ? 'text-[#c5a059] border-b border-[#c5a059]' : 'hover:text-[#c5a059]'" x-text="label"></button>
