@@ -1,6 +1,5 @@
 /**
- * MENU VIEWS - Versão 43.0 (Auditada)
- * Restauração Total de Funcionalidades e Subnavegação
+ * MENU VIEWS - Versão 44.0 (Aba Integrantes e Capacitação)
  */
 function renderMenuModule(app) {
     const { view, lang, data, activeSlide, cnpSubView } = app;
@@ -31,7 +30,7 @@ function renderMenuModule(app) {
             </div>`;
     }
 
-    // 2. PESQUISADORES (Configuração Clássica)
+    // 2. INTEGRANTES (Visual Público Restaurado e Renomeado)
     if (view === 'all_researchers') {
         const getGroup = (senior) => (data.researchers || []).filter(r => {
             let role = (r.role.pt || "").toLowerCase();
@@ -46,7 +45,7 @@ function renderMenuModule(app) {
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8">${getGroup(false).map(r => renderResearcherCard(r, lang)).join('')}</div></div>`;
     }
 
-    // 3. CAPACITAÇÃO (NCNP - 3 Submenus)
+    // 3. CAPACITAÇÃO (NCNP - 3 Submenus Restaurados)
     if (view === 'cnp') {
         const labels = { 
             pt: { sub1: 'Coordenadores e Orientadores', sub2: 'Documentação', sub3: 'Pesquisadores (Alunos)' },
@@ -68,10 +67,10 @@ function renderMenuModule(app) {
         } else {
             subContent = `<div class="grid grid-cols-2 md:grid-cols-4 gap-8">${(data.ic.students || []).map(s => renderResearcherCard(s, lang)).join('')}</div>`;
         }
-        return `<div class="container mx-auto px-6 py-12"><h2 class="text-2xl font-bold text-[#1e3a2c] uppercase text-center mb-10">Núcleo de Capacitação (NCNP)</h2>${subMenuNav}<div>${subContent}</div></div>`;
+        return `<div class="container mx-auto px-6 py-12"><h2 class="text-2xl font-bold text-[#1e3a2c] uppercase text-center mb-10">Capacitação (NCNP)</h2>${subMenuNav}<div>${subContent}</div></div>`;
     }
 
-    // Outros Menus (Leadership, Domains, Acadêmico, Produção, Eventos, Contato)
+    // Outros Menus
     if (view === 'leadership') return `<div class="container mx-auto px-6 py-12 text-center"><h2 class="text-2xl font-bold text-[#1e3a2c] uppercase mb-12">${app.menuLabels[lang].leadership}</h2><div class="grid grid-cols-1 md:grid-cols-3 gap-10">${(data.coordinators || []).map(c => renderResearcherCard(c, lang)).join('')}</div></div>`;
     if (view === 'domains') return renderDomains(app);
     if (view === 'theses') return renderDocumentList(data.theses || [], lang, app.menuLabels[lang].theses, 'black');
@@ -82,12 +81,13 @@ function renderMenuModule(app) {
     return `<div class="p-20 text-center italic">Conteúdo carregando...</div>`;
 }
 
+/** HELPERS VISUAIS **/
 function renderResearcherCard(r, lang) {
     return `<div class="flex flex-col items-center">
         <div class="circle-container shadow-md"><img src="${r.photo}" class="circle-img" onerror="this.src='https://via.placeholder.com/150'"></div>
         <h4 class="font-bold text-center text-sm">${r.name}</h4>
         <p class="text-[9px] text-[#c5a059] font-bold uppercase text-center leading-tight mb-2">${r.role[lang] || ''}</p>
-        <a href="${r.lattes}" target="_blank" class="text-[9px] font-bold border-2 border-[#1e3a2c] px-4 py-1 rounded-full mt-3">LATTES CV</a>
+        <a href="${r.lattes}" target="_blank" class="text-[9px] font-bold border-2 border-[#1e3a2c] px-4 py-1 rounded-full mt-3 hover:bg-[#1e3a2c] hover:text-white transition">LATTES CV</a>
     </div>`;
 }
 
@@ -108,7 +108,7 @@ function renderDocumentList(docs, lang, title, theme) {
 
 function renderEvents(app) {
     return `<div class="container mx-auto px-6 py-12 max-w-4xl">${(app.data.events || []).map(e => `
-        <div class="flex mb-6 bg-white border rounded overflow-hidden shadow-sm">
+        <div class="flex mb-6 bg-white border rounded shadow-sm overflow-hidden">
             <div class="bg-[#1e3a2c] text-white p-6 w-24 flex flex-col items-center justify-center shrink-0"><span class="text-2xl font-bold">${e.day}</span><span class="text-[10px] uppercase font-bold">${e.month[app.lang]}</span></div>
             <div class="p-6"><h4 class="font-bold text-[#1e3a2c] uppercase text-sm">${e.title[app.lang]}</h4><p class="text-xs text-gray-700 mt-2 italic">${e.desc[app.lang]}</p></div></div>`).join('')}</div>`;
 }
