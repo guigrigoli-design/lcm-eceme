@@ -4,15 +4,12 @@ function lcmApp() {
         currentUser: null, activeSlide: 0, loginEmail: '', loginPass: '',
         cnpSubView: 'coords', researcherSubView: 'andamento', 
         showProjectForm: false, showInterestModal: false, selectedProject: null,
-        
         newProj: { title: '', link: '', domainId: 1, description: '', status: 'andamento' },
         manifestForm: { text: '', role: 'Conceitualização' },
-        
         data: {}, 
         projects: [
             { id: 1, title: 'IA e Sustentação Logística', link: 'https://lcm.eb.mil.br', domainId: 1, description: 'Pesquisa estratégica.', status: 'andamento', author: 'TC Grigoli', manifests: [] }
         ],
-
         creditOptions: ["Conceitualização", "Curadoria de Dados", "Análise Formal", "Obtenção de Financiamento", "Investigação", "Metodologia", "Administração do Projeto", "Recursos", "Programação de Software", "Supervisão", "Validação", "Visualização", "Redação – rascunho original", "Redação – revisão e edição"],
 
         async init() {
@@ -35,13 +32,10 @@ function lcmApp() {
         logout() { this.isLoggedIn = false; this.view = 'home'; },
         setCnpSubView(sub) { this.cnpSubView = sub; },
 
-        // Roteamento Blindado: 'all_researchers' (Integrantes) é tratado como menu público
         renderCurrentView() {
             if (this.loading) return '';
-            const restrictedViews = ['researcher_area', 'researcher_login'];
-            if (restrictedViews.includes(this.view)) {
-                return renderResearcherModule(this);
-            }
+            const restricted = ['researcher_area', 'researcher_login'];
+            if (restricted.includes(this.view)) return renderResearcherModule(this);
             return renderMenuModule(this);
         },
 
