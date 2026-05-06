@@ -1,6 +1,3 @@
-/**
- * APP CORE - Gestão de Estado e Dados - Versão 36.0
- */
 function lcmApp() {
     return {
         view: 'home', lang: 'pt', loading: true, mobileMenuOpen: false,
@@ -11,7 +8,6 @@ function lcmApp() {
         async init() {
             await this.loadAllData();
             this.loading = false;
-            // Carrossel de Notícias
             setInterval(() => {
                 if(this.data.news && this.data.news.length > 0) {
                     this.activeSlide = (this.activeSlide + 1) % this.data.news.length;
@@ -25,7 +21,7 @@ function lcmApp() {
                 ['publications', './data_publications.json'], ['news', './data_news.json'],
                 ['ic', './data_ic.json'], ['coordinators', './data_coordinators.json'],
                 ['intro', './data_intro.json'], ['events', './data_events.json'], 
-                ['access', './data_access.json'] // Credenciais
+                ['access', './data_access.json']
             ];
             await Promise.all(files.map(async ([key, url]) => {
                 try {
@@ -43,16 +39,13 @@ function lcmApp() {
                 this.view = 'researcher_area';
                 this.currentUser = user.email;
                 this.loginPass = ''; 
-            } else {
-                alert("Acesso Negado: E-mail ou Senha incorretos.");
-            }
+            } else { alert("Acesso Negado: Credenciais inválidas."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
         renderCurrentView() {
             if (this.loading) return '';
-            // Roteamento Modular
             if (this.view === 'researcher_area' || this.view === 'researcher_login') {
                 return renderResearcherModule(this);
             }
