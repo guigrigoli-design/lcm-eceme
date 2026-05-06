@@ -11,16 +11,11 @@
         :root { --eb-green: #1e3a2c; --eb-gold: #c5a059; }
         [x-cloak] { display: none !important; }
         body { font-family: 'Georgia', serif; scroll-behavior: smooth; }
-        
-        /* Estilo Circular dos Pesquisadores */
         .circle-container { width: 7rem; height: 7rem; border-radius: 9999px; overflow: hidden; border: 3px solid var(--eb-gold); display: flex; align-items: center; justify-content: center; background-color: #f3f4f6; margin-bottom: 1rem; }
         .circle-img { width: 100%; height: 100%; object-fit: cover; }
-        
-        /* Cores dos Projetos por Domínio (Área do Pesquisador) */
         .bg-dom-1 { background-color: #e0f2fe !important; border-left: 8px solid #0369a1; }
         .bg-dom-2 { background-color: #f0fdf4 !important; border-left: 8px solid #15803d; }
         .bg-dom-3 { background-color: #fff7ed !important; border-left: 8px solid #c2410c; }
-        
         .year-badge { font-weight: bold; padding: 0.2rem 0.8rem; border-radius: 4px; font-size: 0.7rem; }
         .tab-active { border-bottom: 3px solid var(--eb-gold); color: var(--eb-gold); font-weight: bold; }
     </style>
@@ -37,9 +32,9 @@
             
             <div class="flex space-x-4 items-center">
                 <div class="flex space-x-2">
-                    <button @click="lang = 'pt'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm"></button>
-                    <button @click="lang = 'en'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm"></button>
-                    <button @click="lang = 'es'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm"></button>
+                    <button @click="lang = 'pt'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm" title="PT"></button>
+                    <button @click="lang = 'en'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm" title="EN"></button>
+                    <button @click="lang = 'es'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm" title="ES"></button>
                 </div>
                 <button class="md:hidden" @click="mobileMenuOpen = !mobileMenuOpen"><i class="fa-solid fa-bars text-xl"></i></button>
             </div>
@@ -63,7 +58,7 @@
 
     <footer class="bg-[#1e3a2c] text-white py-12 border-t-8 border-[#c5a059] mt-auto">
         <div class="container mx-auto px-4 text-center opacity-60 text-[10px] uppercase tracking-widest">
-            Laboratório de Ciências Militares - ECEME | 2026
+            Laboratório de Ciências Militares - ECEME | PPGCM | 2026
         </div>
     </footer>
 
