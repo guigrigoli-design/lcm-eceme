@@ -8,7 +8,7 @@ function lcmApp() {
         manifestForm: { text: '', role: 'Conceitualização' },
         data: {}, 
         projects: [
-            { id: 1, title: 'IA e Sustentação Logística', link: 'https://lcm.eb.mil.br', domainId: 1, description: 'Pesquisa estratégica.', status: 'andamento', author: 'TC Grigoli', manifests: [] }
+            { id: 1, title: 'IA e Sustentação Logística', link: 'https://lcm.eb.mil.br', domainId: 1, description: 'Pesquisa estratégica sobre automação.', status: 'andamento', author: 'TC Grigoli', manifests: [] }
         ],
         creditOptions: ["Conceitualização", "Curadoria de Dados", "Análise Formal", "Obtenção de Financiamento", "Investigação", "Metodologia", "Administração do Projeto", "Recursos", "Programação de Software", "Supervisão", "Validação", "Visualização", "Redação – rascunho original", "Redação – revisão e edição"],
 
@@ -26,7 +26,7 @@ function lcmApp() {
         handleLogin() {
             const user = (this.data.access || []).find(x => x.email === this.loginEmail && x.pass === this.loginPass);
             if (user) { this.isLoggedIn = true; this.view = 'researcher_area'; this.currentUser = user.email; this.loginPass = ''; } 
-            else { alert("Credenciais inválidas."); }
+            else { alert("Acesso Negado: Verifique suas credenciais."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; },
