@@ -1,3 +1,7 @@
+/**
+ * APP CORE - Versão 50.0
+ * Gestão de Dados, Tradução Plena e Roteamento Blindado.
+ */
 function lcmApp() {
     return {
         view: 'home', lang: 'pt', loading: true, isLoggedIn: false, currentUser: null, 
@@ -8,14 +12,12 @@ function lcmApp() {
         data: {}, 
         projects: [],
 
-        // Labels de Sistema e UI (Tradução Plena)
         uiLabels: {
-            pt: { researcherArea: "Área do Pesquisador", myArea: "Minha Área", loading: "Carregando Dados...", back: "Voltar", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Proposta de Colaboração (CRediT)" },
-            en: { researcherArea: "Researcher Area", myArea: "My Area", loading: "Loading Data...", back: "Back", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "Collaboration Proposal (CRediT)" },
-            es: { researcherArea: "Área del Investigador", myArea: "Mi Área", loading: "Cargando Datos...", back: "Volver", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Propuesta de Colaboración (CRediT)" }
+            pt: { researcherArea: "Área do Pesquisador", myArea: "Minha Área", loading: "Carregando Dados...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Proposta de Colaboração (CRediT)" },
+            en: { researcherArea: "Researcher Area", myArea: "My Area", loading: "Loading Data...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "Collaboration Proposal (CRediT)" },
+            es: { researcherArea: "Área del Investigador", myArea: "Mi Área", loading: "Cargando Datos...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Propuesta de Colaboración (CRediT)" }
         },
 
-        // Menus (Tradução Plena conforme solicitado)
         menuLabels: {
             pt: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Integrantes', cnp: 'Capacitação de Novos Pesquisadores', theses: 'Produção Acadêmica', publications: 'Artigos Acadêmicos', events: 'Eventos', contact: 'Contato' },
             en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Members', cnp: 'Training of New Researchers', theses: 'Academic Production', publications: 'Academic Articles', events: 'Events', contact: 'Contact' },
@@ -48,7 +50,7 @@ function lcmApp() {
         handleLogin() {
             const user = (this.data.access || []).find(x => x.email === this.loginEmail && x.pass === this.loginPass);
             if (user) { this.isLoggedIn = true; this.view = 'researcher_area'; this.currentUser = user.email; } 
-            else { alert("Login Inválido."); }
+            else { alert("Acesso Negado."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
@@ -56,7 +58,12 @@ function lcmApp() {
         submitManifest() {
             const proj = this.projects.find(p => p.id === this.selectedProject);
             if (proj && this.manifestForm.selectedRoles.length > 0) {
-                proj.manifests.push({ author: this.currentUser, roles: [...this.manifestForm.selectedRoles], text: this.manifestForm.text, date: new Date().toLocaleDateString(this.lang === 'en' ? 'en-US' : 'pt-BR') });
+                proj.manifests.push({ 
+                    author: this.currentUser, 
+                    roles: [...this.manifestForm.selectedRoles], 
+                    text: this.manifestForm.text, 
+                    date: new Date().toLocaleDateString(this.lang === 'en' ? 'en-US' : 'pt-BR') 
+                });
                 this.showInterestModal = false;
                 this.manifestForm = { text: '', selectedRoles: [] };
             }
@@ -65,8 +72,9 @@ function lcmApp() {
         renderCurrentView() {
             if (this.loading) return '';
             const restricted = ['researcher_area', 'researcher_login'];
-            if (restricted.includes(this.view)) return renderResearcherModule(this);
-            return renderMenuModule(this);
-        }
+            return restricted.includes(this.view) ? renderResearcherModule(this) : renderMenuModule(this);
+        },
+
+        setCnpSubView(v) { this.cnpSubView = v; }
     }
 }
