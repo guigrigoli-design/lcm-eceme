@@ -1,7 +1,3 @@
-/**
- * APP CORE - Versão 50.0
- * Gestão de Dados, Tradução Plena e Roteamento Blindado.
- */
 function lcmApp() {
     return {
         view: 'home', lang: 'pt', loading: true, isLoggedIn: false, currentUser: null, 
@@ -9,13 +5,12 @@ function lcmApp() {
         researcherSubView: 'andamento', showProjectForm: false, showInterestModal: false, selectedProject: null,
         newProj: { title: '', link: '', domainId: 1, description: '', status: 'andamento', creditNeeds: [] },
         manifestForm: { text: '', selectedRoles: [] },
-        data: {}, 
-        projects: [],
+        data: { news: [], researchers: [], theses: [], publications: [], ic: {}, coordinators: [], intro: {}, events: [], domains_info: [], access: [] }, 
 
         uiLabels: {
-            pt: { researcherArea: "Área do Pesquisador", myArea: "Minha Área", loading: "Carregando Dados...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Proposta de Colaboração (CRediT)" },
-            en: { researcherArea: "Researcher Area", myArea: "My Area", loading: "Loading Data...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "Collaboration Proposal (CRediT)" },
-            es: { researcherArea: "Área del Investigador", myArea: "Mi Área", loading: "Cargando Datos...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Propuesta de Colaboración (CRediT)" }
+            pt: { researcherArea: "Área do Pesquisador", loading: "Acessando Dados...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Colaboração CRediT" },
+            en: { researcherArea: "Researcher Area", loading: "Accessing Data...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "CRediT Collaboration" },
+            es: { researcherArea: "Área del Investigador", loading: "Accediendo Datos...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Colaboración CRediT" }
         },
 
         menuLabels: {
@@ -42,9 +37,20 @@ function lcmApp() {
             await Promise.all(files.map(async ([key, url]) => { 
                 try { 
                     const r = await fetch(url + '?v=' + Date.now()); 
-                    this.data[key] = await r.json(); 
-                } catch(e) { this.data[key] = []; } 
+                    const json = await r.json();
+                    this.data[key] = json;
+                } catch(e) { console.error("Falha no arquivo:", key); } 
             }));
+            
+            // Loop de Análise: Garantir que arrays não fiquem undefined
+            if (!this.data.news) this.data.news = [];
+            if (!this.data.events) this.data.events = [];
+            
+            setInterval(() => {
+                if (this.data.news && this.data.news.length > 0) {
+                    this.activeSlide = (this.activeSlide + 1) % this.data.news.length;
+                }
+            }, 7500);
         },
 
         handleLogin() {
