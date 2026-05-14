@@ -8,9 +8,9 @@ function lcmApp() {
         data: { news: [], researchers: [], theses: [], publications: [], ic: {}, coordinators: [], intro: {}, events: [], domains_info: [], access: [] }, 
 
         uiLabels: {
-            pt: { researcherArea: "Área do Pesquisador", loading: "Acessando Dados...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Colaboração CRediT" },
-            en: { researcherArea: "Researcher Area", loading: "Accessing Data...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "CRediT Collaboration" },
-            es: { researcherArea: "Área del Investigador", loading: "Accediendo Datos...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Colaboración CRediT" }
+            pt: { researcherArea: "Área do Pesquisador", loading: "Sincronizando...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Manifestação CRediT" },
+            en: { researcherArea: "Researcher Area", loading: "Synchronizing...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "CRediT Manifestation" },
+            es: { researcherArea: "Área del Investigador", loading: "Sincronizando...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Manifestación CRediT" }
         },
 
         menuLabels: {
@@ -24,6 +24,11 @@ function lcmApp() {
         async init() {
             await this.loadAllData();
             this.loading = false;
+            setInterval(() => {
+                if (this.data.news && this.data.news.length > 0) {
+                    this.activeSlide = (this.activeSlide + 1) % this.data.news.length;
+                }
+            }, 8000);
         },
 
         async loadAllData() {
@@ -37,20 +42,9 @@ function lcmApp() {
             await Promise.all(files.map(async ([key, url]) => { 
                 try { 
                     const r = await fetch(url + '?v=' + Date.now()); 
-                    const json = await r.json();
-                    this.data[key] = json;
-                } catch(e) { console.error("Falha no arquivo:", key); } 
+                    this.data[key] = await r.json();
+                } catch(e) { this.data[key] = (key === 'ic') ? { coords: [], docs: [], students: [] } : []; } 
             }));
-            
-            // Loop de Análise: Garantir que arrays não fiquem undefined
-            if (!this.data.news) this.data.news = [];
-            if (!this.data.events) this.data.events = [];
-            
-            setInterval(() => {
-                if (this.data.news && this.data.news.length > 0) {
-                    this.activeSlide = (this.activeSlide + 1) % this.data.news.length;
-                }
-            }, 7500);
         },
 
         handleLogin() {
@@ -62,7 +56,7 @@ function lcmApp() {
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
         submitManifest() {
-            const proj = this.projects.find(p => p.id === this.selectedProject);
+            const proj = (this.projects || []).find(p => p.id === this.selectedProject);
             if (proj && this.manifestForm.selectedRoles.length > 0) {
                 proj.manifests.push({ 
                     author: this.currentUser, 
