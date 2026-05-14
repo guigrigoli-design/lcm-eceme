@@ -122,24 +122,49 @@ function renderResearcherCard(r, lang) {
  * CORREÇÃO 3: Renderização Integral de Documentos com Tipo e Download.
  */
 function renderDocumentListFull(docs, lang) {
-    if (!docs || docs.length === 0) return '<p class="text-center italic py-10 uppercase tracking-widest text-gray-400">Nenhum registro encontrado.</p>';
+    if (!docs || docs.length === 0) {
+        return '<p class="text-center italic text-gray-400 py-20 uppercase tracking-widest">Sincronizando registros com o banco de dados...</p>';
+    }
+
+    // Agrupamento por ano
     const years = [...new Set(docs.map(d => d.year))].sort((a, b) => b - a);
+    
     return `
         <div class="max-w-5xl mx-auto">
             ${years.map(y => `
-                <div class="mb-10">
-                    <div class="flex items-center mb-6"><span class="bg-black text-white px-4 py-1 rounded font-bold text-xs">${y}</span><div class="h-px bg-gray-200 flex-grow ml-4"></div></div>
-                    <div class="space-y-4">
+                <div class="mb-12">
+                    <div class="flex items-center mb-8">
+                        <span class="bg-black text-white px-5 py-1.5 rounded shadow-lg font-bold text-xs">${y}</span>
+                        <div class="h-px bg-gray-200 flex-grow ml-4"></div>
+                    </div>
+                    <div class="space-y-6">
                         ${docs.filter(d => d.year == y).map(d => `
-                            <div class="bg-white border-l-4 border-[#1e3a2c] p-6 shadow-sm flex justify-between items-center hover:border-[#c5a059] transition">
-                                <div class="pr-8">
-                                    <h4 class="font-bold text-sm text-[#1e3a2c] leading-snug uppercase">${d.title}</h4> <p class="text-[10px] text-[#c5a059] font-bold uppercase mt-1">${d.type?.[lang] || d.type || ""}</p> <p class="text-[10px] text-gray-400 font-bold mt-1 italic">${d.authors || ''}</p>
+                            <div class="bg-white border-l-8 border-[#1e3a2c] p-8 shadow-md flex justify-between items-center group hover:border-[#c5a059] transition-all duration-300">
+                                <div class="flex-grow pr-10">
+                                    <h4 class="font-bold text-[17px] text-[#1e3a2c] leading-snug uppercase tracking-tight">
+                                        ${d.title || "Título não especificado"}
+                                    </h4>
+                                    
+                                    <div class="flex items-center mt-3 space-x-4">
+                                        <span class="text-[10px] bg-[#c5a059]/10 text-[#c5a059] px-2 py-0.5 rounded font-bold uppercase border border-[#c5a059]/20">
+                                            ${d.type?.[lang] || d.type || "Documento Acadêmico"}
+                                        </span>
+                                        <span class="text-[10px] text-gray-400 font-bold uppercase italic">
+                                            ${d.authors || ''}
+                                        </span>
+                                    </div>
                                 </div>
-                                <a href="${d.link}" target="_blank" download class="text-[#1e3a2c] text-3xl hover:scale-110 transition flex-shrink-0" title="Download">
+                                
+                                <a href="${d.link || '#'}" 
+                                   target="_blank" 
+                                   class="text-[#1e3a2c] text-4xl group-hover:scale-110 group-hover:text-[#c5a059] transition-all flex-shrink-0 ${!d.link ? 'opacity-20 cursor-not-allowed' : ''}" 
+                                   title="${d.link ? 'Abrir Trabalho Acadêmico' : 'Link não disponível'}">
                                     <i class="fa-solid fa-file-pdf"></i>
                                 </a>
-                            </div>`).join('')}
+                            </div>
+                        `).join('')}
                     </div>
-                </div>`).join('')}
+                </div>
+            `).join('')}
         </div>`;
 }
