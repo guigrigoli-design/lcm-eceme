@@ -10,18 +10,18 @@
     <style>
         :root { --eb-green: #1e3a2c; --eb-gold: #c5a059; }
         [x-cloak] { display: none !important; }
-        body { font-family: 'Georgia', serif; scroll-behavior: smooth; }
-        .circle-container { width: 7.5rem; height: 7.5rem; border-radius: 9999px; overflow: hidden; border: 3px solid var(--eb-gold); display: flex; align-items: center; justify-content: center; background-color: #f3f4f6; margin-bottom: 1rem; }
+        body { font-family: 'Georgia', serif; scroll-behavior: smooth; background-color: #f8fafc; }
+        .circle-container { width: 7.5rem; height: 7.5rem; border-radius: 9999px; overflow: hidden; border: 3px solid var(--eb-gold); display: flex; align-items: center; justify-content: center; background-color: #ffffff; margin-bottom: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
         .circle-img { width: 100%; height: 100%; object-fit: cover; }
         .bg-dom-1 { background-color: #e0f2fe !important; border-left: 8px solid #0369a1; }
         .bg-dom-2 { background-color: #f0fdf4 !important; border-left: 8px solid #15803d; }
         .bg-dom-3 { background-color: #fff7ed !important; border-left: 8px solid #c2410c; }
         .tab-active { border-bottom: 3px solid var(--eb-gold); color: var(--eb-gold) !important; font-weight: bold; }
-        .domain-img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; border-bottom: 4px solid var(--eb-gold); }
+        .domain-hero { width: 100%; height: 280px; object-fit: cover; border-radius: 8px 8px 0 0; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 flex flex-col min-h-screen" x-data="lcmApp()" x-init="init()">
-    <nav class="bg-[#1e3a2c] text-white border-b-2 border-[#c5a059] sticky top-0 z-50 shadow-lg">
+<body class="flex flex-col min-h-screen" x-data="lcmApp()" x-init="init()">
+    <nav class="bg-[#1e3a2c] text-white border-b-2 border-[#c5a059] sticky top-0 z-50 shadow-xl">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center space-x-3 cursor-pointer" @click="view = 'home'">
                 <img src="brasao-lcm.png" class="h-10 bg-white rounded-full p-0.5 shadow-md">
@@ -30,33 +30,33 @@
                     <span class="text-[9px] text-[#c5a059] uppercase tracking-tighter">Escola de Comando e Estado-Maior do Exército</span>
                 </div>
             </div>
-            <div class="flex space-x-4 items-center">
-                <div class="flex bg-black/20 p-1 rounded space-x-1">
-                    <button @click="lang = 'pt'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm"></button>
-                    <button @click="lang = 'en'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm"></button>
-                    <button @click="lang = 'es'" class="hover:opacity-80 transition"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm"></button>
+            <div class="flex items-center space-x-4">
+                <div class="flex bg-black/30 p-1 rounded-lg space-x-1 border border-white/10">
+                    <button @click="lang = 'pt'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/br.png" class="h-4 w-6 rounded shadow-sm"></button>
+                    <button @click="lang = 'en'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/us.png" class="h-4 w-6 rounded shadow-sm"></button>
+                    <button @click="lang = 'es'" class="hover:scale-110 transition"><img src="https://flagcdn.com/w40/es.png" class="h-4 w-6 rounded shadow-sm"></button>
                 </div>
             </div>
         </div>
-        <div class="hidden md:flex justify-center bg-black/30 py-2 space-x-1 text-[8.5px] font-bold uppercase border-t border-green-800 overflow-x-auto">
+        <div class="hidden md:flex justify-center bg-black/40 py-2.5 space-x-1 lg:space-x-2 text-[8px] lg:text-[9.5px] font-bold uppercase tracking-wider border-t border-green-800 overflow-x-auto shadow-inner">
             <template x-for="(label, key) in menuLabels[lang]" :key="key">
                 <button @click="view = key" class="px-2 py-1 transition hover:text-[#c5a059] whitespace-nowrap" :class="view === key ? 'tab-active' : ''" x-text="label"></button>
             </template>
-            <button @click="isLoggedIn ? view = 'researcher_area' : view = 'researcher_login'" class="bg-[#c5a059] text-[#1e3a2c] px-3 py-1 rounded ml-2 font-bold hover:bg-yellow-600 transition whitespace-nowrap" x-text="uiLabels[lang].researcherArea"></button>
+            <button @click="isLoggedIn ? view = 'researcher_area' : view = 'researcher_login'" class="bg-[#c5a059] text-[#1e3a2c] px-4 py-1 rounded ml-2 font-bold hover:bg-yellow-600 transition shadow-md whitespace-nowrap" x-text="uiLabels[lang].researcherArea"></button>
         </div>
     </nav>
 
-    <main class="flex-grow">
+    <main class="flex-grow relative">
         <div x-html="renderCurrentView()" x-cloak></div>
-        <div x-show="loading" class="flex flex-col items-center justify-center p-20">
-            <i class="fa-solid fa-spinner fa-spin text-3xl text-[#1e3a2c] mb-4"></i>
-            <p class="text-xs font-bold uppercase text-gray-400" x-text="uiLabels[lang].loading"></p>
+        <div x-show="loading" class="flex flex-col items-center justify-center p-32 absolute inset-0 bg-gray-50/80 z-10">
+            <i class="fa-solid fa-spinner fa-spin text-4xl text-[#1e3a2c] mb-4"></i>
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-gray-400" x-text="uiLabels[lang].loading"></p>
         </div>
     </main>
 
     <footer class="bg-[#1e3a2c] text-white py-12 border-t-8 border-[#c5a059] mt-auto">
-        <div class="container mx-auto px-4 text-center opacity-60 text-[10px] uppercase tracking-widest">
-            Laboratório de Ciências Militares - ECEME | 2026
+        <div class="container mx-auto px-4 text-center">
+            <p class="opacity-50 text-[10px] uppercase tracking-widest font-bold">Laboratório de Ciências Militares - ECEME | 2026</p>
         </div>
     </footer>
 
