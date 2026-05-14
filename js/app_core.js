@@ -1,6 +1,6 @@
 /**
- * APP CORE - Versão 55.0
- * Gestão de Dados, Tradução Plena e Motor de Postagem Reativo.
+ * APP CORE - Versão 56.0
+ * Sincronização de Dados e Blindagem contra Undefined.
  */
 function lcmApp() {
     return {
@@ -9,13 +9,15 @@ function lcmApp() {
         researcherSubView: 'andamento', showProjectForm: false, showInterestModal: false, selectedProject: null,
         newProj: { title: '', link: '', domainId: 1, description: '', status: 'andamento', creditNeeds: [] },
         manifestForm: { text: '', selectedRoles: [] },
+        
+        // Inicialização com esqueletos vazios para evitar 'undefined' antes do fetch
         data: { news: [], researchers: [], theses: [], publications: [], ic: {coords:[], docs:[], students:[]}, coordinators: [], intro: {}, events: [], domains_info: [], access: [] }, 
         projects: [], 
 
         uiLabels: {
-            pt: { researcherArea: "Área do Pesquisador", loading: "Acessando Inteligência...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Manifestação CRediT", confirm: "Confirmar Pesquisa" },
-            en: { researcherArea: "Researcher Area", loading: "Accessing Intelligence...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "CRediT Manifestation", confirm: "Confirm Research" },
-            es: { researcherArea: "Área del Investigador", loading: "Accediendo Inteligencia...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Manifestación CRediT", confirm: "Confirmar Investigación" }
+            pt: { researcherArea: "Área do Pesquisador", loading: "Sincronizando Sistema...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Manifestação CRediT", confirm: "Confirmar Pesquisa" },
+            en: { researcherArea: "Researcher Area", loading: "Synchronizing System...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "CRediT Manifestation", confirm: "Confirm Research" },
+            es: { researcherArea: "Área del Investigador", loading: "Sincronizando Sistema...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Manifestación CRediT", confirm: "Confirmar Investigación" }
         },
 
         menuLabels: {
@@ -33,7 +35,7 @@ function lcmApp() {
                 if (this.data.news && this.data.news.length > 0) {
                     this.activeSlide = (this.activeSlide + 1) % this.data.news.length;
                 }
-            }, 7500);
+            }, 8000);
         },
 
         async loadAllData() {
@@ -41,9 +43,12 @@ function lcmApp() {
             await Promise.all(files.map(async ([key, url]) => { 
                 try { 
                     const r = await fetch(url + '?v=' + Date.now()); 
-                    this.data[key] = await r.json();
-                } catch(e) { this.data[key] = (key === 'ic') ? { coords:[], docs:[], students:[] } : []; } 
+                    const json = await r.json();
+                    this.data[key] = json;
+                } catch(e) { console.error("Aviso: Falha ao carregar ", key); } 
             }));
+            // Auditoria de objeto IC para evitar mensagem 'Processando' infinita
+            if (!this.data.ic || !this.data.ic.coords) this.data.ic = { coords:[], docs:[], students:[] };
         },
 
         handleLogin() {
@@ -52,25 +57,20 @@ function lcmApp() {
                 this.isLoggedIn = true; 
                 this.currentUser = user.email;
                 this.view = 'researcher_area';
-            } else { alert("Acesso Negado."); }
+            } else { alert("Falha na autenticação institucional."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
         confirmPublish() {
-            if (!this.newProj.title || !this.newProj.description) { alert("Preencha título e resumo."); return; }
+            if (!this.newProj.title || !this.newProj.description) return alert("Título e descrição obrigatórios.");
             const project = { ...this.newProj, id: Date.now(), author: this.currentUser, manifests: [], status: this.researcherSubView };
             this.projects.unshift(project);
             this.showProjectForm = false;
             this.newProj = { title: '', link: '', domainId: 1, description: '', status: 'andamento', creditNeeds: [] };
         },
 
-        deleteProject(id) { if (confirm("Excluir esta pesquisa?")) this.projects = this.projects.filter(p => p.id !== id); },
-
-        migrateToCurrent(id) {
-            const p = this.projects.find(x => x.id === id);
-            if (p) { p.status = 'andamento'; alert("Pesquisa migrada!"); }
-        },
+        deleteProject(id) { if (confirm("Excluir registro?")) this.projects = this.projects.filter(p => p.id !== id); },
 
         submitManifest() {
             const proj = this.projects.find(p => p.id === this.selectedProject);
