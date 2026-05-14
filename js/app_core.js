@@ -1,3 +1,7 @@
+/**
+ * APP CORE - Versão 55.0
+ * Gestão de Dados, Tradução Plena e Motor de Postagem Reativo.
+ */
 function lcmApp() {
     return {
         view: 'home', lang: 'pt', loading: true, isLoggedIn: false, currentUser: null, 
@@ -6,12 +10,12 @@ function lcmApp() {
         newProj: { title: '', link: '', domainId: 1, description: '', status: 'andamento', creditNeeds: [] },
         manifestForm: { text: '', selectedRoles: [] },
         data: { news: [], researchers: [], theses: [], publications: [], ic: {coords:[], docs:[], students:[]}, coordinators: [], intro: {}, events: [], domains_info: [], access: [] }, 
-        projects: [], // Array reativo para postagens em tempo real
+        projects: [], 
 
         uiLabels: {
-            pt: { researcherArea: "Área do Pesquisador", loading: "Sincronizando Dados...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Colaboração CRediT" },
-            en: { researcherArea: "Researcher Area", loading: "Synchronizing Data...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "CRediT Collaboration" },
-            es: { researcherArea: "Área del Investigador", loading: "Sincronizando Datos...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Colaboración CRediT" }
+            pt: { researcherArea: "Área do Pesquisador", loading: "Acessando Inteligência...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Manifestação CRediT", confirm: "Confirmar Pesquisa" },
+            en: { researcherArea: "Researcher Area", loading: "Accessing Intelligence...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "CRediT Manifestation", confirm: "Confirm Research" },
+            es: { researcherArea: "Área del Investigador", loading: "Accediendo Inteligencia...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Manifestación CRediT", confirm: "Confirmar Investigación" }
         },
 
         menuLabels: {
@@ -29,7 +33,7 @@ function lcmApp() {
                 if (this.data.news && this.data.news.length > 0) {
                     this.activeSlide = (this.activeSlide + 1) % this.data.news.length;
                 }
-            }, 7000);
+            }, 7500);
         },
 
         async loadAllData() {
@@ -38,7 +42,7 @@ function lcmApp() {
                 try { 
                     const r = await fetch(url + '?v=' + Date.now()); 
                     this.data[key] = await r.json();
-                } catch(e) { console.warn(`Falha em: ${key}`); } 
+                } catch(e) { this.data[key] = (key === 'ic') ? { coords:[], docs:[], students:[] } : []; } 
             }));
         },
 
@@ -47,25 +51,25 @@ function lcmApp() {
             if (user) { 
                 this.isLoggedIn = true; 
                 this.currentUser = user.email;
-                this.view = 'researcher_area'; // Transição imediata
+                this.view = 'researcher_area';
             } else { alert("Acesso Negado."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
         confirmPublish() {
-            if (!this.newProj.title) return;
+            if (!this.newProj.title || !this.newProj.description) { alert("Preencha título e resumo."); return; }
             const project = { ...this.newProj, id: Date.now(), author: this.currentUser, manifests: [], status: this.researcherSubView };
             this.projects.unshift(project);
             this.showProjectForm = false;
             this.newProj = { title: '', link: '', domainId: 1, description: '', status: 'andamento', creditNeeds: [] };
         },
 
-        deleteProject(id) { if (confirm("Excluir?")) this.projects = this.projects.filter(p => p.id !== id); },
+        deleteProject(id) { if (confirm("Excluir esta pesquisa?")) this.projects = this.projects.filter(p => p.id !== id); },
 
         migrateToCurrent(id) {
             const p = this.projects.find(x => x.id === id);
-            if (p) p.status = 'andamento';
+            if (p) { p.status = 'andamento'; alert("Pesquisa migrada!"); }
         },
 
         submitManifest() {
@@ -80,8 +84,7 @@ function lcmApp() {
         renderCurrentView() {
             if (this.loading) return '';
             const restricted = ['researcher_area', 'researcher_login'];
-            if (restricted.includes(this.view)) return renderResearcherModule(this);
-            return renderMenuModule(this);
+            return restricted.includes(this.view) ? renderResearcherModule(this) : renderMenuModule(this);
         },
 
         setCnpSubView(v) { this.cnpSubView = v; }
