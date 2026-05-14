@@ -1,12 +1,7 @@
-/**
- * MODULE: Capacitação de Novos Pesquisadores
- * Fonte de Dados: data_ic.json
- */
 function renderCNP(app) {
     const { lang, data, cnpSubView, menuLabels } = app;
     const ic = data.ic || { coords: [], docs: [], students: [] };
 
-    // Rótulos internos traduzidos
     const labels = {
         pt: { s1: 'Orientadores', s2: 'Documentação', s3: 'Pesquisadores (Alunos)' },
         en: { s1: 'Advisors', s2: 'Documentation', s3: 'Researchers (Students)' },
@@ -14,16 +9,10 @@ function renderCNP(app) {
     };
 
     const subNav = `
-        <div class="flex justify-center space-x-8 mb-12 border-b">
-            <button @click="setCnpSubView('coords')" class="pb-3 text-[10px] uppercase font-bold tracking-widest ${cnpSubView === 'coords' ? 'tab-active' : 'text-gray-400'}">
-                ${labels[lang].s1}
-            </button>
-            <button @click="setCnpSubView('docs')" class="pb-3 text-[10px] uppercase font-bold tracking-widest ${cnpSubView === 'docs' ? 'tab-active' : 'text-gray-400'}">
-                ${labels[lang].s2}
-            </button>
-            <button @click="setCnpSubView('students')" class="pb-3 text-[10px] uppercase font-bold tracking-widest ${cnpSubView === 'students' ? 'tab-active' : 'text-gray-400'}">
-                ${labels[lang].s3}
-            </button>
+        <div class="flex justify-center space-x-6 mb-12 border-b">
+            <button @click="setCnpSubView('coords')" class="pb-3 text-[10px] uppercase font-bold tracking-widest ${cnpSubView === 'coords' ? 'tab-active' : 'text-gray-400'}">${labels[lang].s1}</button>
+            <button @click="setCnpSubView('docs')" class="pb-3 text-[10px] uppercase font-bold tracking-widest ${cnpSubView === 'docs' ? 'tab-active' : 'text-gray-400'}">${labels[lang].s2}</button>
+            <button @click="setCnpSubView('students')" class="pb-3 text-[10px] uppercase font-bold tracking-widest ${cnpSubView === 'students' ? 'tab-active' : 'text-gray-400'}">${labels[lang].s3}</button>
         </div>`;
 
     let content = "";
