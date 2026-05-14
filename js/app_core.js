@@ -1,17 +1,19 @@
 /**
- * APP CORE - Versão 58.1 (Arquitetura Modular Corrigida)
+ * APP CORE - Versão 59.0
+ * Orquestrador com Persistência Híbrida e Componentes Globais Blindados.
  */
 function lcmApp() {
     return {
         view: 'home', lang: 'pt', loading: true, isLoggedIn: false, currentUser: null,
         activeSlide: 0, cnpSubView: 'coords', researcherSubView: 'andamento',
+        loginEmail: '', loginPass: '', // Variáveis de Login (Essencial para evitar undefined)
         data: { news: [], researchers: [], theses: [], publications: [], ic: { coords: [], docs: [], students: [] }, coordinators: [], intro: {}, events: [], domains_info: [], access: [] },
-        projects: [],
+        projects: [], 
 
         uiLabels: {
             pt: { researcherArea: "Área do Pesquisador", loading: "Sincronizando...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Apoiar", creditTitle: "Manifestação CRediT", confirm: "Publicar" },
             en: { researcherArea: "Researcher Area", loading: "Syncing...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Support", creditTitle: "CRediT Manifestation", confirm: "Publish" },
-            es: { researcherArea: "Área del Investigador", loading: "Sincronizando...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Apoyar", creditTitle: "Manifestación CRediT", confirm: "Publicar" }
+            es: { researcherArea: "Área del Investigador", loading: "Sincronizando...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Apoyar", creditTitle: "Manifestación CRediT", confirm: "Publish" }
         },
 
         menuLabels: {
@@ -35,9 +37,7 @@ function lcmApp() {
                 try {
                     const r = await fetch(`./${file}?v=${Date.now()}`);
                     this.data[key] = await r.json();
-                } catch(e) { 
-                    this.data[key] = (key === 'ic') ? { coords: [], docs: [], students: [] } : []; 
-                }
+                } catch(e) { this.data[key] = (key === 'ic') ? { coords: [], docs: [], students: [] } : []; }
             }));
         },
 
@@ -53,10 +53,9 @@ function lcmApp() {
         handleLogin() {
             const user = (this.data.access || []).find(x => x.email === this.loginEmail && x.pass === this.loginPass);
             if (user) { 
-                this.isLoggedIn = true; 
-                this.currentUser = user.email;
-                this.view = 'researcher_area';
-            } else { alert("Acesso Negado."); }
+                this.isLoggedIn = true; this.currentUser = user.email; this.view = 'researcher_area';
+                this.loginEmail = ''; this.loginPass = '';
+            } else { alert("Acesso Negado. Verifique suas credenciais."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
@@ -99,30 +98,31 @@ function lcmApp() {
                 'researcher_login': () => renderResearcherLogin(this),
                 'researcher_area': () => renderResearcherArea(this)
             };
-            return router[this.view] ? router[this.view]() : '<p class="p-20 text-center italic">Módulo em manutenção.</p>';
+            return router[this.view] ? router[this.view]() : '<p class="p-20 text-center italic">Módulo não encontrado.</p>';
         },
 
         setCnpSubView(v) { this.cnpSubView = v; }
     }
 }
 
-// --- COMPONENTES VISUAIS GLOBAIS (Resolvem o erro de renderização) ---
+// --- COMPONENTES GLOBAIS REESTRUTURADOS ---
 
 function renderResearcherCard(r, lang) {
     if (!r) return "";
     return `
         <div class="flex flex-col items-center">
-            <div class="circle-container shadow-md">
-                <img src="${r.photo}" class="circle-img" onerror="this.src='https://via.placeholder.com/150'">
-            </div>
+            <div class="circle-container shadow-md"><img src="${r.photo}" class="circle-img" onerror="this.src='https://via.placeholder.com/150'"></div>
             <h4 class="font-bold text-center text-[12px] leading-tight h-10 flex items-center">${r.name}</h4>
             <p class="text-[9px] text-[#c5a059] font-bold uppercase text-center mt-2">${r.role?.[lang] || ""}</p>
             <a href="${r.lattes}" target="_blank" class="text-[8px] font-bold border-2 border-[#1e3a2c] px-3 py-1 rounded-full mt-3 hover:bg-[#1e3a2c] hover:text-white transition uppercase">Lattes CV</a>
         </div>`;
 }
 
+/**
+ * CORREÇÃO 3: Renderização Integral de Documentos com Tipo e Download.
+ */
 function renderDocumentListFull(docs, lang) {
-    if (!docs || docs.length === 0) return '<p class="text-center italic py-10">Nenhum documento encontrado.</p>';
+    if (!docs || docs.length === 0) return '<p class="text-center italic py-10 uppercase tracking-widest text-gray-400">Nenhum registro encontrado.</p>';
     const years = [...new Set(docs.map(d => d.year))].sort((a, b) => b - a);
     return `
         <div class="max-w-5xl mx-auto">
@@ -131,9 +131,13 @@ function renderDocumentListFull(docs, lang) {
                     <div class="flex items-center mb-6"><span class="bg-black text-white px-4 py-1 rounded font-bold text-xs">${y}</span><div class="h-px bg-gray-200 flex-grow ml-4"></div></div>
                     <div class="space-y-4">
                         ${docs.filter(d => d.year == y).map(d => `
-                            <div class="bg-white border-l-4 border-[#1e3a2c] p-6 shadow-sm flex justify-between items-center group">
-                                <div class="pr-8"><h4 class="font-bold text-sm text-[#1e3a2c] leading-snug uppercase">${d.title}</h4><p class="text-[10px] text-gray-500 font-bold mt-2 italic">${d.authors || ''}</p></div>
-                                <a href="${d.link}" target="_blank" class="text-[#1e3a2c] text-3xl hover:scale-110 transition flex-shrink-0"><i class="fa-solid fa-file-pdf"></i></a>
+                            <div class="bg-white border-l-4 border-[#1e3a2c] p-6 shadow-sm flex justify-between items-center hover:border-[#c5a059] transition">
+                                <div class="pr-8">
+                                    <h4 class="font-bold text-sm text-[#1e3a2c] leading-snug uppercase">${d.title}</h4> <p class="text-[10px] text-[#c5a059] font-bold uppercase mt-1">${d.type?.[lang] || d.type || ""}</p> <p class="text-[10px] text-gray-400 font-bold mt-1 italic">${d.authors || ''}</p>
+                                </div>
+                                <a href="${d.link}" target="_blank" download class="text-[#1e3a2c] text-3xl hover:scale-110 transition flex-shrink-0" title="Download">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </a>
                             </div>`).join('')}
                     </div>
                 </div>`).join('')}
