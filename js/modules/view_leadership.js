@@ -1,7 +1,3 @@
-/**
- * MODULE: Leadership/Coordenação
- * Fonte de Dados: data_coordinators.json
- */
 function renderLeadership(app) {
     const { lang, data, menuLabels } = app;
     const coords = data.coordinators || [];
@@ -13,7 +9,7 @@ function renderLeadership(app) {
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mt-8">
                 ${coords.length > 0 ? coords.map(c => renderResearcherCard(c, lang)).join('') : 
-                '<p class="col-span-3 text-center italic text-gray-400">Dados da coordenação em processo de sincronização...</p>'}
+                '<p class="col-span-3 text-center italic text-gray-400">Carregando dados da coordenação...</p>'}
             </div>
         </div>`;
 }
