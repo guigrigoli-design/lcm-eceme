@@ -1,26 +1,32 @@
 /**
- * APP CORE - Versão 61.0
- * Orquestrador de Dados, Persistência Híbrida e Funções Globais de Renderização.
+ * APP CORE - Versão 62.0
+ * Orquestrador com Tradução Reativa e Gestão de Links Acadêmicos.
  */
 function lcmApp() {
     return {
-        view: 'home', lang: 'pt', loading: true, isLoggedIn: false, currentUser: null,
-        activeSlide: 0, cnpSubView: 'coords', researcherSubView: 'andamento',
-        loginEmail: '', loginPass: '',
+        view: 'home', 
+        lang: 'pt', 
+        loading: true, 
+        isLoggedIn: false, 
+        currentUser: null,
+        activeSlide: 0, 
+        cnpSubView: 'coords', 
+        researcherSubView: 'andamento',
+        loginEmail: '', 
+        loginPass: '',
         
-        // Dados Estruturais com Fallback
-        data: { news: [], researchers: [], theses: [], publications: [], ic: { coords: [], docs: [], students: [] }, coordinators: [], intro: {}, events: [], domains_info: [], access: [] },
+        data: { 
+            news: [], researchers: [], theses: [], publications: [], 
+            ic: { coords: [], docs: [], students: [] }, 
+            coordinators: [], intro: {}, events: [], 
+            domains_info: [], access: [] 
+        },
         projects: [], 
 
-        // Formulários
-        newProj: { title: '', link: '', domainId: 1, description: '', needsCredit: [] },
-        manifestForm: { text: '', selectedRoles: [] },
-        showProjectForm: false, showInterestModal: false, selectedProject: null,
-
         uiLabels: {
-            pt: { researcherArea: "Área do Pesquisador", loading: "Sincronizando...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Manifestar Interesse", creditTitle: "Taxonomia CRediT", confirm: "Confirmar Publicação" },
-            en: { researcherArea: "Researcher Area", loading: "Syncing...", plenos: "Senior Researchers (PhD)", regular: "Researchers", interest: "Express Interest", creditTitle: "CRediT Taxonomy", confirm: "Confirm Publication" },
-            es: { researcherArea: "Área del Investigador", loading: "Sincronizando...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Manifestar Interés", creditTitle: "Taxonomía CRediT", confirm: "Confirmar Publicación" }
+            pt: { researcherArea: "Área do Pesquisador", loading: "Sincronizando...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Apoiar", creditTitle: "CRediT", confirm: "Publicar" },
+            en: { researcherArea: "Researcher Area", loading: "Synchronizing...", plenos: "PhD Researchers", regular: "Researchers", interest: "Support", creditTitle: "CRediT", confirm: "Publish" },
+            es: { researcherArea: "Área del Investigador", loading: "Sincronizando...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Apoyar", creditTitle: "CRediT", confirm: "Publicar" }
         },
 
         menuLabels: {
@@ -39,14 +45,19 @@ function lcmApp() {
         },
 
         async loadAllModules() {
-            const endpoints = [['news', 'data_news.json'], ['researchers', 'data_researchers.json'], ['theses', 'data_theses.json'], ['publications', 'data_publications.json'], ['ic', 'data_ic.json'], ['coordinators', 'data_coordinators.json'], ['intro', 'data_intro.json'], ['events', 'data_events.json'], ['domains_info', 'data_domains.json'], ['access', 'data_access.json']];
+            const endpoints = [
+                ['news', 'data_news.json'], ['researchers', 'data_researchers.json'], 
+                ['theses', 'data_theses.json'], ['publications', 'data_publications.json'], 
+                ['ic', 'data_ic.json'], ['coordinators', 'data_coordinators.json'], 
+                ['intro', 'data_intro.json'], ['events', 'data_events.json'], 
+                ['domains_info', 'data_domains.json'], ['access', 'data_access.json']
+            ];
             await Promise.all(endpoints.map(async ([key, file]) => {
                 try {
                     const r = await fetch(`./${file}?v=${Date.now()}`);
                     const json = await r.json();
                     this.data[key] = json;
                 } catch(e) { 
-                    // Inicialização segura para evitar 'undefined'
                     if (key === 'ic') this.data[key] = { coords: [], docs: [], students: [] };
                     else if (key === 'intro') this.data[key] = {};
                     else this.data[key] = [];
@@ -61,17 +72,30 @@ function lcmApp() {
 
         savePersistence() { localStorage.setItem('lcm_academic_hub', JSON.stringify(this.projects)); },
 
+        // Correção de Tradução: Força a re-renderização ao trocar o idioma
+        setLang(l) { 
+            this.lang = l; 
+            const currentView = this.view;
+            this.view = ''; // Reset temporário para forçar o AlpineJS a disparar a renderização
+            this.$nextTick(() => { this.view = currentView; });
+        },
+
         handleLogin() {
             const user = (this.data.access || []).find(x => x.email === this.loginEmail && x.pass === this.loginPass);
-            if (user) { this.isLoggedIn = true; this.currentUser = user.email; this.view = 'researcher_area'; } 
-            else { alert("Acesso Negado."); }
+            if (user) { 
+                this.isLoggedIn = true; 
+                this.currentUser = user.email; 
+                this.view = 'researcher_area';
+                this.loginEmail = ''; 
+                this.loginPass = '';
+            } else { alert("Acesso Negado."); }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
         confirmPublish() {
             if (!this.newProj.title) return alert("Insira o título.");
-            const project = { ...this.newProj, id: Date.now(), author: this.currentUser, manifests: [], status: this.researcherSubView, needsCredit: [...this.newProj.needsCredit] };
+            const project = { ...this.newProj, id: Date.now(), author: this.currentUser, manifests: [], status: this.researcherSubView, needsCredit: [...(this.newProj.needsCredit || [])] };
             this.projects.unshift(project);
             this.savePersistence();
             this.showProjectForm = false;
@@ -85,44 +109,21 @@ function lcmApp() {
             }
         },
 
-        migrateToOngoing(id) {
-            const p = this.projects.find(x => x.id === id);
-            if (p) { p.status = 'andamento'; this.savePersistence(); alert("Migrado!"); }
-        },
-
-        submitManifest() {
-            const proj = this.projects.find(p => p.id === this.selectedProject);
-            if (proj && this.manifestForm.selectedRoles.length > 0) {
-                proj.manifests.push({ id: Date.now(), author: this.currentUser, roles: [...this.manifestForm.selectedRoles], text: this.manifestForm.text, date: new Date().toLocaleDateString() });
-                this.savePersistence();
-                this.showInterestModal = false;
-                this.manifestForm = { text: '', selectedRoles: [] };
-            }
-        },
-
-        deleteManifest(projectId, manifestId) {
-            const proj = this.projects.find(p => p.id === projectId);
-            if (proj) {
-                proj.manifests = proj.manifests.filter(m => m.id !== manifestId);
-                this.savePersistence();
-            }
-        },
-
         renderCurrentView() {
-            if (this.loading) return '';
+            if (this.loading || !this.view) return '';
             const router = {
                 'home': () => renderHome(this), 'domains': () => renderDomains(this), 'leadership': () => renderLeadership(this),
                 'all_researchers': () => renderResearchers(this), 'cnp': () => renderCNP(this), 'theses': () => renderTheses(this),
                 'publications': () => renderPublications(this), 'events': () => renderEvents(this), 'contact': () => renderContact(this),
                 'researcher_login': () => renderResearcherLogin(this), 'researcher_area': () => renderResearcherArea(this)
             };
-            return router[this.view] ? router[this.view]() : '<p class="p-20 text-center">Módulo não encontrado.</p>';
+            return router[this.view] ? router[this.view]() : '';
         },
         setCnpSubView(v) { this.cnpSubView = v; }
     }
 }
 
-// --- FUNÇÕES GLOBAIS DE RENDERIZAÇÃO (REINTEGRADAS) ---
+// --- FUNÇÕES GLOBAIS DE SUPORTE ---
 
 function renderResearcherCard(r, lang) {
     if (!r) return "";
@@ -135,8 +136,9 @@ function renderResearcherCard(r, lang) {
         </div>`;
 }
 
+// CORREÇÃO DOS LINKS: Mapeamento direto de data_theses.json
 function renderDocumentListFull(docs, lang) {
-    if (!docs || docs.length === 0) return '<p class="text-center italic py-20 uppercase tracking-widest text-gray-400">Sem registros.</p>';
+    if (!docs || docs.length === 0) return '<p class="text-center italic py-20 uppercase text-gray-400">Sem registros para exibir.</p>';
     const years = [...new Set(docs.map(d => d.year))].sort((a, b) => b - a);
     return `
         <div class="max-w-5xl mx-auto">
@@ -150,15 +152,15 @@ function renderDocumentListFull(docs, lang) {
                         ${docs.filter(d => d.year == y).map(d => `
                             <div class="bg-white border-l-8 border-[#1e3a2c] p-8 shadow-md flex justify-between items-center group hover:border-[#c5a059] transition-all">
                                 <div class="flex-grow pr-10">
-                                    <h4 class="font-bold text-[17px] text-[#1e3a2c] leading-snug uppercase tracking-tight">${d.title}</h4>
+                                    <h4 class="font-bold text-[16px] text-[#1e3a2c] leading-snug uppercase tracking-tight">${d.title}</h4>
                                     <div class="flex items-center mt-3 space-x-4">
                                         <span class="text-[10px] bg-[#c5a059]/10 text-[#c5a059] px-2 py-0.5 rounded font-bold uppercase border border-[#c5a059]/20">
-                                            ${d.type?.[lang] || d.type || "Doc"}
+                                            ${d.type?.[lang] || d.type || "Documento"}
                                         </span>
                                         <span class="text-[10px] text-gray-400 font-bold uppercase italic">${d.authors || ''}</span>
                                     </div>
                                 </div>
-                                <a href="${d.link || '#'}" target="_blank" class="text-[#1e3a2c] text-4xl group-hover:scale-110 group-hover:text-[#c5a059] transition-all flex-shrink-0 ${!d.link ? 'opacity-20' : ''}">
+                                <a href="${d.link}" target="_blank" class="text-[#1e3a2c] text-4xl group-hover:scale-110 group-hover:text-[#c5a059] transition-all flex-shrink-0">
                                     <i class="fa-solid fa-file-pdf"></i>
                                 </a>
                             </div>`).join('')}
