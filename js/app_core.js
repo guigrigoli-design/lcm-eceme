@@ -1,9 +1,10 @@
 /**
  * APP CORE - Versão 66.0
- * Orquestrador com Persistência Híbrida e Processamento CRediT.
+ * Orquestrador Central com Persistência Híbrida e Processamento CRediT.
  */
 function lcmApp() {
     return {
+        // --- ESTADO INICIAL ---
         view: 'home', 
         lang: 'pt', 
         loading: true, 
@@ -15,16 +16,18 @@ function lcmApp() {
         loginEmail: '', 
         loginPass: '',
         
+        // --- DATA BUCKETS ---
         data: { news: [], researchers: [], theses: [], publications: [], ic: { coords: [], docs: [], students: [] }, coordinators: [], intro: {}, events: [], domains_info: [], access: [] },
         projects: [], 
 
-        // Formulário de Manifestação Reativo
+        // --- FORMULÁRIOS REATIVOS ---
         manifestForm: { text: '', selectedRoles: [] },
         selectedProject: null,
         showInterestModal: false,
         showProjectForm: false,
         newProj: { title: '', domainId: 1, description: '', needsCredit: [] },
 
+        // --- DICIONÁRIOS DE UI ---
         uiLabels: {
             pt: { researcherArea: "Área do Pesquisador", loading: "Sincronizando...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Apoiar", creditTitle: "Funções de Colaboração (CRediT)", confirm: "Publicar" },
             en: { researcherArea: "Researcher Area", loading: "Syncing...", plenos: "PhD Researchers", regular: "Researchers", interest: "Support", creditTitle: "Contributor Roles (CRediT)", confirm: "Publish" },
@@ -45,6 +48,7 @@ function lcmApp() {
             "Redação – rascunho original", "Redação – revisão e edição"
         ],
 
+        // --- MÉTODOS DE CICLO DE VIDA ---
         async init() {
             await this.loadAllModules();
             this.loadPersistence();
@@ -63,6 +67,7 @@ function lcmApp() {
             }));
         },
 
+        // --- PERSISTÊNCIA HÍBRIDA ---
         loadPersistence() {
             const saved = localStorage.getItem('lcm_academic_hub');
             this.projects = saved ? JSON.parse(saved) : [];
@@ -70,6 +75,7 @@ function lcmApp() {
 
         savePersistence() { localStorage.setItem('lcm_academic_hub', JSON.stringify(this.projects)); },
 
+        // --- TRADUÇÃO REATIVA ---
         setLang(l) { 
             this.lang = l; 
             const current = this.view;
@@ -77,6 +83,7 @@ function lcmApp() {
             setTimeout(() => { this.view = current; }, 50);
         },
 
+        // --- AUTENTICAÇÃO ---
         handleLogin() {
             const user = (this.data.access || []).find(x => x.email === this.loginEmail && x.pass === this.loginPass);
             if (user) { this.isLoggedIn = true; this.currentUser = user.email; this.view = 'researcher_area'; } 
@@ -85,6 +92,7 @@ function lcmApp() {
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
 
+        // --- GESTÃO DE PESQUISA ---
         confirmPublish() {
             if (!this.newProj.title) return alert("Insira o título.");
             const project = { 
@@ -113,7 +121,7 @@ function lcmApp() {
             if (p) { p.status = 'andamento'; this.savePersistence(); alert("Migrado!"); }
         },
 
-        // --- SUBMISSÃO DE MANIFESTAÇÃO ---
+        // --- SUBMISSÃO DE MANIFESTAÇÃO CReDiT ---
         submitManifest() {
             const proj = this.projects.find(p => p.id === this.selectedProject);
             if (proj && this.manifestForm.selectedRoles.length > 0) {
@@ -128,15 +136,19 @@ function lcmApp() {
                 this.showInterestModal = false;
                 this.manifestForm = { text: '', selectedRoles: [] };
             } else {
-                alert("Selecione ao menos uma área do CRediT.");
+                alert("Selecione ao menos uma área do CRediT menu.");
             }
         },
 
         deleteManifest(projectId, manifestId) {
             const proj = this.projects.find(p => p.id === projectId);
-            if (proj) { proj.manifests = proj.manifests.filter(m => m.id !== manifestId); this.savePersistence(); }
+            if (proj) { 
+                proj.manifests = proj.manifests.filter(m => m.id !== manifestId); 
+                this.savePersistence(); 
+            }
         },
 
+        // --- ROTEADOR ---
         renderCurrentView() {
             if (this.loading || !this.view) return '';
             const router = {
@@ -151,14 +163,14 @@ function lcmApp() {
     }
 }
 
-// Funções Globais (ResearcherCard e DocumentList) permanecem aqui para uso de todos os módulos.
+// --- FUNÇÕES COMPARTILHADAS HISTÓRICAS ---
 function renderResearcherCard(r, lang) {
     if (!r) return "";
     return `<div class="flex flex-col items-center">
         <div class="circle-container shadow-md"><img src="${r.photo}" class="circle-img" onerror="this.src='https://via.placeholder.com/150'"></div>
         <h4 class="font-bold text-center text-[12px] h-10 flex items-center tracking-tighter">${r.name}</h4>
         <p class="text-[9px] text-[#c5a059] font-bold uppercase text-center mt-2">${r.role?.[lang] || ""}</p>
-        <a href="${r.lattes}" target="_blank" class="text-[8px] font-bold border-2 border-[#1e3a2c] px-3 py-1 rounded-full mt-3">LATTES CV</a>
+        <a href="${r.lattes}" target="_blank" class="text-[8px] font-bold border-2 border-[#1e3a2c] px-3 py-1 rounded-full mt-3">Lattes CV</a>
     </div>`;
 }
 
