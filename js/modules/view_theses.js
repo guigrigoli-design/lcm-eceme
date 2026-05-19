@@ -1,6 +1,6 @@
 /**
- * MODULE: Theses (Versão 72.0)
- * Canalização estrita de dados acadêmicos para o componente global blindado contra erros 404.
+ * MODULE: Theses (Versão 73.0)
+ * Canalização estrita de dados acadêmicos para o componente global blindado contra erros 404 e loops.
  */
 function renderTheses(app) {
     const { lang, data, menuLabels } = app;
