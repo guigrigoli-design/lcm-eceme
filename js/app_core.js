@@ -1,6 +1,6 @@
 /**
- * APP CORE - Versão 72.0
- * Orquestrador Central com Varredura Dinâmica de Chaves e Higienização de Strings.
+ * APP CORE - Versão 73.0
+ * Orquestrador Central com Sincronização Estática de Mídia, CRediT e Blindagem de Links.
  */
 function lcmApp() {
     return {
@@ -188,8 +188,8 @@ function renderResearcherCard(r, lang) {
 }
 
 /**
- * COMPONENTE GLOBAL ADAPTATIVO: renderDocumentListFull (Versão 72.0)
- * Varredura de chaves de dicionário e expurgação de caracteres de controle invisíveis.
+ * COMPONENTE GLOBAL ADAPTATIVO: renderDocumentListFull (Versão 73.0)
+ * Varredura à prova de falhas com proteção contra links vazios que forçam retorno à Home Page.
  */
 function renderDocumentListFull(docs, lang) {
     if (!docs || docs.length === 0) return '<p class="text-center italic py-20 text-gray-400">Sem registros.</p>';
@@ -199,21 +199,35 @@ function renderDocumentListFull(docs, lang) {
             <div class="flex items-center mb-6"><span class="bg-black text-white px-5 py-1.5 rounded font-bold text-xs">${y}</span><div class="h-px bg-gray-200 flex-grow ml-4"></div></div>
             <div class="space-y-6">
                 ${docs.filter(d => d.year == y).map(d => {
-                    // 1. Localiza a chave de link dinamicamente ignorando maiúsculas/minúsculas (Garante leitura de Link, link, URL ou url)
-                    const keyFound = Object.keys(d).find(k => k.toLowerCase() === 'link' || k.toLowerCase() === 'url');
+                    // 1. Identificação tolerante a espaços em branco nas chaves do JSON (ex: "link " ou "Link")
+                    const keyFound = Object.keys(d).find(k => ['link', 'url', 'href'].includes(k.toLowerCase().trim()));
                     let targetUrl = keyFound ? String(d[keyFound]).trim() : '';
-
-                    // 2. Remove espaços em branco complexos, aspas tipográficas curvas, control-characters ou zero-width-spaces (\u200B)
-                    targetUrl = targetUrl.replace(/^[\s\u200B\u200C\u200D\uFEFF"'“`]+|[\s\u200B\u200C\u200D\uFEFF"'”`]+$/g, '');
-
-                    // 3. Se houver caracteres invisíveis antes de 'http', corta a string até o início real do protocolo
-                    if (/http/i.test(targetUrl)) {
-                        targetUrl = targetUrl.substring(targetUrl.toLowerCase().indexOf('http'));
-                    } else if (/google\.com|drive\.google/i.test(targetUrl)) {
-                        targetUrl = 'https://' + targetUrl;
-                    } else if (targetUrl.length > 0) {
-                        targetUrl = './' + targetUrl.replace(/^[\.\/]+/, '');
+                    
+                    // 2. Busca de contingência por valor caso a chave esteja totalmente fora de padrão
+                    if (!targetUrl) {
+                        const fallbackVal = Object.values(d).find(v => typeof v === 'string' && (/http/i.test(v) || /drive\.google/i.test(v)));
+                        if (fallbackVal) targetUrl = fallbackVal.trim();
                     }
+
+                    // 3. Purga estrita de espaços, quebras de linha e caracteres invisíveis de controle (\u200B)
+                    targetUrl = targetUrl.replace(/[\s\u200B\u200C\u200D\uFEFF]/g, '');
+
+                    // 4. Alinhamento absoluto do protocolo externo
+                    if (/http/i.test(targetUrl)) {
+                        const httpIdx = targetUrl.toLowerCase().indexOf('http');
+                        if (httpIdx >= 0) {
+                            targetUrl = targetUrl.substring(httpIdx);
+                        }
+                    } else if (/drive\.google\.com/i.test(targetUrl)) {
+                        targetUrl = 'https://' + targetUrl.replace(/^[\.\/]+/, '');
+                    }
+
+                    // 5. Remove aspas perdidas que corrompam o atributo HTML
+                    targetUrl = targetUrl.replace(/["']/g, '');
+
+                    // 6. BLINDAGEM DE RETORNO: Evita carga da Home substituindo links nulos por travamento nativo JS
+                    const finalHref = targetUrl ? targetUrl : 'javascript:void(0);';
+                    const fallbackAlert = targetUrl ? '' : 'onclick="alert(\'Erro de Parâmetro: O endereço deste arquivo PDF não pôde ser lido no arquivo data_theses.json.\'); return false;"';
 
                     return `
                     <div class="bg-white border-l-8 border-[#1e3a2c] p-8 shadow-md flex justify-between items-center group hover:border-[#c5a059] transition-all">
@@ -224,7 +238,8 @@ function renderDocumentListFull(docs, lang) {
                                 <span class="text-[10px] text-gray-400 font-bold uppercase italic">${d.authors || ''}</span>
                             </div>
                         </div>
-                        <a href="${targetUrl}" 
+                        <a href="${finalHref}" 
+                           ${fallbackAlert}
                            target="_blank" 
                            rel="noopener noreferrer" 
                            class="text-[#1e3a2c] text-4xl group-hover:scale-110 group-hover:text-[#c5a059] transition-all flex-shrink-0">
