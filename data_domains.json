@@ -1,44 +1,44 @@
 [
   {
     "id": 1,
-    "image": "assets/img/dominio1.png",
     "title": {
-      "pt": "Domínio 1 - Ciência, Tecnologia, Inovação e Sustentação em Defesa",
-      "en": "Domain 1 - Science, Technology, Innovation and Defense Sustainability",
-      "es": "Dominio 1 - Ciencia, Tecnología, Innovación y Sustentación en Defensa"
+      "pt": "Domínio 1 - Ciência, Tecnologia e Inovação",
+      "en": "Domain 1 - Science, Technology and Innovation",
+      "es": "Dominio 1 - Ciencia, Tecnología e Innovación"
     },
     "description": {
-      "pt": "Este domínio aborda a relação entre produção de conhecimento, desenvolvimento tecnológico e geração de capacidades. Inclui temas como tecnologias emergentes, sustentação, base industrial de defesa, propriedade intelectual e transferência de tecnologia, buscando compreender os mecanismos que permitem converter conhecimento científico em soluções aplicadas à defesa e à soberania nacional.",
-      "en": "This domain addresses the relationship between knowledge production, technological development, and capability generation. It includes topics such as emerging technologies, sustainability, the defense industrial base, intellectual property, and technology transfer, seeking to understand the mechanisms that allow scientific knowledge to be converted into solutions applied to defense and national sovereignty.",
-      "es": "Este dominio aborda la relación entre la producción de conocimiento, el desarrollo tecnológico y la generación de capacidades. Incluye temas como las tecnologías emergentes, la sostenibilidad, la base industrial de defensa, la propiedad intelectual y la transferencia de tecnología, con el objetivo de comprender los mecanismos que permiten transformar el conocimiento científico en soluciones aplicadas a la defensa y la soberanía nacional."
-    }
+      "pt": "Pesquisas voltadas ao desenvolvimento científico, tecnológico e industrial de interesse direto da Defesa Nacional, inovação em sistemas de armas e transformação digital nas Forças Armadas.",
+      "en": "Research focused on scientific, technological, and industrial development of direct interest to National Defense, innovation in weapons systems, and digital transformation in the Armed Forces.",
+      "es": "Investigaciones orientadas al desarrollo científico, tecnológico e industrial de interés directo para la Defensa Nacional, innovación en sistemas de armas y transformación digital en las Fuerzas Armadas."
+    },
+    "image": "dominio1.png"
   },
   {
     "id": 2,
-    "image": "assets/img/dominio2.png",
     "title": {
-      "pt": "Domínio 2 - Preparo e Emprego do Poder Militar",
-      "en": "Domain 2 - Readiness and Employment of Military Power",
-      "es": "Dominio 2 - Preparación y Empleo del Poder Militar"
+      "pt": "Domínio 2 - Preparo e Emprego",
+      "en": "Domain 2 - Readiness and Employment",
+      "es": "Dominio 2 - Preparación y Empleo"
     },
     "description": {
-      "pt": "Este domínio enfoca a análise da prontidão, da organização e do desempenho das capacidades de defesa. Engloba estudos sobre operações e integração de sistemas, com o objetivo de compreender como o poder militar é efetivamente gerado, sustentado e empregado, bem como de avaliar sua eficácia em diferentes cenários.",
-      "en": "This domain focuses on the analysis of the readiness, organization, and performance of defense capabilities. It encompasses studies on operations and systems integration, with the aim of understanding how military power is effectively generated, sustained, and employed, as well as evaluating its effectiveness in different scenarios.",
-      "es": "Este dominio se centra en el análisis de la preparación, la organización y el desempeño de las capacidades de defensa. Abarca estudios sobre operaciones e integración de sistemas, con el objetivo de comprender cómo se genera, se mantiene y se emplea eficazmente el poder militar, así como evaluar su efectividad en diferentes escenarios."
-    }
+      "pt": "Estudos estratégicos e operacionais sobre a capacitação, logística, inteligência militar, doutrina de emprego conjunto e adestramento das Forças Armadas em cenários de conflito moderno.",
+      "en": "Strategic and operational studies on capability, logistics, military intelligence, joint employment doctrine, and Armed Forces training in modern conflict scenarios.",
+      "es": "Estudios estratégicos y operacionales sobre la capacitación, logística, inteligencia militar, doctrina de emprego conjunto y adiestramiento de las Fuerzas Armadas en escenarios de conflicto moderno."
+    },
+    "image": "dominio2.png"
   },
   {
     "id": 3,
-    "image": "assets/img/dominio3.png",
     "title": {
-      "pt": "Domínio 3 - Análise e Prospecção do Ambiente Estratégico",
-      "en": "Domain 3 - Analysis and Prospecting of the Strategic Environment",
-      "es": "Dominio 3 - Análisis y Prospección del Ambiente Estratégico"
+      "pt": "Domínio 3 - Ambiente Estratégico",
+      "en": "Domain 3 - Strategic Environment",
+      "es": "Dominio 3 - Ambiente Estratégico"
     },
     "description": {
-      "pt": "Este domínio concentra-se na compreensão estruturada das dinâmicas que configuram o entorno da defesa, abrangendo dimensões internacionais, regionais e domésticas. Por meio de abordagens analíticas, prospectivas e de apoio à decisão, busca transformar incerteza em conhecimento acionável, contribuindo para o processo decisório em contextos complexos e de elevada volatilidade.",
-      "en": "This domain focuses on the structured understanding of the dynamics that shape the defense environment, encompassing international, regional, and domestic dimensions. Through analytical, prospective, and decision-support approaches, it seeks to transform uncertainty into actionable knowledge, contributing to the decision-making process in complex and highly volatile contexts.",
-      "es": "Este dominio se centra en la comprensión estructurada de la dinámica que configura el entorno de la defensa, abarcando dimensiones internacionales, regionales y nacionales. Mediante enfoques analíticos, prospectivos y de apoyo a la toma de decisiones, busca transformar la incertidumbre en conocimiento práctico, contribuyendo así al proceso de toma de decisiones en contextos complejos y altamente volátiles."
-    }
+      "pt": "Análise geopolítica, relações internacionais de defesa, segurança regional, ameaças cibernéticas e híbridas, além do monitoramento de conjunturas globais que impactam a soberania nacional.",
+      "en": "Geopolitical analysis, international defense relations, regional security, cyber and hybrid threats, as well as tracking global conjunctures that impact national sovereignty.",
+      "es": "Análisis geopolítico, relaciones internacionales de defensa, seguridad regional, amenazas cibernéticas e híbridas, además del monitoreo de coyunturas globales que impactan la soberanía nacional."
+    },
+    "image": "dominio3.png"
   }
 ]
