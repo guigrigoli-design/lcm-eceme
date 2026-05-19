@@ -1,6 +1,6 @@
 /**
  * APP CORE - Versão 66.0
- * Orquestrador Central com Persistência Híbrida e Processamento CRediT.
+ * Orquestrador Central com Persistência Híbrida e Métodos CRediT Diretos.
  */
 function lcmApp() {
     return {
@@ -27,11 +27,11 @@ function lcmApp() {
         showProjectForm: false,
         newProj: { title: '', domainId: 1, description: '', needsCredit: [] },
 
-        // --- DICIONÁRIOS DE UI ---
+        // --- DICIONÁRIOS DE INTERFACE ---
         uiLabels: {
-            pt: { researcherArea: "Área do Pesquisador", loading: "Sincronizando...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Apoiar", creditTitle: "Funções de Colaboração (CRediT)", confirm: "Publicar" },
-            en: { researcherArea: "Researcher Area", loading: "Syncing...", plenos: "PhD Researchers", regular: "Researchers", interest: "Support", creditTitle: "Contributor Roles (CRediT)", confirm: "Publish" },
-            es: { researcherArea: "Área del Investigador", loading: "Sincronizando...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Apoyar", creditTitle: "Roles de Colaboración (CRediT)", confirm: "Publicar" }
+            pt: { researcherArea: "Área do Pesquisador", loading: "Sincronizando...", plenos: "Pesquisadores Plenos (Doutores)", regular: "Pesquisadores", interest: "Apoiar", creditTitle: "Funções de Colaboração (CRediT)", confirm: "Confirmar Publicação" },
+            en: { researcherArea: "Researcher Area", loading: "Syncing...", plenos: "PhD Researchers", regular: "Researchers", interest: "Support", creditTitle: "Contributor Roles (CRediT)", confirm: "Confirm Publication" },
+            es: { researcherArea: "Área del Investigador", loading: "Sincronizando...", plenos: "Investigadores Plenos (Doctores)", regular: "Investigadores", interest: "Apoyar", creditTitle: "Roles de Colaboración (CRediT)", confirm: "Confirmar Publicación" }
         },
 
         menuLabels: {
@@ -74,6 +74,23 @@ function lcmApp() {
         },
 
         savePersistence() { localStorage.setItem('lcm_academic_hub', JSON.stringify(this.projects)); },
+
+        // --- OPERAÇÃO DE ATIVIDADES CRediT ---
+        toggleRole(role) {
+            if (this.manifestForm.selectedRoles.includes(role)) {
+                this.manifestForm.selectedRoles = this.manifestForm.selectedRoles.filter(r => r !== role);
+            } else {
+                this.manifestForm.selectedRoles.push(role);
+            }
+        },
+
+        toggleNeedsCredit(role) {
+            if (this.newProj.needsCredit.includes(role)) {
+                this.newProj.needsCredit = this.newProj.needsCredit.filter(r => r !== role);
+            } else {
+                this.newProj.needsCredit.push(role);
+            }
+        },
 
         // --- TRADUÇÃO REATIVA ---
         setLang(l) { 
@@ -121,7 +138,6 @@ function lcmApp() {
             if (p) { p.status = 'andamento'; this.savePersistence(); alert("Migrado!"); }
         },
 
-        // --- SUBMISSÃO DE MANIFESTAÇÃO CReDiT ---
         submitManifest() {
             const proj = this.projects.find(p => p.id === this.selectedProject);
             if (proj && this.manifestForm.selectedRoles.length > 0) {
@@ -136,7 +152,7 @@ function lcmApp() {
                 this.showInterestModal = false;
                 this.manifestForm = { text: '', selectedRoles: [] };
             } else {
-                alert("Selecione ao menos uma área do CRediT menu.");
+                alert("Selecione ao menos uma área de contribuição do CRediT.");
             }
         },
 
@@ -163,7 +179,7 @@ function lcmApp() {
     }
 }
 
-// --- FUNÇÕES COMPARTILHADAS HISTÓRICAS ---
+// --- COMPONENTES AUXILIARES ---
 function renderResearcherCard(r, lang) {
     if (!r) return "";
     return `<div class="flex flex-col items-center">
