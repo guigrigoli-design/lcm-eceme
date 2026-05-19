@@ -1,6 +1,6 @@
 /**
- * APP CORE - Versão 68.0
- * Orquestrador Central com Sincronização de Mídia, CRediT e Persistência Híbrida.
+ * APP CORE - Versão 69.0
+ * Orquestrador Central com Sincronização Estática de Mídia, CRediT e Persistência Híbrida.
  */
 function lcmApp() {
     return {
