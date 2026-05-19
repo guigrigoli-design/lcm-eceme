@@ -1,6 +1,6 @@
 /**
- * APP CORE - Versão 66.0
- * Orquestrador Central com Persistência Híbrida e Métodos CRediT Diretos.
+ * APP CORE - Versão 67.0
+ * Orquestrador Central com Sincronização Estática de Mídia e Persistência Híbrida.
  */
 function lcmApp() {
     return {
@@ -75,7 +75,7 @@ function lcmApp() {
 
         savePersistence() { localStorage.setItem('lcm_academic_hub', JSON.stringify(this.projects)); },
 
-        // --- OPERAÇÃO DE ATIVIDADES CRediT ---
+        // --- MÉTODOS AUXILIARES CREDIT ---
         toggleRole(role) {
             if (this.manifestForm.selectedRoles.includes(role)) {
                 this.manifestForm.selectedRoles = this.manifestForm.selectedRoles.filter(r => r !== role);
@@ -158,13 +158,10 @@ function lcmApp() {
 
         deleteManifest(projectId, manifestId) {
             const proj = this.projects.find(p => p.id === projectId);
-            if (proj) { 
-                proj.manifests = proj.manifests.filter(m => m.id !== manifestId); 
-                this.savePersistence(); 
-            }
+            if (proj) { proj.manifests = proj.manifests.filter(m => m.id !== manifestId); this.savePersistence(); }
         },
 
-        // --- ROTEADOR ---
+        // --- ROTEADOR E REATIVIDADE ---
         renderCurrentView() {
             if (this.loading || !this.view) return '';
             const router = {
@@ -179,7 +176,7 @@ function lcmApp() {
     }
 }
 
-// --- COMPONENTES AUXILIARES ---
+// --- COMPONENTES AUXILIARES GLOBAIS MANTIDOS ---
 function renderResearcherCard(r, lang) {
     if (!r) return "";
     return `<div class="flex flex-col items-center">
