@@ -1,24 +1,25 @@
 /**
- * MODULE: Domains (Versão 68.0)
- * Correção Crítica: Higienização de caminhos relativos para compatibilidade com GitHub Pages.
+ * MODULE: Domains (Versão 69.0)
+ * Correção Crítica: Imposição de dimensões físicas mínimas para evitar colapso de exibição no GitHub Pages.
  */
 function renderDomains(app) {
     const { lang, data } = app;
     return `
         <div class="container mx-auto px-6 py-12">
             ${(data.domains_info || []).map(d => {
-                // Remove barras ou pontos iniciais do JSON para evitar falha de rota no GitHub Pages
+                // Ajuste e limpeza estrita de rotas para compatibilidade com o servidor estático
                 let imgPath = (d.image || '').trim();
                 if (!imgPath.startsWith('http') && imgPath.length > 0) {
-                    imgPath = imgPath.replace(/^[\.\/]+/, ''); // Remove slashes e pontos iniciais
-                    imgPath = './' + imgPath; // Força o caminho relativo correto ao repositório
+                    imgPath = imgPath.replace(/^[\.\/]+/, ''); 
+                    imgPath = './' + imgPath; 
                 }
                 
                 return `
                 <div class="mb-20 bg-white rounded-xl shadow-xl overflow-hidden border-t-8 border-[#c5a059]">
-                    <div class="w-full h-80 bg-slate-100 flex items-center justify-center overflow-hidden relative">
+                    <div class="w-full h-96 min-h-[384px] bg-slate-100 flex items-center justify-center overflow-hidden relative shadow-inner">
                         <img src="${imgPath || 'https://via.placeholder.com/800x400?text=LCM'}" 
-                             class="w-full h-full object-cover" 
+                             class="w-full h-full object-cover block" 
+                             style="display: block; min-h: 384px;"
                              alt="${d.title?.[lang] || ''}"
                              loading="lazy"
                              onerror="this.onerror=null; this.src='https://via.placeholder.com/800x400?text=LCM+Laboratorio';">
