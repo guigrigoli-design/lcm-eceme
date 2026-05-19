@@ -1,22 +1,27 @@
 /**
- * MODULE: Domains (Versão 67.0)
- * Correção Crítica: Eliminação do loop de renderização de imagem e blindagem anti-erro.
+ * MODULE: Domains (Versão 68.0)
+ * Correção Crítica: Higienização de caminhos relativos para compatibilidade com GitHub Pages.
  */
 function renderDomains(app) {
     const { lang, data } = app;
     return `
         <div class="container mx-auto px-6 py-12">
             ${(data.domains_info || []).map(d => {
-                // Determina o caminho seguro da imagem sem parâmetros dinâmicos que quebrem o ciclo do AlpineJS
-                const safeImg = d.image.startsWith('http') ? d.image : `./${d.image}`;
+                // Remove barras ou pontos iniciais do JSON para evitar falha de rota no GitHub Pages
+                let imgPath = (d.image || '').trim();
+                if (!imgPath.startsWith('http') && imgPath.length > 0) {
+                    imgPath = imgPath.replace(/^[\.\/]+/, ''); // Remove slashes e pontos iniciais
+                    imgPath = './' + imgPath; // Força o caminho relativo correto ao repositório
+                }
+                
                 return `
                 <div class="mb-20 bg-white rounded-xl shadow-xl overflow-hidden border-t-8 border-[#c5a059]">
-                    <div class="w-full h-85 bg-slate-100 flex items-center justify-center overflow-hidden relative">
-                        <img src="${safeImg}" 
+                    <div class="w-full h-80 bg-slate-100 flex items-center justify-center overflow-hidden relative">
+                        <img src="${imgPath || 'https://via.placeholder.com/800x400?text=LCM'}" 
                              class="w-full h-full object-cover" 
                              alt="${d.title?.[lang] || ''}"
                              loading="lazy"
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/800x400?text=LCM+Laborat%C3%B3rio'">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/800x400?text=LCM+Laboratorio';">
                     </div>
                     <div class="p-10">
                         <h3 class="text-3xl font-bold text-[#1e3a2c] uppercase mb-4">${d.title?.[lang] || ""}</h3>
