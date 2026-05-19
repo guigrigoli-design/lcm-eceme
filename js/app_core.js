@@ -1,6 +1,6 @@
 /**
- * APP CORE - Versão 69.0
- * Orquestrador Central com Sincronização Estática de Mídia, CRediT e Persistência Híbrida.
+ * APP CORE - Versão 72.0
+ * Orquestrador Central com Varredura Dinâmica de Chaves e Higienização de Strings.
  */
 function lcmApp() {
     return {
@@ -187,6 +187,10 @@ function renderResearcherCard(r, lang) {
     </div>`;
 }
 
+/**
+ * COMPONENTE GLOBAL ADAPTATIVO: renderDocumentListFull (Versão 72.0)
+ * Varredura de chaves de dicionário e expurgação de caracteres de controle invisíveis.
+ */
 function renderDocumentListFull(docs, lang) {
     if (!docs || docs.length === 0) return '<p class="text-center italic py-20 text-gray-400">Sem registros.</p>';
     const years = [...new Set(docs.map(d => d.year))].sort((a, b) => b - a);
@@ -194,17 +198,40 @@ function renderDocumentListFull(docs, lang) {
         <div class="mb-12">
             <div class="flex items-center mb-6"><span class="bg-black text-white px-5 py-1.5 rounded font-bold text-xs">${y}</span><div class="h-px bg-gray-200 flex-grow ml-4"></div></div>
             <div class="space-y-6">
-                ${docs.filter(d => d.year == y).map(d => `
+                ${docs.filter(d => d.year == y).map(d => {
+                    // 1. Localiza a chave de link dinamicamente ignorando maiúsculas/minúsculas (Garante leitura de Link, link, URL ou url)
+                    const keyFound = Object.keys(d).find(k => k.toLowerCase() === 'link' || k.toLowerCase() === 'url');
+                    let targetUrl = keyFound ? String(d[keyFound]).trim() : '';
+
+                    // 2. Remove espaços em branco complexos, aspas tipográficas curvas, control-characters ou zero-width-spaces (\u200B)
+                    targetUrl = targetUrl.replace(/^[\s\u200B\u200C\u200D\uFEFF"'“`]+|[\s\u200B\u200C\u200D\uFEFF"'”`]+$/g, '');
+
+                    // 3. Se houver caracteres invisíveis antes de 'http', corta a string até o início real do protocolo
+                    if (/http/i.test(targetUrl)) {
+                        targetUrl = targetUrl.substring(targetUrl.toLowerCase().indexOf('http'));
+                    } else if (/google\.com|drive\.google/i.test(targetUrl)) {
+                        targetUrl = 'https://' + targetUrl;
+                    } else if (targetUrl.length > 0) {
+                        targetUrl = './' + targetUrl.replace(/^[\.\/]+/, '');
+                    }
+
+                    return `
                     <div class="bg-white border-l-8 border-[#1e3a2c] p-8 shadow-md flex justify-between items-center group hover:border-[#c5a059] transition-all">
                         <div class="flex-grow pr-10">
-                            <h4 class="font-bold text-[17px] text-[#1e3a2c] uppercase">${d.title}</h4>
+                            <h4 class="font-bold text-[17px] text-[#1e3a2c] uppercase">${d.title || "Documento Sem Título"}</h4>
                             <div class="flex items-center mt-3 space-x-4">
                                 <span class="text-[10px] bg-[#c5a059]/10 text-[#c5a059] px-2 py-0.5 rounded font-bold uppercase border border-[#c5a059]/20">${d.type?.[lang] || d.type || "Doc"}</span>
                                 <span class="text-[10px] text-gray-400 font-bold uppercase italic">${d.authors || ''}</span>
                             </div>
                         </div>
-                        <a href="${d.link}" target="_blank" rel="noopener noreferrer" class="text-[#1e3a2c] text-4xl group-hover:scale-110 group-hover:text-[#c5a059] transition-all flex-shrink-0"><i class="fa-solid fa-file-pdf"></i></a>
-                    </div>`).join('')}
+                        <a href="${targetUrl}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="text-[#1e3a2c] text-4xl group-hover:scale-110 group-hover:text-[#c5a059] transition-all flex-shrink-0">
+                            <i class="fa-solid fa-file-pdf"></i>
+                        </a>
+                    </div>`;
+                }).join('')}
             </div>
         </div>`).join('')}</div>`;
 }
