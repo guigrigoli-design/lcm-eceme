@@ -1,6 +1,6 @@
 /**
- * APP CORE - Versão 73.0
- * Orquestrador Central com Sincronização Estática de Mídia, CRediT e Blindagem de Links.
+ * APP CORE - Versão 74.0
+ * Orquestrador Central com Autenticação Robusta e Proteção de Banco de Dados.
  */
 function lcmApp() {
     return {
@@ -62,6 +62,10 @@ function lcmApp() {
                     const r = await fetch(`./${file}?v=${Date.now()}`);
                     this.data[key] = await r.json();
                 } catch(e) { 
+                    // Se o arquivo de acesso quebrar, evita travar a interface mas alerta internamente
+                    if (key === 'access') {
+                        console.error("ALERTA CRÍTICO: O arquivo data_access.json falhou no carregamento ou possui erro de sintaxe.");
+                    }
                     this.data[key] = (key === 'ic') ? { coords: [], docs: [], students: [] } : (key === 'intro' ? {} : []);
                 }
             }));
@@ -100,11 +104,39 @@ function lcmApp() {
             setTimeout(() => { this.view = current; }, 50);
         },
 
-        // --- AUTENTICAÇÃO ---
+        // --- MOTOR DE AUTENTICAÇÃO BLINDADO (v74.0) ---
         handleLogin() {
-            const user = (this.data.access || []).find(x => x.email === this.loginEmail && x.pass === this.loginPass);
-            if (user) { this.isLoggedIn = true; this.currentUser = user.email; this.view = 'researcher_area'; } 
-            else { alert("Acesso Negado."); }
+            const inputEmail = (this.loginEmail || '').trim().toLowerCase();
+            const inputPass = (this.loginPass || '').trim();
+
+            if (!inputEmail || !inputPass) {
+                return alert("Por favor, preencha todos os campos de credenciais.");
+            }
+
+            const dbAccess = this.data.access || [];
+            
+            // Varredura estrita e imune a espaçamentos corrompidos
+            const user = dbAccess.find(x => {
+                const dbEmail = (x.email || '').trim().toLowerCase();
+                const dbPass = String(x.pass || '').trim();
+                return dbEmail === inputEmail && dbPass === inputPass;
+            });
+
+            if (user) { 
+                this.isLoggedIn = true; 
+                this.currentUser = (user.email || inputEmail).trim().toLowerCase(); 
+                this.view = 'researcher_area'; 
+                // Limpeza estrita de buffer de memória após autenticação bem-sucedida
+                this.loginEmail = '';
+                this.loginPass = '';
+            } else { 
+                // Diagnóstico estendido para o operador
+                if (dbAccess.length === 0) {
+                    alert("Erro de Infraestrutura: O banco de dados de usuários está vazio ou corrompido no servidor (data_access.json).");
+                } else {
+                    alert("Acesso Negado: Usuário ou senha incorretos.");
+                }
+            }
         },
 
         logout() { this.isLoggedIn = false; this.view = 'home'; this.currentUser = null; },
@@ -187,10 +219,6 @@ function renderResearcherCard(r, lang) {
     </div>`;
 }
 
-/**
- * COMPONENTE GLOBAL ADAPTATIVO: renderDocumentListFull (Versão 73.0)
- * Varredura à prova de falhas com proteção contra links vazios que forçam retorno à Home Page.
- */
 function renderDocumentListFull(docs, lang) {
     if (!docs || docs.length === 0) return '<p class="text-center italic py-20 text-gray-400">Sem registros.</p>';
     const years = [...new Set(docs.map(d => d.year))].sort((a, b) => b - a);
@@ -199,35 +227,22 @@ function renderDocumentListFull(docs, lang) {
             <div class="flex items-center mb-6"><span class="bg-black text-white px-5 py-1.5 rounded font-bold text-xs">${y}</span><div class="h-px bg-gray-200 flex-grow ml-4"></div></div>
             <div class="space-y-6">
                 ${docs.filter(d => d.year == y).map(d => {
-                    // 1. Identificação tolerante a espaços em branco nas chaves do JSON (ex: "link " ou "Link")
                     const keyFound = Object.keys(d).find(k => ['link', 'url', 'href'].includes(k.toLowerCase().trim()));
                     let targetUrl = keyFound ? String(d[keyFound]).trim() : '';
-                    
-                    // 2. Busca de contingência por valor caso a chave esteja totalmente fora de padrão
                     if (!targetUrl) {
                         const fallbackVal = Object.values(d).find(v => typeof v === 'string' && (/http/i.test(v) || /drive\.google/i.test(v)));
                         if (fallbackVal) targetUrl = fallbackVal.trim();
                     }
-
-                    // 3. Purga estrita de espaços, quebras de linha e caracteres invisíveis de controle (\u200B)
                     targetUrl = targetUrl.replace(/[\s\u200B\u200C\u200D\uFEFF]/g, '');
-
-                    // 4. Alinhamento absoluto do protocolo externo
                     if (/http/i.test(targetUrl)) {
                         const httpIdx = targetUrl.toLowerCase().indexOf('http');
-                        if (httpIdx >= 0) {
-                            targetUrl = targetUrl.substring(httpIdx);
-                        }
+                        if (httpIdx >= 0) targetUrl = targetUrl.substring(httpIdx);
                     } else if (/drive\.google\.com/i.test(targetUrl)) {
                         targetUrl = 'https://' + targetUrl.replace(/^[\.\/]+/, '');
                     }
-
-                    // 5. Remove aspas perdidas que corrompam o atributo HTML
                     targetUrl = targetUrl.replace(/["']/g, '');
-
-                    // 6. BLINDAGEM DE RETORNO: Evita carga da Home substituindo links nulos por travamento nativo JS
                     const finalHref = targetUrl ? targetUrl : 'javascript:void(0);';
-                    const fallbackAlert = targetUrl ? '' : 'onclick="alert(\'Erro de Parâmetro: O endereço deste arquivo PDF não pôde ser lido no arquivo data_theses.json.\'); return false;"';
+                    const fallbackAlert = targetUrl ? '' : 'onclick="alert(\'Erro de Parâmetro: O endereço deste arquivo PDF não pôde ser lido.\'); return false;"';
 
                     return `
                     <div class="bg-white border-l-8 border-[#1e3a2c] p-8 shadow-md flex justify-between items-center group hover:border-[#c5a059] transition-all">
@@ -238,13 +253,7 @@ function renderDocumentListFull(docs, lang) {
                                 <span class="text-[10px] text-gray-400 font-bold uppercase italic">${d.authors || ''}</span>
                             </div>
                         </div>
-                        <a href="${finalHref}" 
-                           ${fallbackAlert}
-                           target="_blank" 
-                           rel="noopener noreferrer" 
-                           class="text-[#1e3a2c] text-4xl group-hover:scale-110 group-hover:text-[#c5a059] transition-all flex-shrink-0">
-                            <i class="fa-solid fa-file-pdf"></i>
-                        </a>
+                        <a href="${finalHref}" ${fallbackAlert} target="_blank" rel="noopener noreferrer" class="text-[#1e3a2c] text-4xl group-hover:scale-110 group-hover:text-[#c5a059] transition-all flex-shrink-0"><i class="fa-solid fa-file-pdf"></i></a>
                     </div>`;
                 }).join('')}
             </div>
