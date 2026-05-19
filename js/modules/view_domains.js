@@ -1,17 +1,17 @@
 /**
- * MODULE: Domains (Versão 69.0)
- * Correção Crítica: Imposição de dimensões físicas mínimas para evitar colapso de exibição no GitHub Pages.
+ * MODULE: Domains (Versão 70.0)
+ * Correção Crítica: Adaptação de rotas para leitura de mídias posicionadas na raiz do repositório.
  */
 function renderDomains(app) {
     const { lang, data } = app;
     return `
         <div class="container mx-auto px-6 py-12">
             ${(data.domains_info || []).map(d => {
-                // Ajuste e limpeza estrita de rotas para compatibilidade com o servidor estático
+                // Higieniza o nome do arquivo e força a leitura na raiz do repositório (./)
                 let imgPath = (d.image || '').trim();
                 if (!imgPath.startsWith('http') && imgPath.length > 0) {
-                    imgPath = imgPath.replace(/^[\.\/]+/, ''); 
-                    imgPath = './' + imgPath; 
+                    imgPath = imgPath.replace(/^[\.\/]+/, ''); // Remove barras e pontos antigos
+                    imgPath = './' + imgPath; // Aponta diretamente para a raiz do projeto
                 }
                 
                 return `
@@ -22,7 +22,7 @@ function renderDomains(app) {
                              style="display: block; min-h: 384px;"
                              alt="${d.title?.[lang] || ''}"
                              loading="lazy"
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/800x400?text=LCM+Laboratorio';">
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/800x400?text=LCM+Imagem+Ausente';">
                     </div>
                     <div class="p-10">
                         <h3 class="text-3xl font-bold text-[#1e3a2c] uppercase mb-4">${d.title?.[lang] || ""}</h3>
