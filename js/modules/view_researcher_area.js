@@ -1,6 +1,6 @@
 /**
- * MODULE: Researcher Area (v66.0)
- * Implementação do Menu de Seleção CRediT e Card Detalhado de Manifestação.
+ * MODULE: Researcher Area (Versão 66.0)
+ * Correção Estrutural: Checkboxes do CRediT gerados via JavaScript (.map) para visibilidade garantida.
  */
 function renderResearcherArea(app) {
     if (!app.isLoggedIn) return '';
@@ -10,7 +10,7 @@ function renderResearcherArea(app) {
         <div class="container mx-auto px-4 py-12">
             <div class="flex justify-between items-center mb-10 border-b pb-6">
                 <div><h2 class="text-2xl font-bold text-[#1e3a2c] uppercase">Painel Acadêmico LCM</h2><p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Sessão Ativa: ${app.currentUser}</p></div>
-                <button @click="logout()" class="bg-red-700 text-white px-5 py-2 rounded text-[10px] font-bold uppercase shadow-md">Sair</button>
+                <button @click="logout()" class="bg-red-700 text-white px-5 py-2 rounded text-[10px] font-bold uppercase shadow-md hover:bg-red-900 transition">Sair</button>
             </div>
             
             <div class="flex justify-center space-x-12 mb-12 border-b">
@@ -58,7 +58,7 @@ function renderResearcherArea(app) {
                                         <p class="text-gray-600 text-[11px] italic bg-slate-50 p-2.5 rounded border border-gray-100 leading-relaxed">"${m.text}"</p>
                                         
                                         <div class="mt-2 pt-2 border-t border-dashed flex justify-between items-center text-[9px] text-gray-400 font-bold uppercase tracking-tight">
-                                            <span>Registrado por: ${m.author}</span>
+                                            <span>Nome do Colaborador: ${m.author}</span>
                                             ${m.author === app.currentUser ? `
                                                 <button @click="deleteManifest(${p.id}, ${m.id})" class="text-red-600 hover:text-red-800 font-bold transition flex items-center space-x-1 border border-red-200 px-2 py-0.5 rounded bg-red-50 shadow-xs">
                                                     <i class="fa-solid fa-circle-minus"></i> <span>Retirar Manifestação</span>
@@ -75,6 +75,7 @@ function renderResearcherArea(app) {
                             </button>
                         </div>
                     </div>`).join('')}
+                ${projects.length === 0 ? '<p class="text-center py-20 text-gray-400 italic">Nenhum registro encontrado nesta seção.</p>' : ''}
             </div>
 
             <div x-show="showInterestModal" class="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-[110]" x-cloak>
@@ -82,26 +83,18 @@ function renderResearcherArea(app) {
                     <button @click="showInterestModal = false" class="absolute top-4 right-4 text-2xl text-gray-400 hover:text-red-600">×</button>
                     <h3 class="text-xl font-bold uppercase mb-6 border-b pb-4 text-[#1e3a2c]">${app.uiLabels[app.lang].creditTitle}</h3>
                     
-                    <div x-data="{ openMenu: false }" class="relative mb-6">
-                        <label class="text-[10px] font-bold uppercase text-gray-400 block mb-2 tracking-wider">Menu de Seleção CRediT (Selecione múltiplas opções):</label>
-                        <button @click="openMenu = !openMenu" type="button" class="w-full bg-white border-2 p-3 rounded-lg text-sm text-left flex justify-between items-center focus:border-eb-gold outline-none shadow-xs">
-                            <span x-text="manifestForm.selectedRoles.length ? 'Funções Selecionadas: (' + manifestForm.selectedRoles.length + ')' : 'Clique para abrir o menu de seleção...'" class="font-bold text-gray-700"></span>
-                            <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-200" :class="openMenu ? 'rotate-180' : ''"></i>
-                        </button>
-                        
-                        <div x-show="openMenu" @click.outside="openMenu = false" class="absolute left-0 right-0 mt-1 bg-white border-2 rounded-lg shadow-2xl max-h-56 overflow-y-auto z-[120] p-2 space-y-1" x-cloak>
-                            <template x-for="role in app.creditOptions" :key="role">
-                                <label class="flex items-center space-x-3 p-2 rounded hover:bg-slate-50 cursor-pointer text-xs font-bold text-gray-700 transition">
-                                    <input type="checkbox" :value="role" x-model="manifestForm.selectedRoles" class="rounded text-[#1e3a2c] focus:ring-[#1e3a2c] h-4 w-4 border-gray-300">
-                                    <span x-text="role" :class="manifestForm.selectedRoles.includes(role) ? 'text-[#c5a059]' : ''"></span>
+                    <div class="mb-6">
+                        <label class="text-[11px] font-bold uppercase text-gray-400 block mb-2 tracking-wider">Menu de Seleção CRediT (Selecione as áreas em que deseja contribuir):</label>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 bg-slate-50 p-4 rounded-lg border max-h-56 overflow-y-auto shadow-inner">
+                            ${app.creditOptions.map(role => `
+                                <label class="flex items-center space-x-3 p-2 rounded hover:bg-white cursor-pointer text-xs font-bold text-gray-700 transition border border-transparent hover:border-gray-200">
+                                    <input type="checkbox" 
+                                           @change="toggleRole('${role}')"
+                                           :checked="manifestForm.selectedRoles.includes('${role}')"
+                                           class="rounded text-[#1e3a2c] focus:ring-[#1e3a2c] h-4 w-4 border-gray-300">
+                                    <span>${role}</span>
                                 </label>
-                            </template>
-                        </div>
-                        
-                        <div class="flex flex-wrap gap-1 mt-3">
-                            <template x-for="role in manifestForm.selectedRoles" :key="role">
-                                <span class="bg-gray-100 text-gray-800 text-[8px] font-bold uppercase px-2 py-0.5 rounded border border-gray-200 shadow-3xs" x-text="role"></span>
-                            </template>
+                            `).join('')}
                         </div>
                     </div>
 
@@ -115,7 +108,7 @@ function renderResearcherArea(app) {
 
             <div x-show="showProjectForm" class="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-[100]" x-cloak>
                 <div class="bg-white p-10 rounded-xl max-w-2xl w-full shadow-2xl">
-                    <h3 class="text-xl font-bold uppercase mb-6 text-[#1e3a2c] border-b pb-4">Nova Publicação de Pesquisa</h3>
+                    <h3 class="text-xl font-bold uppercase mb-6 text-[#1e3a2c] border-b pb-4">Nova Publicação Acadêmica</h3>
                     <div class="space-y-4">
                         <input type="text" x-model="newProj.title" placeholder="Título da Pesquisa Científica" class="w-full border-2 p-3 rounded text-sm outline-none focus:border-eb-gold">
                         <select x-model="newProj.domainId" class="w-full border-2 p-3 rounded text-sm bg-white outline-none">
@@ -125,6 +118,18 @@ function renderResearcherArea(app) {
                         </select>
                         <textarea x-model="newProj.description" placeholder="Resumo Executivo / Metodologia Inicial" class="w-full border-2 p-3 rounded text-sm h-32 outline-none focus:border-eb-gold"></textarea>
                         
+                        <div class="bg-gray-50 p-4 rounded-lg border mb-4">
+                            <p class="text-[10px] font-bold uppercase text-gray-500 mb-2">Competências Necessárias para o Projeto:</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2 max-h-32 overflow-y-auto">
+                                ${app.creditOptions.map(role => `
+                                    <label class="flex items-center space-x-2 text-[10px] font-bold cursor-pointer hover:text-[#c5a059]">
+                                        <input type="checkbox" @change="toggleNeedsCredit('${role}')" :checked="newProj.needsCredit.includes('${role}')" class="rounded text-[#1e3a2c]"> 
+                                        <span>${role}</span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+
                         <div class="flex space-x-4 mt-6">
                             <button @click="confirmPublish()" class="bg-[#1e3a2c] text-white px-10 py-3 rounded font-bold uppercase text-xs shadow-lg">Confirmar Publicação</button>
                             <button @click="showProjectForm = false" class="bg-gray-300 px-6 py-3 rounded font-bold uppercase text-xs">Cancelar</button>
