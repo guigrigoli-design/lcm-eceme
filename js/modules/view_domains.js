@@ -1,20 +1,22 @@
 /**
- * MODULE: Domains (v64.0)
- * Correção: Caminhos de imagem e tradução.
+ * MODULE: Domains (Versão 67.0)
+ * Correção Crítica: Eliminação do loop de renderização de imagem e blindagem anti-erro.
  */
 function renderDomains(app) {
     const { lang, data } = app;
     return `
         <div class="container mx-auto px-6 py-12">
             ${(data.domains_info || []).map(d => {
+                // Determina o caminho seguro da imagem sem parâmetros dinâmicos que quebrem o ciclo do AlpineJS
                 const safeImg = d.image.startsWith('http') ? d.image : `./${d.image}`;
                 return `
                 <div class="mb-20 bg-white rounded-xl shadow-xl overflow-hidden border-t-8 border-[#c5a059]">
-                    <div class="w-full h-80 bg-slate-100 flex items-center justify-center overflow-hidden">
-                        <img src="${safeImg}?v=${Date.now()}" 
+                    <div class="w-full h-85 bg-slate-100 flex items-center justify-center overflow-hidden relative">
+                        <img src="${safeImg}" 
                              class="w-full h-full object-cover" 
                              alt="${d.title?.[lang] || ''}"
-                             onerror="this.src='https://via.placeholder.com/800x400?text=Laborat%C3%B3rio+Ci%C3%AAncias+Militares'">
+                             loading="lazy"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/800x400?text=LCM+Laborat%C3%B3rio'">
                     </div>
                     <div class="p-10">
                         <h3 class="text-3xl font-bold text-[#1e3a2c] uppercase mb-4">${d.title?.[lang] || ""}</h3>
