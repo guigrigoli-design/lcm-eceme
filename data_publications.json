@@ -529,5 +529,32 @@
         "year": "2015",
         "link": "https://ebrevistas.eb.mil.br/RMM/article/view/525",
         "downloads": 0
+    },
+    {
+        "subarea_id": 4,
+        "title": "Refúgio, Integração e Governança Regional em Uganda: Implicações para a cooperação Sul-Sul Brasil-África no Atlântico Sul",
+        "authors": "Grigoli, G. A.",
+        "journal": "Revista Brasileira de Estudos Africanos, v. 10, n. 20",
+        "year": "2025",
+        "link": "https://doi.org/10.22456/2448-3923.149809",
+        "downloads": 0
+    },
+    {
+        "subarea_id": 4,
+        "title": "A inteligência artificial e o nevoeiro da guerra: a dissonância entre automação e incerteza",
+        "authors": "Santos, T. J. B.; Souza, R. C. S.",
+        "journal": "Carta Internacional, v. 20, n. 3, pp. 1-24",
+        "year": "2026",
+        "link": "https://doi.org/10.21530/ci.v20n3.2025.1586",
+        "downloads": 0
+    },
+    {
+        "subarea_id": 4,
+        "title": "ARPIA: A multi-scale heterogeneous graph neural network for mobile device geolocation with explicit non-connection modeling",
+        "authors": " Seelig, L. F. C.; Salles, R. M.",
+        "journal": "Ad Hoc Networks, v. 189",
+        "year": "2026",
+        "link": "https://doi.org/10.1016/j.adhoc.2026.104263",
+        "downloads": 0
     }
 ]
