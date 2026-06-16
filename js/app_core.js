@@ -1,6 +1,6 @@
 /**
- * APP CORE - Versão 74.0
- * Orquestrador Central com Autenticação Robusta e Proteção de Banco de Dados.
+ * APP CORE - Versão 75.0
+ * Orquestrador Central com Canal de Pesquisadores Eméritos e Proteção de Dados.
  */
 function lcmApp() {
     return {
@@ -17,7 +17,7 @@ function lcmApp() {
         loginPass: '',
         
         // --- DATA BUCKETS ---
-        data: { news: [], researchers: [], theses: [], publications: [], ic: { coords: [], docs: [], students: [] }, coordinators: [], intro: {}, events: [], domains_info: [], access: [] },
+        data: { news: [], researchers: [], theses: [], publications: [], ic: { coords: [], docs: [], students: [] }, coordinators: [], intro: {}, events: [], domains_info: [], access: [], emeriti: [] },
         projects: [], 
 
         // --- FORMULÁRIOS REATIVOS ---
@@ -35,9 +35,9 @@ function lcmApp() {
         },
 
         menuLabels: {
-            pt: { home: 'Início', domains: 'Domínios', leadership: 'Coordenação', all_researchers: 'Integrantes', cnp: 'Capacitação de Novos Pesquisadores', theses: 'Produção Acadêmica', publications: 'Artigos Acadêmicos', events: 'Eventos', contact: 'Contato' },
-            en: { home: 'Home', domains: 'Domains', leadership: 'Leadership', all_researchers: 'Members', cnp: 'Training of New Researchers', theses: 'Academic Production', publications: 'Academic Articles', events: 'Events', contact: 'Contact' },
-            es: { home: 'Inicio', domains: 'Dominios', leadership: 'Coordinación', all_researchers: 'Integrantes', cnp: 'Capacitación de Nuevos Investigadores', theses: 'Producción Acadêmica', publications: 'Artículos Académicos', events: 'Eventos', contact: 'Contacto' }
+            pt: { home: 'Início', domains: 'Domínios', emeriti: 'Eméritos', leadership: 'Coordenação', all_researchers: 'Integrantes', cnp: 'Capacitação de Novos Pesquisadores', theses: 'Produção Acadêmica', publications: 'Artigos Acadêmicos', events: 'Eventos', contact: 'Contato' },
+            en: { home: 'Home', domains: 'Domains', emeriti: 'Emeritus', leadership: 'Leadership', all_researchers: 'Members', cnp: 'Training of New Researchers', theses: 'Academic Production', publications: 'Academic Articles', events: 'Events', contact: 'Contact' },
+            es: { home: 'Inicio', domains: 'Dominios', emeriti: 'Eméritos', leadership: 'Coordinación', all_researchers: 'Integrantes', cnp: 'Capacitación de Nuevos Investigadores', theses: 'Producción Acadêmica', publications: 'Artículos Académicos', events: 'Eventos', contact: 'Contacto' }
         },
 
         // As 14 Funções Oficiais da Taxonomia CRediT
@@ -56,15 +56,21 @@ function lcmApp() {
         },
 
         async loadAllModules() {
-            const endpoints = [['news', 'data_news.json'], ['researchers', 'data_researchers.json'], ['theses', 'data_theses.json'], ['publications', 'data_publications.json'], ['ic', 'data_ic.json'], ['coordinators', 'data_coordinators.json'], ['intro', 'data_intro.json'], ['events', 'data_events.json'], ['domains_info', 'data_domains.json'], ['access', 'data_access.json']];
+            const endpoints = [
+                ['news', 'data_news.json'], ['researchers', 'data_researchers.json'], 
+                ['theses', 'data_theses.json'], ['publications', 'data_publications.json'], 
+                ['ic', 'data_ic.json'], ['coordinators', 'data_coordinators.json'], 
+                ['intro', 'data_intro.json'], ['events', 'data_events.json'], 
+                ['domains_info', 'data_domains.json'], ['access', 'data_access.json'],
+                ['emeriti', 'data_emeriti.json']
+            ];
             await Promise.all(endpoints.map(async ([key, file]) => {
                 try {
                     const r = await fetch(`./${file}?v=${Date.now()}`);
                     this.data[key] = await r.json();
                 } catch(e) { 
-                    // Se o arquivo de acesso quebrar, evita travar a interface mas alerta internamente
                     if (key === 'access') {
-                        console.error("ALERTA CRÍTICO: O arquivo data_access.json falhou no carregamento ou possui erro de sintaxe.");
+                        console.error("ALERTA CRÍTICO: O arquivo data_access.json falhou no carregamento.");
                     }
                     this.data[key] = (key === 'ic') ? { coords: [], docs: [], students: [] } : (key === 'intro' ? {} : []);
                 }
@@ -104,7 +110,7 @@ function lcmApp() {
             setTimeout(() => { this.view = current; }, 50);
         },
 
-        // --- MOTOR DE AUTENTICAÇÃO BLINDADO (v74.0) ---
+        // --- MOTOR DE AUTENTICAÇÃO BLINDADO ---
         handleLogin() {
             const inputEmail = (this.loginEmail || '').trim().toLowerCase();
             const inputPass = (this.loginPass || '').trim();
@@ -114,8 +120,6 @@ function lcmApp() {
             }
 
             const dbAccess = this.data.access || [];
-            
-            // Varredura estrita e imune a espaçamentos corrompidos
             const user = dbAccess.find(x => {
                 const dbEmail = (x.email || '').trim().toLowerCase();
                 const dbPass = String(x.pass || '').trim();
@@ -126,11 +130,9 @@ function lcmApp() {
                 this.isLoggedIn = true; 
                 this.currentUser = (user.email || inputEmail).trim().toLowerCase(); 
                 this.view = 'researcher_area'; 
-                // Limpeza estrita de buffer de memória após autenticação bem-sucedida
                 this.loginEmail = '';
                 this.loginPass = '';
             } else { 
-                // Diagnóstico estendido para o operador
                 if (dbAccess.length === 0) {
                     alert("Erro de Infraestrutura: O banco de dados de usuários está vazio ou corrompido no servidor (data_access.json).");
                 } else {
@@ -197,10 +199,18 @@ function lcmApp() {
         renderCurrentView() {
             if (this.loading || !this.view) return '';
             const router = {
-                'home': () => renderHome(this), 'domains': () => renderDomains(this), 'leadership': () => renderLeadership(this),
-                'all_researchers': () => renderResearchers(this), 'cnp': () => renderCNP(this), 'theses': () => renderTheses(this),
-                'publications': () => renderPublications(this), 'events': () => renderEvents(this), 'contact': () => renderContact(this),
-                'researcher_login': () => renderResearcherLogin(this), 'researcher_area': () => renderResearcherArea(this)
+                'home': () => renderHome(this), 
+                'domains': () => renderDomains(this), 
+                'emeriti': () => renderEmeriti(this),
+                'leadership': () => renderLeadership(this),
+                'all_researchers': () => renderResearchers(this), 
+                'cnp': () => renderCNP(this), 
+                'theses': () => renderTheses(this),
+                'publications': () => renderPublications(this), 
+                'events': () => renderEvents(this), 
+                'contact': () => renderContact(this),
+                'researcher_login': () => renderResearcherLogin(this), 
+                'researcher_area': () => renderResearcherArea(this)
             };
             return router[this.view] ? router[this.view]() : '';
         },
