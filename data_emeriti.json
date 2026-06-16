@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Prof. Dr. Nome do Pesquisador Emérito",
+    "photo": "img/researchers/emerito1.jpg",
+    "lattes": "http://lattes.cnpq.br/0000000000000000",
+    "bio": {
+      "pt": "Biografia detalhada do pesquisador emérito em português destacando suas contribuições históricas para o LCM, Forças Armadas e comunidade acadêmica.",
+      "en": "Detailed biography of the emeritus researcher in English highlighting historical contributions.",
+      "es": "Biografía detallada del investigador emérito en español destacando las contribuciones históricas."
+    }
+  }
+]
