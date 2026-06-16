@@ -39,5 +39,6 @@
     { "domain_id": 3, "name": "Magda Gomes da Silva", "lattes": "https://lattes.cnpq.br/2701410032191281", "photo": "./magda.png?v=1", "role": { "pt": "Pesquisador Mestre", "en": "Master Researcher", "es": "Investigador maestro" } },
     { "domain_id": 1, "name": "Gustavo Henrique Rodrigues Moleiro", "lattes": "http://lattes.cnpq.br/9391112723920137", "photo": "./moleiro.png?v=1", "role": { "pt": "Pesquisador Mestrando", "en": "Master's Student", "es": "Estudiante de Maestría" } },
     { "domain_id": 1, "name": "Diego Ébio de Sant'ana", "lattes": "http://lattes.cnpq.br/7590034300388046", "photo": "./ebio.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
-    { "domain_id": 1, "name": "João Carlos da Cruz Branquinho", "lattes": "http://lattes.cnpq.br/0000000000000", "photo": "./branquinho.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } }
+    { "domain_id": 3, "name": "João Carlos da Cruz Branquinho", "lattes": "http://lattes.cnpq.br/0000000000000", "photo": "./branquinho.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } },
+    { "domain_id": 3, "name": "Esley Rodrigues de Jesus", "lattes": "http://lattes.cnpq.br/7995109113991132", "photo": "./esley.png?v=1", "role": { "pt": "Pesquisador Doutorando", "en": "PhD Student", "es": "Investigador Doctorando" } }
 ]
