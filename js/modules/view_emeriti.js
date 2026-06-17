@@ -1,6 +1,6 @@
 /**
- * MODULE: Pesquisadores Eméritos (Versão 75.0)
- * Renderização em ordem alfabética com biografia detalhada e responsividade.
+ * MODULE: Pesquisadores Eméritos (Versão 75.1)
+ * Renderização em ordem alfabética com padronização no motor de busca de fotos.
  */
 function renderEmeriti(app) {
     const { lang, data, menuLabels } = app;
@@ -29,11 +29,17 @@ function renderEmeriti(app) {
             <div class="max-w-5xl mx-auto space-y-12 mt-8">
                 ${list.map(e => {
                     const biographicalText = e.bio?.[lang] || e.bio?.['pt'] || "";
+                    
+                    // Padronização da busca da foto refletindo o motor dos demais pesquisadores
+                    const photoUrl = e.photo ? e.photo : 'img/researchers/default.jpg';
+
                     return `
                     <div class="bg-white rounded-lg shadow-md border border-gray-100 p-8 flex flex-col md:flex-row items-center md:items-start gap-8 hover:shadow-lg transition-all">
                         <div class="flex flex-col items-center flex-shrink-0 w-44">
                             <div class="circle-container shadow-md border-2 border-[#1e3a2c]">
-                                <img src="${e.photo}" class="circle-img" onerror="this.src='https://via.placeholder.com/150'">
+                                <img src="${photoUrl}" 
+                                     class="circle-img" 
+                                     onerror="this.src='https://via.placeholder.com/150'">
                             </div>
                             <h3 class="font-bold text-center text-[14px] text-[#1e3a2c] mt-4 leading-tight tracking-tight h-10 flex items-center justify-center">
                                 ${e.name}
