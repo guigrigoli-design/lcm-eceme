@@ -1,7 +1,7 @@
 [
   {
     "name": "Ricardo Luiz da Cunha Rabelo",
-    "photo": "img/researchers/rabelo.png",
+    "photo": "photo": "./rabelo.png?v=1",
     "lattes": "http://lattes.cnpq.br/0234709817937886",
     "bio": {
       "pt": "Biografia detalhada do pesquisador emérito em português destacando suas contribuições históricas para o LCM, Forças Armadas e comunidade acadêmica.",
