@@ -1,6 +1,6 @@
 /**
- * MODULE: Pesquisadores Eméritos (Versão 75.1)
- * Renderização em ordem alfabética com padronização no motor de busca de fotos.
+ * MODULE: Pesquisadores Eméritos (Versão 75.2)
+ * Correção Crítica: Roteamento absoluto para imagens hospedadas na raiz do repositório.
  */
 function renderEmeriti(app) {
     const { lang, data, menuLabels } = app;
@@ -30,16 +30,26 @@ function renderEmeriti(app) {
                 ${list.map(e => {
                     const biographicalText = e.bio?.[lang] || e.bio?.['pt'] || "";
                     
-                    // Padronização da busca da foto refletindo o motor dos demais pesquisadores
-                    const photoUrl = e.photo ? e.photo : 'img/researchers/default.jpg';
+                    // ALGORITMO DE HIGIENIZAÇÃO: Força a busca do arquivo na raiz do repositório
+                    let cleanPhoto = (e.photo || '').trim();
+                    if (!cleanPhoto.startsWith('http') && cleanPhoto.length > 0) {
+                        // Extrai apenas o nome do arquivo final (ex: "img/researchers/foto.jpg" vira "foto.jpg")
+                        cleanPhoto = cleanPhoto.split('/').pop();
+                        // Vincula o ponteiro de raiz correto do GitHub Pages
+                        cleanPhoto = './' + cleanPhoto;
+                    } else if (cleanPhoto.length === 0) {
+                        cleanPhoto = 'https://via.placeholder.com/150?text=LCM';
+                    }
 
                     return `
                     <div class="bg-white rounded-lg shadow-md border border-gray-100 p-8 flex flex-col md:flex-row items-center md:items-start gap-8 hover:shadow-lg transition-all">
                         <div class="flex flex-col items-center flex-shrink-0 w-44">
                             <div class="circle-container shadow-md border-2 border-[#1e3a2c]">
-                                <img src="${photoUrl}" 
+                                <img src="${cleanPhoto}" 
                                      class="circle-img" 
-                                     onerror="this.src='https://via.placeholder.com/150'">
+                                     alt="${e.name}"
+                                     loading="lazy"
+                                     onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Ausente';">
                             </div>
                             <h3 class="font-bold text-center text-[14px] text-[#1e3a2c] mt-4 leading-tight tracking-tight h-10 flex items-center justify-center">
                                 ${e.name}
