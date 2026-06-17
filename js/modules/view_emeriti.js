@@ -65,7 +65,7 @@ function renderEmeriti(app) {
                         <div class="flex-grow flex flex-col justify-between h-full pt-2">
                             <div>
                                 <div class="text-[#c5a059] text-xs font-bold uppercase tracking-widest mb-2 border-b border-gray-100 pb-1">
-                                    Distinção Acadêmica // LCM
+                                    Pesquisador Emérito
                                 </div>
                                 <p class="text-gray-600 text-sm leading-relaxed text-justify whitespace-pre-line">
                                     ${biographicalText}
